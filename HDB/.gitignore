@@ -151,3 +151,13 @@ fabric.properties
 # *.ipr
 
 # End of https://www.gitignore.io/api/python,pycharm
+
+HDB\Intermediate\CachedAssetRegistry_0.bin
+
+HDB\Saved\AutoScreenshot.png
+
+HDB\Saved\Config\CrashReportClient\UECC-Windows-7BDBE17B4517D2AD250A9E93F41D5A26\CrashReportClient.ini
+
+HDB\Saved\Config\WindowsEditor\EditorPerProjectUserSettings.ini
+
+HDB\Saved\Telemetry\Telemetry.json
