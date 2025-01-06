@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\HDB.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\HDB.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\HDBEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\.vsconfig" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\HDB">
+      <UniqueIdentifier>{32DC03BE-D14F-3F61-8A11-A25577D4CBC1}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\HDB\AttackBox.cpp">
+      <Filter>Source\HDB</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HDB\AttackBox.h">
+      <Filter>Source\HDB</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\HDB\HDB.Build.cs">
+      <Filter>Source\HDB</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\HDB\HDB.cpp">
+      <Filter>Source\HDB</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HDB\HDB.h">
+      <Filter>Source\HDB</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HDB\MyPawn.cpp">
+      <Filter>Source\HDB</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HDB\MyPawn.h">
+      <Filter>Source\HDB</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HDB\PlayerCharacter.cpp">
+      <Filter>Source\HDB</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HDB\PlayerCharacter.h">
+      <Filter>Source\HDB</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "HDB",
+			"Path": "..\\Source\\HDB.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "HDBEditor",
+			"Path": "..\\Source\\HDBEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
