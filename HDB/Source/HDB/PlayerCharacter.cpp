@@ -16,6 +16,13 @@ APlayerCharacter::APlayerCharacter()
 
 }
 
+
+void APlayerCharacter::HandleDistruction() {
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+
+}
+
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
