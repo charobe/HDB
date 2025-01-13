@@ -23,6 +23,11 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* SkillSpawnPoint;
 
+	UPROPERTY(EditAnywhere)
+	float Speed = 200.f;
+
+	void Move(float Value);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

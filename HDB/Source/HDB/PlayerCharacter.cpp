@@ -2,6 +2,7 @@
 
 
 #include "PlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -36,3 +37,10 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void APlayerCharacter::Move(float Value) {
+	FVector DeltaLocation = FVector::ZeroVector;
+
+	DeltaLocation.X = Value * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
+	AddActorLocalOffset(DeltaLocation);
+
+}
