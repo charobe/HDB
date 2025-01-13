@@ -167,7 +167,8 @@ Saved\Telemetry\Telemetry.json
 
 # Ignore Unreal Engine Folders
 
-Intermeditate/
+Binaries/
+Intermediate/
 Saved/
 DerivedDataCache/
 
