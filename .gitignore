@@ -3,4 +3,10 @@ AutoScreenshot.png
 CrashReportClient.ini
 Telemetry.json
 EditorPerProjectUserSettings.ini
-.vs/
+/Saved
+/Intermediate
+/.vs
+/Build
+/Plugins
+*.sln
+*_BuiltData.uasset
