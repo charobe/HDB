@@ -176,3 +176,4 @@ DerivedDataCache/
 
 .vs/
 *.VC.DB
+*.sln
