@@ -5,6 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
+#include "InputActionValue.h"
+#include "CoreMinimal.h"
+#include "GameFramework/Character.h"
+#include "PlayerCharacter.generated.h"
+
 
 UCLASS()
 class HDB_API APlayerCharacter : public ACharacter
@@ -28,7 +33,14 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Speed = 200.f;
 
-	void Move(float Value);
+	// IMC
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputAction* MoveAction;
+
+	void Move(const FInputActionValue& value);
 
 public:	
 	// Called every frame
@@ -36,5 +48,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 };

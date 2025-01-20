@@ -3,6 +3,9 @@
 
 #include "PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputMappingContext.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -12,6 +15,21 @@ APlayerCharacter::APlayerCharacter()
 
 	SkillSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));
 	SkillSpawnPoint->SetupAttachment(RootComponent);
+
+	// IMC ¿¬°á
+	static ConstructorHelpers::FObjectFinder<UInputMappingContext>DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Content/MyInput/IMC_Move.IMC_Move'"));
+
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Content/MyInput/IA_Move.IA_Move'"));
+
+	if (DEFAULT_CONTEXT.Succeeded())
+	{
+		DefaultMappingContext = DEFAULT_CONTEXT.Object;
+	}
+
+	if (IA_MOVE.Succeeded())
+	{
+		MoveAction = IA_MOVE.Object;
+	}
 
 
 }
@@ -27,6 +45,14 @@ void APlayerCharacter::HandleDistruction() {
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			SubSystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 	
 }
 
@@ -42,12 +68,22 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPlayer::Move);
+	}
+
 }
 
-void APlayerCharacter::Move(float Value) {
-	FVector DeltaLocation = FVector::ZeroVector;
+void APlayerCharacter::Move(const FInputActionValue& Value) {
+	const FVector2D MovementVector = Value.Get<FVector2D>();
 
-	DeltaLocation.X = Value * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
-	AddActorLocalOffset(DeltaLocation);
+	const FRotator Rotation = Controller->GetControlRotation();
+	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
 
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	AddMovementInput(ForwardDirection, MovementVector.Y);
+
+	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	AddMovementInput(RightDirection, MovementVector.X);
 }
