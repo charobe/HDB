@@ -4,10 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "PlayerCharacter.generated.h"
 #include "InputActionValue.h"
-#include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
 

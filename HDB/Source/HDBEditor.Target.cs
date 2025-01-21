@@ -9,7 +9,8 @@ public class HDBEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_4;
 
-		ExtraModuleNames.AddRange( new string[] { "HDB" } );
+        ExtraModuleNames.AddRange( new string[] { "HDB" } );
 	}
 }

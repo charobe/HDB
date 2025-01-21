@@ -16,7 +16,7 @@ APlayerCharacter::APlayerCharacter()
 	SkillSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));
 	SkillSpawnPoint->SetupAttachment(RootComponent);
 
-	// IMC ¿¬°á
+	// IMC ï¿½ï¿½ï¿½ï¿½
 	static ConstructorHelpers::FObjectFinder<UInputMappingContext>DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Content/MyInput/IMC_Move.IMC_Move'"));
 
 	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Content/MyInput/IA_Move.IA_Move'"));
@@ -64,14 +64,13 @@ void APlayerCharacter::Tick(float DeltaTime)
 }
 
 // Called to bind functionality to input
-void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPlayer::Move);
-	}
+	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+	//EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPawn::Move);
+	
 
 }
 

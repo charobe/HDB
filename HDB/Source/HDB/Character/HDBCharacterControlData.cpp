@@ -3,3 +3,9 @@
 
 #include "Character/HDBCharacterControlData.h"
 
+UHDBCharacterControlData::UHDBCharacterControlData()
+{
+	TargetArmLength = 400.0f;
+
+}
+ 
