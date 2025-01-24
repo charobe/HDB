@@ -7,6 +7,10 @@
 #include "TestChar.generated.h"
 #include "GameFramework/SpringArmComponent.h"
 #include <Camera/CameraComponent.h>
+#include "InputActionValue.h"
+#include "CoreMinimal.h"
+#include "GameFramework/Character.h"
+#include "TestChar.generated.h"
 
 UCLASS()
 class HDB_API ATestChar : public ACharacter
@@ -16,6 +20,24 @@ class HDB_API ATestChar : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ATestChar();
+
+private:
+	// IMC
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputMappingContext* DefaultMappingContext;
+	// IA_Jump
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputAction* JumpAction;
+	// IA_Look
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputAction* LookAction;
+	// IA_Move
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputAction* MoveAction;
+
+	void Move(const FInputActionValue& value);
+	void Look(const FInputActionValue& value);
+	void Jump() override;
 
 protected:
 	// Called when the game starts or when spawned

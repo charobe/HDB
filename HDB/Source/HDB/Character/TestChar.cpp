@@ -2,6 +2,9 @@
 
 
 #include "Character/TestChar.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputMappingContext.h"
 
 // Sets default values
 ATestChar::ATestChar()
@@ -25,12 +28,49 @@ ATestChar::ATestChar()
 	cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	cameraComp->SetupAttachment(springArmComp);
 
+
+	// IMC
+	static ConstructorHelpers::FObjectFinder<UInputMappingContext>DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/Input/IMC_Player.IMC_Player'"));
+
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Game/Input/IA_Move.IA_Move'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_JUMP(TEXT("/Script/EnhancedInput.InputAction'/Game/Input/IA_Jump.IA_Jump'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_LOOK(TEXT("/Script/EnhancedInput.InputAction'/Game/Input/IA_Look.IA_Look'"));
+
+	if (DEFAULT_CONTEXT.Succeeded())
+	{
+		DefaultMappingContext = DEFAULT_CONTEXT.Object;
+	}
+
+	if (IA_MOVE.Succeeded())
+	{
+		MoveAction = IA_MOVE.Object;
+	}
+
+	if (IA_JUMP.Succeeded())
+	{
+		JumpAction = IA_JUMP.Object;
+	}
+
+	if (IA_LOOK.Succeeded())
+	{
+		LookAction = IA_LOOK.Object;
+	}
+
 }
 
 // Called when the game starts or when spawned
 void ATestChar::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* SubSystem =
+			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			SubSystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 	
 }
 
@@ -45,6 +85,13 @@ void ATestChar::Tick(float DeltaTime)
 void ATestChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		//EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &TestChar::Move);
+		//EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &TestChar::Look);
+		//EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &TestChar::Jump);
+	}
 
 }
 
