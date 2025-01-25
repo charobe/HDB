@@ -13,5 +13,14 @@ UCLASS()
 class HDB_API AHDBGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	AHDBGameModeBase();
+
+protected:
+
+	virtual void BeginPlay() override;
+
+	
 	
 };
