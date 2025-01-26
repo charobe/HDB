@@ -6,12 +6,12 @@
 
 AHDBGameModeBase::AHDBGameModeBase()
 {
-	static ConstructorHelpers::FClassFinder<APawn>ThirdPersonClassRef(TEXT(" / Game / ThirdPerson / Blueprints / BP_ThirdPersonCharacter.BP_ThirdPersonCharacter_C"));
-
-	if (ThirdPersonClassRef.Class)
+	static ConstructorHelpers::FClassFinder<APawn> DefaultPawnClassRef(TEXT("/Script/HDB.HDBCharacterPlayer"));
+	if (DefaultPawnClassRef.Class)
 	{
-		DefaultPawnClass = ThirdPersonClassRef.Class;
+		DefaultPawnClass = DefaultPawnClassRef.Class;
 	}
+
 
 	// DefaultPawnClass
 	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerClassRef(TEXT("/Script/HDB.HDBPlayerController"));

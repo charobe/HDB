@@ -14,4 +14,10 @@ class HDB_API AHDBCharacterPlayer : public AHDBCharacterBase
 {
 	GENERATED_BODY()
 	
+public:
+	AHDBCharacterPlayer();
+
+
+	//Camera Section
+protected:
 };
