@@ -37,7 +37,17 @@ private:
 	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
 	class UInputAction* MoveAction;
 
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputAction* JumpAction;
+
+	UPROPERTY(editanywhere, category = input, meta = (allowprivateaccess = true))
+	class UInputAction* LookAction;
+
+
 	void Move(const FInputActionValue& value);
+	void Look(const FInputActionValue& value);
+	void Jump() override;
+
 
 public:	
 	// Called every frame

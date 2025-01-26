@@ -16,10 +16,13 @@ APlayerCharacter::APlayerCharacter()
 	SkillSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));
 	SkillSpawnPoint->SetupAttachment(RootComponent);
 
-	// IMC ����
-	static ConstructorHelpers::FObjectFinder<UInputMappingContext>DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Content/MyInput/IMC_Move.IMC_Move'"));
+	// IMC
+	static ConstructorHelpers::FObjectFinder<UInputMappingContext>DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/Input/IMC_Move.IMC_Move'"));
 
-	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Content/MyInput/IA_Move.IA_Move'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/Input/IA_Move.IA_Move'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_JUMP(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/Input/IA_Jump.IA_Jump'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_LOOK(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/Input/IA_Look.IA_Look'"));
+
 
 	if (DEFAULT_CONTEXT.Succeeded())
 	{
@@ -30,7 +33,15 @@ APlayerCharacter::APlayerCharacter()
 	{
 		MoveAction = IA_MOVE.Object;
 	}
+	if (IA_JUMP.Succeeded())
+	{
+		JumpAction = IA_JUMP.Object;
+	}
 
+	if (IA_LOOK.Succeeded())
+	{
+		LookAction = IA_LOOK.Object;
+	}
 
 }
 
@@ -70,7 +81,8 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerIn
 
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
-	
+	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
+	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Jump);
 
 }
 
@@ -85,4 +97,14 @@ void APlayerCharacter::Move(const FInputActionValue& Value) {
 
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	AddMovementInput(RightDirection, MovementVector.X);
+}
+
+void APlayerCharacter::Look(const FInputActionValue& Value) {
+	const FVector2D LookVector = Value.Get<FVector2D>();
+	AddControllerYawInput(LookVector.X);
+	AddControllerPitchInput(LookVector.Y);
+}
+
+void APlayerCharacter::Jump() {
+	Super::Jump();
 }
