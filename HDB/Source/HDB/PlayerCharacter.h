@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "PlayerCharacter.generated.h"
 
+class ACharacter_Wing;
 
 UCLASS()
 class HDB_API APlayerCharacter : public ACharacter
@@ -47,6 +48,12 @@ private:
 	void Move(const FInputActionValue& value);
 	void Look(const FInputActionValue& value);
 	void Jump() override;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ACharacter_Wing> WingClass;
+
+	UPROPERTY()
+	ACharacter_Wing* Wing;
 
 
 public:	

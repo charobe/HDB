@@ -2,6 +2,7 @@
 
 
 #include "PlayerCharacter.h"
+#include "Character_Wing.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -64,7 +65,9 @@ void APlayerCharacter::BeginPlay()
 			SubSystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	
+
+	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
+		
 }
 
 // Called every frame
@@ -106,5 +109,5 @@ void APlayerCharacter::Look(const FInputActionValue& Value) {
 }
 
 void APlayerCharacter::Jump() {
-	Super::Jump();
+	//Super::Jump();
 }
