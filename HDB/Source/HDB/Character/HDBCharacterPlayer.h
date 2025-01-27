@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterBase.h"
+#include "InputActionValue.h"
 #include "HDBCharacterPlayer.generated.h"
 
 /**
@@ -17,9 +18,13 @@ class HDB_API AHDBCharacterPlayer : public AHDBCharacterBase
 public:
 	AHDBCharacterPlayer();
 
+protected: 
+	virtual void BeginPlay() override;
+
+public:
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	//Camera Section
-protected:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, Meta = (AllowPrivateAccess = "true"))
@@ -27,5 +32,23 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UCameraComponent> FollowCamera;
+
+//Input Section
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input, Meta= (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputMappingContext> DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> JumpAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UInputAction> MoveAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr <class UInputAction> LookAction;
+
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+
 
 };
