@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ACharacter_Wing();
 
-	void Feathershot();
+	void NormalAttack();
 
 protected:
 	// Called when the game starts or when spawned
@@ -31,5 +31,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* FeatherEffect;
 
 };

@@ -7,6 +7,8 @@
 #include "InputActionValue.h"
 #include "HDBCharacterPlayer.generated.h"
 
+class ACharacter_Wing;
+
 /**
  * 
  */
@@ -49,6 +51,15 @@ protected:
 
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+
+	// wingAttack
+	void shot();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ACharacter_Wing> WingClass;
+
+	UPROPERTY()
+	ACharacter_Wing* Wing;
 
 
 };

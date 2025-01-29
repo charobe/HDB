@@ -2,7 +2,6 @@
 
 
 #include "PlayerCharacter.h"
-#include "Character_Wing.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -66,7 +65,7 @@ void APlayerCharacter::BeginPlay()
 		}
 	}
 
-	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
+	
 		
 }
 

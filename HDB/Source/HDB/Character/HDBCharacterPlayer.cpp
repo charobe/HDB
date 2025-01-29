@@ -2,6 +2,7 @@
 
 
 #include "Character/HDBCharacterPlayer.h"
+#include "Character_Wing.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework//SpringArmComponent.h"
 #include "InputMappingContext.h"
@@ -57,6 +58,8 @@ void AHDBCharacterPlayer::BeginPlay()
 		//Subsystem->RemoveMappingContext(DefaultMappingContext);
 	}
 
+	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
+
 }
 
 void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -91,4 +94,9 @@ void AHDBCharacterPlayer::Look(const FInputActionValue& Value)
 
 	AddControllerYawInput(LookAxisVector.X);
 	AddControllerPitchInput(LookAxisVector.Y);
+}
+
+
+void AHDBCharacterPlayer::shot() {
+	Wing->NormalAttack();
 }

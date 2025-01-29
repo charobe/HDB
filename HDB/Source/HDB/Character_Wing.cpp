@@ -3,6 +3,7 @@
 
 #include "Character_Wing.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ACharacter_Wing::ACharacter_Wing()
@@ -19,8 +20,8 @@ ACharacter_Wing::ACharacter_Wing()
 }
 
 
-void ACharacter_Wing::Feathershot() {
-
+void ACharacter_Wing::NormalAttack() {
+	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
 }
 
 // Called when the game starts or when spawned
