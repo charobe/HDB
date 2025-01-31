@@ -4,6 +4,7 @@
 #include "Character_Wing.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 ACharacter_Wing::ACharacter_Wing()
@@ -22,6 +23,35 @@ ACharacter_Wing::ACharacter_Wing()
 
 void ACharacter_Wing::NormalAttack() {
 	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
+
+	// Get Owener
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+
+	if (OwnerPawn == nullptr)
+		return;
+
+	AController* OwnerController = OwnerPawn->GetController();
+
+	if (OwnerController == nullptr)
+		return;
+
+	//Setting Lotation and Rotation
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	// Feather range setting
+	FVector End = Location + Rotation.Vector() * MaxRange;
+	
+	//LineTracing
+	FHitResult Hit;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+
+	if (bSuccess) {
+		//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
+
+	}
+
 }
 
 // Called when the game starts or when spawned
