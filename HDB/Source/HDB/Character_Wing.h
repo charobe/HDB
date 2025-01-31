@@ -35,4 +35,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	UParticleSystem* FeatherEffect;
 
+	//range default value = 1000
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 1000;
+
 };
