@@ -4,6 +4,7 @@
 #include "Character/HDBCharacterBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "HDBCharacterControlData.h"
 
 // Sets default values
 AHDBCharacterBase::AHDBCharacterBase()
@@ -44,5 +45,33 @@ AHDBCharacterBase::AHDBCharacterBase()
 	{
 		GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
 	}
+
+	static ConstructorHelpers::FObjectFinder<UHDBCharacterControlData> ShoulderDataRef(TEXT("/Script/HDB.HDBCharacterControlData'/Game/HDB/CharacterControl/HDBC_Shoulder.HDBC_Shoulder'"));
+	if (ShoulderDataRef.Object)
+	{
+		CharacterControlManager.Add(ECharacterControlType::Shoulder, ShoulderDataRef.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UHDBCharacterControlData> QuaterDataRef(TEXT("/Script/HDB.HDBCharacterControlData'/Game/HDB/CharacterControl/HDBC_Quater.HDBC_Quater'"));
+	if (QuaterDataRef.Object)
+	{
+		CharacterControlManager.Add(ECharacterControlType::Quater, QuaterDataRef.Object);
+	}
+
+
+}
+
+void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)
+{
+	// 폰 섹션과 무브먼트 섹션에 관련된 데이터들을 설정
+
+	// Pawn 
+	bUseControllerRotationYaw = CharacterControlData->bUseControllerRotationYaw;
+
+	//CharacterMovement
+	GetCharacterMovement()->bOrientRotationToMovement = CharacterControlData->bOrientRotationToMovement;
+	GetCharacterMovement()->bUseControllerDesiredRotation = CharacterControlData->bUseControllerDesiredRotation;
+	GetCharacterMovement()->RotationRate = CharacterControlData->RotationRate;
+
 
 }
