@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interface/HDBAnimationAttackInterface.h"
 #include "HDBCharacterBase.generated.h"
 
 UENUM()
@@ -14,7 +15,7 @@ enum class ECharacterControlType : uint8
 };
 
 UCLASS()
-class HDB_API AHDBCharacterBase : public ACharacter
+class HDB_API AHDBCharacterBase : public ACharacter , public IHDBAnimationAttackInterface
 {
 	GENERATED_BODY()
 
@@ -27,5 +28,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = CharacterControl, Meta = (AllowPrivateAccess = "true"))
 	TMap<ECharacterControlType, class UHDBCharacterControlData*> CharacterControlManager;
+
+
+// Attack Hit Section
+	virtual void AttackHitCheck() override;
 
 };

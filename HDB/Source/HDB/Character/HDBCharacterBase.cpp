@@ -75,3 +75,8 @@ void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* 
 
 
 }
+
+void AHDBCharacterBase::AttackHitCheck()
+{
+
+}
