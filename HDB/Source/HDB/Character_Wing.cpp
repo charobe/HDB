@@ -5,6 +5,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/DamageEvents.h"
 
 // Sets default values
 ACharacter_Wing::ACharacter_Wing()
@@ -45,11 +46,22 @@ void ACharacter_Wing::NormalAttack() {
 	
 	//LineTracing
 	FHitResult Hit;
+
 	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
 
 	if (bSuccess) {
 		//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
+		FVector ShotDirection = -Rotation.Vector();
+		//UGameplayStatics::SpawnEmitterAtLocation();
 
+		AActor* HitActor = Hit.GetActor();
+
+		if (HitActor != nullptr) {
+			FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
+
+			HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
+
+		}
 	}
 
 }
