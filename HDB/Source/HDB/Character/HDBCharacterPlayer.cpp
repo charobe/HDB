@@ -60,6 +60,8 @@ void AHDBCharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	HP = MaxHP;
+
 	SetCharacterControl(CurrentCharacterControlType);
 
 	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
@@ -80,10 +82,13 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
 }
 
-//float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
-//	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-//
-//}
+float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageToApply = FMath::Min(HP, DamageToApply);
+	HP -= DamageToApply;
+
+	return DamageToApply;
+}
 
 // 현재 캐릭터 컨트롤 타입의 ENUM 값을 보고 반대쪽 ENUM값으로 변경
 void AHDBCharacterPlayer::ChangeCharacterControl()

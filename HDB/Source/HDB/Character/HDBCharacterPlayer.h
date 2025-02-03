@@ -26,7 +26,7 @@ protected:
 public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	//virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 // Character Control Section
 protected:
@@ -71,6 +71,14 @@ protected:
 	// wingAttack
 	void shot();
 
+	// HP Setting
+	UPROPERTY(EditDefaultOnly)
+	float MaxHP = 100;
+
+	UPROPERTY(VisibleAnywhere)
+	float HP;
+
+	// Wing
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ACharacter_Wing> WingClass;
 
