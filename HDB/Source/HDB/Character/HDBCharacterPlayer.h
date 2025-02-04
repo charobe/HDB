@@ -72,7 +72,7 @@ protected:
 	void shot();
 
 	// HP Setting
-	UPROPERTY(EditDefaultOnly)
+	UPROPERTY(EditDefaultsOnly)
 	float MaxHP = 100;
 
 	UPROPERTY(VisibleAnywhere)
