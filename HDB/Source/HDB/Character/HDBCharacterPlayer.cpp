@@ -66,6 +66,9 @@ void AHDBCharacterPlayer::BeginPlay()
 
 	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
 
+	Wing->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Wing_Socket"));
+	Wing->SetOwner(this);
+
 }
 
 void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
