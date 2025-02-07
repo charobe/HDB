@@ -46,8 +46,12 @@ void ACharacter_Wing::NormalAttack() {
 	
 	//LineTracing
 	FHitResult Hit;
+	FCollisionQueryParams Params;
 
-	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 
 	if (bSuccess) {
 		//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);

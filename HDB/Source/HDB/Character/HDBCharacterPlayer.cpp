@@ -9,6 +9,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "HDBCharacterControlData.h"
+#include "Components/CapsuleComponent.h"
 
 AHDBCharacterPlayer::AHDBCharacterPlayer()
 {
@@ -68,6 +69,10 @@ void AHDBCharacterPlayer::BeginPlay()
 
 }
 
+bool AHDBCharacterPlayer::IsDead() const {
+	return HP <= 0;
+}
+
 void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -86,6 +91,12 @@ float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent co
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	DamageToApply = FMath::Min(HP, DamageToApply);
 	HP -= DamageToApply;
+
+	if (IsDead()) {
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	}
 
 	return DamageToApply;
 }
