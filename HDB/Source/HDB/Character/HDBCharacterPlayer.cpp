@@ -54,6 +54,12 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 		QuaterMoveAction = InputActionQuaterMoveRef.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionWingNormalAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_WingAttack.IA_WingAttack'"));
+	if (nullptr != InputActionWingNormalAttackRef.Object) {
+		WingNormalAttack = InputActionWingNormalAttackRef.Object;
+	}
+
+
 	CurrentCharacterControlType = ECharacterControlType::Quater;
 }
 
@@ -88,6 +94,10 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(ShoulderMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderMove);
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
+	EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
+	if (!WingNormalAttack) {
+		UE_LOG(LogTemp, Error, TEXT("WingNormalAttack InputAction is not set!"));
+	}
 }
 
 float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
@@ -197,6 +207,11 @@ void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 }
 
 
-void AHDBCharacterPlayer::shot() {
-	Wing->NormalAttack();
+void AHDBCharacterPlayer::Shot() {
+	if (Wing) {
+		Wing->NormalAttack();
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Wing is nullptr in Shot()"));
+	}
 }

@@ -23,6 +23,7 @@ ACharacter_Wing::ACharacter_Wing()
 
 
 void ACharacter_Wing::NormalAttack() {
+	UE_LOG(LogTemp, Warning, TEXT("Shooting"));
 	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
 
 	// Get Owener
