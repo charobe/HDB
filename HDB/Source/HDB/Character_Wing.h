@@ -17,6 +17,8 @@ public:
 
 	void NormalAttack();
 
+	void QSkill();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -41,5 +43,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 10;
+
+	//Q
+	UPROPERTY(EditAnywhere)
+	float QRange = 1500;
+
+	UPROPERTY(EditAnywhere)
+	float QDamage = 30;
 
 };

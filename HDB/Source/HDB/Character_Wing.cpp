@@ -71,6 +71,52 @@ void ACharacter_Wing::NormalAttack() {
 
 }
 
+void ACharacter_Wing::QSkill() {
+	UE_LOG(LogTemp, Warning, TEXT("Q Shooting"));
+
+	// Get Owener
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+
+	if (OwnerPawn == nullptr)
+		return;
+
+	AController* OwnerController = OwnerPawn->GetController();
+
+	if (OwnerController == nullptr)
+		return;
+
+	//Setting Lotation and Rotation
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	// Feather range setting
+	FVector End = Location + Rotation.Vector() * QRange;
+
+	//LineTracing
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+
+	if (bSuccess) {
+		FVector ShotDirection = -Rotation.Vector();
+
+		AActor* HitActor = Hit.GetActor();
+
+		if (HitActor != nullptr) {
+			FPointDamageEvent DamageEvent(QDamage, Hit, ShotDirection, nullptr);
+
+			HitActor->TakeDamage(QDamage, DamageEvent, OwnerController, this);
+
+		}
+	}
+
+}
+
 // Called when the game starts or when spawned
 void ACharacter_Wing::BeginPlay()
 {
