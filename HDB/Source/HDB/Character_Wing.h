@@ -45,6 +45,8 @@ private:
 	float Damage = 10;
 
 	//Q
+	FTimerHandle QSkillTimerHandle;
+
 	UPROPERTY(EditAnywhere)
 	float QRange = 1500;
 

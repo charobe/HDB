@@ -74,46 +74,48 @@ void ACharacter_Wing::NormalAttack() {
 void ACharacter_Wing::QSkill() {
 	UE_LOG(LogTemp, Warning, TEXT("Q Shooting"));
 
-	// Get Owener
-	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	GetWorld()->GetTimerManager().SetTimer(QSkillTimerHandle, [this]() {
+		UE_LOG(LogTemp, Warning, TEXT("Q Shooting"));
 
-	if (OwnerPawn == nullptr)
-		return;
+		// Get Owner
+		APawn* OwnerPawn = Cast<APawn>(GetOwner());
+		if (OwnerPawn == nullptr)
+			return;
 
-	AController* OwnerController = OwnerPawn->GetController();
+		AController* OwnerController = OwnerPawn->GetController();
+		if (OwnerController == nullptr)
+			return;
 
-	if (OwnerController == nullptr)
-		return;
+		// Get player viewpoint
+		FVector Location;
+		FRotator Rotation;
+		OwnerController->GetPlayerViewPoint(Location, Rotation);
 
-	//Setting Lotation and Rotation
-	FVector Location;
-	FRotator Rotation;
-	OwnerController->GetPlayerViewPoint(Location, Rotation);
+		//5 feather fanshape with 10 angle
+		const TArray<float> Angles = { -20, -10, 0, 10, 20 };
 
-	// Feather range setting
-	FVector End = Location + Rotation.Vector() * QRange;
+		for (float AngleOffset : Angles) {
+			FRotator AdjustedRotation = Rotation + FRotator(0, AngleOffset, 0);
+			FVector End = Location + AdjustedRotation.Vector() * QRange;
 
-	//LineTracing
-	FHitResult Hit;
-	FCollisionQueryParams Params;
+			FHitResult Hit;
+			FCollisionQueryParams Params;
+			Params.AddIgnoredActor(this);
+			Params.AddIgnoredActor(GetOwner());
 
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
+			bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 
-	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
-
-	if (bSuccess) {
-		FVector ShotDirection = -Rotation.Vector();
-
-		AActor* HitActor = Hit.GetActor();
-
-		if (HitActor != nullptr) {
-			FPointDamageEvent DamageEvent(QDamage, Hit, ShotDirection, nullptr);
-
-			HitActor->TakeDamage(QDamage, DamageEvent, OwnerController, this);
-
+			if (bSuccess) {
+				FVector ShotDirection = -AdjustedRotation.Vector();
+				AActor* HitActor = Hit.GetActor();
+				if (HitActor) {
+					FPointDamageEvent DamageEvent(QDamage, Hit, ShotDirection, nullptr);
+					HitActor->TakeDamage(QDamage, DamageEvent, OwnerController, this);
+				}
+			}
 		}
-	}
+
+	}, 1.0f, false);
 
 }
 
