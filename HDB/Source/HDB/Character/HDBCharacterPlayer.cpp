@@ -95,9 +95,6 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
 	EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
-	if (!WingNormalAttack) {
-		UE_LOG(LogTemp, Error, TEXT("WingNormalAttack InputAction is not set!"));
-	}
 }
 
 float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
@@ -206,12 +203,25 @@ void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 	AddMovementInput(MoveDirection, MovementVectorSize);
 }
 
+void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
+	APlayerController* Controll = Cast<APlayerController>(GetController());
+	if (!Controll)
+		return;
 
-void AHDBCharacterPlayer::Shot() {
-	if (Wing) {
-		Wing->NormalAttack();
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Wing is nullptr in Shot()"));
+	const UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(Controll->GetLocalPlayer());
+	if (!InputSubsystem)
+		return;
+
+	TArray<FKey> PressKey = InputSubsystem->QueryKeysMappedToAction(WingNormalAttack);
+
+	for (const FKey& Key : PressKey) {
+		if (Key == EKeys::LeftMouseButton) {
+			if (Wing)
+				Wing->NormalAttack();
+		}
+		else if (Key == EKeys::One)
+			if (Wing)
+				Wing->QSkill();
+	
 	}
 }

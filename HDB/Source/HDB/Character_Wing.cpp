@@ -23,7 +23,7 @@ ACharacter_Wing::ACharacter_Wing()
 
 
 void ACharacter_Wing::NormalAttack() {
-	UE_LOG(LogTemp, Warning, TEXT("Shooting"));
+	UE_LOG(LogTemp, Warning, TEXT("Normal Shooting"));
 	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
 
 	// Get Owener
@@ -72,7 +72,7 @@ void ACharacter_Wing::NormalAttack() {
 }
 
 void ACharacter_Wing::QSkill() {
-	UE_LOG(LogTemp, Warning, TEXT("Q Shooting"));
+	UE_LOG(LogTemp, Warning, TEXT("Q Ready"));
 
 	GetWorld()->GetTimerManager().SetTimer(QSkillTimerHandle, [this]() {
 		UE_LOG(LogTemp, Warning, TEXT("Q Shooting"));
@@ -116,6 +116,11 @@ void ACharacter_Wing::QSkill() {
 		}
 
 	}, 1.0f, false);
+
+}
+
+void ACharacter_Wing::WSkill() {
+	UE_LOG(LogTemp, Warning, TEXT("W Shooting"));
 
 }
 
