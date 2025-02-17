@@ -5,7 +5,6 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HDBCharacterControlData.h"
-#include "Animation/AnimMontage.h"
 #include "Engine/DamageEvents.h"
 
 // Sets default values
@@ -74,13 +73,6 @@ void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* 
 	GetCharacterMovement()->bUseControllerDesiredRotation = CharacterControlData->bUseControllerDesiredRotation;
 	GetCharacterMovement()->RotationRate = CharacterControlData->RotationRate;
 
-
-}
-
-void AHDBCharacterBase::ProcessComboCommand()
-{
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	AnimInstance->Montage_Play(ComboActionMontage);
 
 }
 
