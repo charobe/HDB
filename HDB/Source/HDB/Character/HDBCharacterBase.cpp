@@ -40,7 +40,6 @@ AHDBCharacterBase::AHDBCharacterBase()
 	{
 		GetMesh()->SetSkeletalMesh(CharacterMeshRef.Object);
 	}
-
 	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimInstanceClassRef(TEXT("/Game/HDB/Character/Player/ABP_HDB_Character.ABP_HDB_Character_C"));
 	if (AnimInstanceClassRef.Class)
 	{
