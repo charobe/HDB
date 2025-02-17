@@ -59,6 +59,11 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 		WingNormalAttack = InputActionWingNormalAttackRef.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_Attack.IA_Attack'"));
+	if (nullptr != InputActionAttackRef.Object)
+	{
+		QuaterMoveAction = InputActionAttackRef.Object;
+	}
 
 	CurrentCharacterControlType = ECharacterControlType::Quater;
 }
@@ -95,6 +100,8 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
 	EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
+	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
+
 }
 
 float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
@@ -224,4 +231,10 @@ void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
 				Wing->QSkill();
 	
 	}
+}
+
+void AHDBCharacterPlayer::Attack()
+{
+
+
 }

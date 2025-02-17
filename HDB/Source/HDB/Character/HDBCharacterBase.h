@@ -29,6 +29,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = CharacterControl, Meta = (AllowPrivateAccess = "true"))
 	TMap<ECharacterControlType, class UHDBCharacterControlData*> CharacterControlManager;
 
+// Attack Section
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= Animation)
+	TObjectPtr<class UAnimMontage> ComboActionMontage; 
+
+	void ProcessComboCommand();
+	
+
 
 // Attack Hit Section
 	virtual void AttackHitCheck() override;
