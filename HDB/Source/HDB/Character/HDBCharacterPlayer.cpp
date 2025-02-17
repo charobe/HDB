@@ -235,4 +235,5 @@ void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
 
 void AHDBCharacterPlayer::Attack()
 {
+	ProcessComboCommand();
 }
