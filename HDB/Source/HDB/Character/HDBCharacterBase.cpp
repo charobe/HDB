@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HDBCharacterControlData.h"
+#include "Animation/AnimMontage.h"
 #include "Engine/DamageEvents.h"
 
 // Sets default values
@@ -76,6 +77,12 @@ void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* 
 
 }
 
+void AHDBCharacterBase::ProcessComboCommand()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	AnimInstance->Montage_Play(ComboActionMontage);
+}
+
 void AHDBCharacterBase::AttackHitCheck()
 {
 	FHitResult OutHitResult;
@@ -89,6 +96,21 @@ void AHDBCharacterBase::AttackHitCheck()
 
 
 	bool HitDetected = GetWorld()->SweepSingleByChannel(OutHitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel1, FCollisionShape::MakeSphere(AttackRadius), Params);
+
+	if (HitDetected)
+	{
+
+	}
+
+#if ENABLE_DRAW_DEBUG
+
+	FVector CapsuleOrigin = Start + (End - Start) * 0.5f;
+	float CapsuleHalfHeight = AttackRange * 0.5f;
+	FColor DrawColor = HitDetected ? FColor::Green : FColor::Red;
+
+	DrawDebugCapsule(GetWorld(), CapsuleOrigin, CapsuleHalfHeight, AttackRadius, FRotationMatrix::MakeFromZ(GetActorForwardVector()).ToQuat(), DrawColor, false, 5.0f);
+
+#endif
 }
 
 float AHDBCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

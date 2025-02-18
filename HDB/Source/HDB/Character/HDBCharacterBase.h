@@ -20,7 +20,6 @@ class HDB_API AHDBCharacterBase : public ACharacter , public IHDBAnimationAttack
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	AHDBCharacterBase();
 
 protected:
@@ -29,12 +28,20 @@ protected:
 	UPROPERTY(EditAnywhere, Category = CharacterControl, Meta = (AllowPrivateAccess = "true"))
 	TMap<ECharacterControlType, class UHDBCharacterControlData*> CharacterControlManager;
 
+// Combo Action Section
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
+	TObjectPtr<class UAnimMontage> ComboActionMontage;
+
+	void ProcessComboCommand();
 
 // Attack Hit Section
+
 	virtual void AttackHitCheck() override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
-	// Dead Section
+// Dead Section
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UAnimMontage> DeadMontage;
