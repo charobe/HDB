@@ -19,7 +19,7 @@ public:
 
 	void QSkill();
 
-	void WSkill();
+	void ESkill();
 
 protected:
 	// Called when the game starts or when spawned
@@ -54,5 +54,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float QDamage = 30;
+
+	//E
+	UPROPERTY(EditAnywhere)
+	float ERange = 300;
+
+	UPROPERTY(EditAnywhere)
+	float EDamage = 50;
 
 };

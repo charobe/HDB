@@ -119,8 +119,49 @@ void ACharacter_Wing::QSkill() {
 
 }
 
-void ACharacter_Wing::WSkill() {
-	UE_LOG(LogTemp, Warning, TEXT("W Shooting"));
+void ACharacter_Wing::ESkill() {
+	UE_LOG(LogTemp, Warning, TEXT("E Shooting"));
+
+	// Get Owner
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+
+	if (OwnerPawn == nullptr)
+		return;
+
+	AController* OwnerController = OwnerPawn->GetController();
+
+	if (OwnerController == nullptr)
+		return;
+
+	// Setting Location and Rotation
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	// Feather range setting
+	FVector End = Location + Rotation.Vector() * ERange;
+
+	// LineTracing
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+
+	if (bSuccess) {
+		FVector ShotDirection = -Rotation.Vector();
+
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor != nullptr) {
+			FPointDamageEvent DamageEvent(EDamage, Hit, ShotDirection, nullptr);
+			HitActor->TakeDamage(EDamage, DamageEvent, OwnerController, this);
+		}
+	}
+
+	FVector BackwardOffset = -GetActorForwardVector() * 10; // น้มกวม ผฆ
+	SetActorLocation(GetActorLocation() + BackwardOffset, true);
 
 }
 
