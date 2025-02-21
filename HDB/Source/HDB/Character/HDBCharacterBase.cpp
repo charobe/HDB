@@ -18,7 +18,7 @@ AHDBCharacterBase::AHDBCharacterBase()
 
 	// Capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
+	GetCapsuleComponent()->SetCollisionProfileName("HDBCapsule");
 
 	//Movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -59,6 +59,12 @@ AHDBCharacterBase::AHDBCharacterBase()
 		CharacterControlManager.Add(ECharacterControlType::Quater, QuaterDataRef.Object);
 	}
 
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> ComboActionMontageRef(TEXT("/Script/Engine.AnimMontage'/Game/HDB/Character/Player/AM_ComboAttack.AM_ComboAttack'"));
+	if (ComboActionMontageRef.Object)
+	{
+		ComboActionMontage = ComboActionMontageRef.Object;
+	}
+	
 
 }
 
