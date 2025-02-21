@@ -165,6 +165,57 @@ void ACharacter_Wing::ESkill() {
 
 }
 
+void ACharacter_Wing::RSkill() {
+	UE_LOG(LogTemp, Warning, TEXT("R Shooting"));
+	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
+
+	// Get Owener
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+
+	if (OwnerPawn == nullptr)
+		return;
+
+	AController* OwnerController = OwnerPawn->GetController();
+
+	if (OwnerController == nullptr)
+		return;
+
+	//Setting Lotation and Rotation
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	// Feather range setting
+	FVector End = Location + Rotation.Vector() * RRange;
+
+	//LineTracing
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	float TraceRadius = 50.0; // µÎ²²
+
+	bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, Location, End, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeSphere(TraceRadius), Params);
+
+	if (bSuccess) {
+		//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
+		FVector ShotDirection = -Rotation.Vector();
+		//UGameplayStatics::SpawnEmitterAtLocation();
+
+		AActor* HitActor = Hit.GetActor();
+
+		if (HitActor != nullptr) {
+			FPointDamageEvent DamageEvent(RDamage, Hit, ShotDirection, nullptr);
+
+			HitActor->TakeDamage(RDamage, DamageEvent, OwnerController, this);
+
+		}
+	}
+
+}
+
 // Called when the game starts or when spawned
 void ACharacter_Wing::BeginPlay()
 {

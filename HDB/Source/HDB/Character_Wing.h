@@ -21,6 +21,8 @@ public:
 
 	void ESkill();
 
+	void RSkill();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,5 +63,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float EDamage = 50;
+
+	//R
+	UPROPERTY(EditAnywhere)
+	float RRange = 3000;
+
+	UPROPERTY(EditAnywhere)
+	float RDamage = 300;
 
 };
