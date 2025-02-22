@@ -18,7 +18,7 @@ AHDBCharacterBase::AHDBCharacterBase()
 
 	// Capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-	GetCapsuleComponent()->SetCollisionProfileName("HDBCapsule");
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HDBCapsule"));
 
 	//Movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -32,7 +32,7 @@ AHDBCharacterBase::AHDBCharacterBase()
 	// Mesh
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -100.0f), FRotator(0.0f, -90.0f, 0.0f));
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-	GetMesh()->SetCollisionProfileName(TEXT("CharacterMesh"));
+	GetMesh()->SetCollisionProfileName(TEXT("NoCollsion"));
 
 	// ThirdPersonCharacter에서 제공하는 메쉬와 애니메이션 클래스 정보를 가져옴. 
 
