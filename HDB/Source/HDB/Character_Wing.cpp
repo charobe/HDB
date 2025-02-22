@@ -138,6 +138,9 @@ void ACharacter_Wing::ESkill() {
 	FRotator Rotation;
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 
+	//60도 아래를 공격함
+	Rotation.Pitch -= 60.0f;
+
 	// Feather range setting
 	FVector End = Location + Rotation.Vector() * ERange;
 
@@ -150,18 +153,24 @@ void ACharacter_Wing::ESkill() {
 
 	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 
-	if (bSuccess) {
+	if (bSuccess && Hit.GetActor()) {
 		FVector ShotDirection = -Rotation.Vector();
-
 		AActor* HitActor = Hit.GetActor();
-		if (HitActor != nullptr) {
-			FPointDamageEvent DamageEvent(EDamage, Hit, ShotDirection, nullptr);
-			HitActor->TakeDamage(EDamage, DamageEvent, OwnerController, this);
-		}
+
+		// Ensure a valid hit component
+		FPointDamageEvent DamageEvent(EDamage, Hit, ShotDirection, nullptr);
+
+		HitActor->TakeDamage(EDamage, DamageEvent, OwnerController, this);
+
+		UE_LOG(LogTemp, Warning, TEXT("Hit Actor"));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Missed Shot"));
 	}
 
-	FVector BackwardOffset = -GetActorForwardVector() * 10; // 백점프 샷
-	SetActorLocation(GetActorLocation() + BackwardOffset, true);
+	// Smooth backward movement (Jump effect)
+	FVector BackwardOffset = -GetActorForwardVector() * 300.0f;
+	//LaunchCharacter(BackwardOffset, true, false);
 
 }
 
