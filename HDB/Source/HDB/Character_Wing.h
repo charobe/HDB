@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "Character_Wing.generated.h"
 
 UCLASS()
@@ -65,6 +66,8 @@ private:
 	float EDamage = 50;
 
 	//R
+	FTimerHandle RSkillTimerHandle;
+
 	UPROPERTY(EditAnywhere)
 	float RRange = 3000;
 

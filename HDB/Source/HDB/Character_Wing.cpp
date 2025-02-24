@@ -115,7 +115,7 @@ void ACharacter_Wing::QSkill() {
 			}
 		}
 
-	}, 1.0f, false);
+	}, 0.5f, false);
 
 }
 
@@ -168,60 +168,68 @@ void ACharacter_Wing::ESkill() {
 		UE_LOG(LogTemp, Warning, TEXT("Missed Shot"));
 	}
 
-	// Smooth backward movement (Jump effect)
-	FVector BackwardOffset = -GetActorForwardVector() * 300.0f;
-	//LaunchCharacter(BackwardOffset, true, false);
+	ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner());
+
+	if (OwnerCharacter) {
+		FVector BackwardOffset = -OwnerCharacter->GetActorForwardVector() * 300.0f;
+		OwnerCharacter->LaunchCharacter(BackwardOffset, true, false);
+
+	}
 
 }
 
 void ACharacter_Wing::RSkill() {
-	UE_LOG(LogTemp, Warning, TEXT("R Shooting"));
+	UE_LOG(LogTemp, Warning, TEXT("R Ready"));
 	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
 
-	// Get Owener
-	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	GetWorld()->GetTimerManager().SetTimer(RSkillTimerHandle, [this]() {
+		UE_LOG(LogTemp, Warning, TEXT("R Shooting"));
 
-	if (OwnerPawn == nullptr)
-		return;
+		// Get Owener
+		APawn* OwnerPawn = Cast<APawn>(GetOwner());
 
-	AController* OwnerController = OwnerPawn->GetController();
+		if (OwnerPawn == nullptr)
+			return;
 
-	if (OwnerController == nullptr)
-		return;
+		AController* OwnerController = OwnerPawn->GetController();
 
-	//Setting Lotation and Rotation
-	FVector Location;
-	FRotator Rotation;
-	OwnerController->GetPlayerViewPoint(Location, Rotation);
+		if (OwnerController == nullptr)
+			return;
 
-	// Feather range setting
-	FVector End = Location + Rotation.Vector() * RRange;
+		//Setting Lotation and Rotation
+		FVector Location;
+		FRotator Rotation;
+		OwnerController->GetPlayerViewPoint(Location, Rotation);
 
-	//LineTracing
-	FHitResult Hit;
-	FCollisionQueryParams Params;
+		// Feather range setting
+		FVector End = Location + Rotation.Vector() * RRange;
 
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
+		//LineTracing
+		FHitResult Hit;
+		FCollisionQueryParams Params;
 
-	float TraceRadius = 50.0; // 두께
+		Params.AddIgnoredActor(this);
+		Params.AddIgnoredActor(GetOwner());
 
-	bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, Location, End, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeSphere(TraceRadius), Params);
+		float TraceRadius = 50.0; // 두께
 
-	if (bSuccess) {
-		//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
-		FVector ShotDirection = -Rotation.Vector();
-		//UGameplayStatics::SpawnEmitterAtLocation();
+		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, Location, End, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeSphere(TraceRadius), Params);
 
-		AActor* HitActor = Hit.GetActor();
+		if (bSuccess) {
+			//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
+			FVector ShotDirection = -Rotation.Vector();
+			//UGameplayStatics::SpawnEmitterAtLocation();
 
-		if (HitActor != nullptr) {
-			FPointDamageEvent DamageEvent(RDamage, Hit, ShotDirection, nullptr);
+			AActor* HitActor = Hit.GetActor();
 
-			HitActor->TakeDamage(RDamage, DamageEvent, OwnerController, this);
+			if (HitActor != nullptr) {
+				FPointDamageEvent DamageEvent(RDamage, Hit, ShotDirection, nullptr);
 
+				HitActor->TakeDamage(RDamage, DamageEvent, OwnerController, this);
+
+			}
 		}
-	}
+	}, 2.0f, false);
 
 }
 
