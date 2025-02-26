@@ -10,7 +10,7 @@ public class HDB : ModuleRules
 
         PublicIncludePaths.AddRange(new string[] { "HDB" });
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "EnhancedInput"});
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "EnhancedInput", "AIModule"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
