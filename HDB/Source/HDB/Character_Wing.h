@@ -20,6 +20,10 @@ public:
 
 	void QSkill();
 
+	void WSkill();
+
+	void PerformWSkill();
+
 	void ESkill();
 
 	void RSkill();
@@ -57,6 +61,18 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float QDamage = 30;
+
+
+	//W
+	FTimerHandle WSkillTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	float WRange = 1000;
+
+	UPROPERTY(EditAnywhere)
+	float WDamage = 20;
+
+	int WCount = 0;
 
 	//E
 	UPROPERTY(EditAnywhere)

@@ -119,6 +119,49 @@ void ACharacter_Wing::QSkill() {
 
 }
 
+void ACharacter_Wing::WSkill() {
+	UE_LOG(LogTemp, Warning, TEXT("W Shooting"));
+	WCount = 0; // 공격 횟수 초기화
+	GetWorldTimerManager().SetTimer(WSkillTimerHandle, this, &ACharacter_Wing::PerformWSkill, 0.5f, true);
+}
+
+void ACharacter_Wing::PerformWSkill() {
+	if (WCount >= 3) {
+		GetWorldTimerManager().ClearTimer(WSkillTimerHandle);
+		return;
+	}
+
+	WCount++;
+
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) return;
+
+	AController* OwnerController = OwnerPawn->GetController();
+	if (OwnerController == nullptr) return;
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	FVector End = Location + Rotation.Vector() * WRange;
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+
+	if (bSuccess) {
+		FVector ShotDirection = -Rotation.Vector();
+		AActor* HitActor = Hit.GetActor();
+
+		if (HitActor != nullptr) {
+			FPointDamageEvent DamageEvent(WDamage, Hit, ShotDirection, nullptr);
+			HitActor->TakeDamage(WDamage, DamageEvent, OwnerController, this);
+		}
+	}
+}
+
 void ACharacter_Wing::ESkill() {
 	UE_LOG(LogTemp, Warning, TEXT("E Shooting"));
 
