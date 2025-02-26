@@ -8,7 +8,7 @@
 
 AHDBAIController::AHDBAIController()
 {
-	static ConstructorHelpers::FObjectFinder<UBlackboardData> BBAssetRef(TEXT("/Script/AIModule.BehaviorTree'/Game/HDB/AI/BT_HDBSpider.BT_HDBSpider'"));
+	static ConstructorHelpers::FObjectFinder<UBlackboardData> BBAssetRef(TEXT("/Script/AIModule.BlackboardData'/Game/HDB/AI/BB_HDBSpider.BB_HDBSpider'"));
 	if (nullptr != BBAssetRef.Object)
 	{
 		BBAsset = BBAssetRef.Object;
