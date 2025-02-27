@@ -4,7 +4,8 @@
 #include "Character/HDBCharacterPlayer.h"
 #include "Character_Wing.h"
 #include "Camera/CameraComponent.h"
-#include "GameFramework//SpringArmComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "InputMappingContext.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -76,6 +77,22 @@ void AHDBCharacterPlayer::BeginPlay()
 
 	SetCharacterControl(CurrentCharacterControlType);
 
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (!PlayerController)
+		return;
+
+	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
+	if (!LocalPlayer)
+		return;
+
+	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	if (!InputSubsystem)
+		return;
+
+	if (WingCombatIMC)
+		InputSubsystem->AddMappingContext(WingCombatIMC, 0);
+
+
 	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
 
 	Wing->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Wing_Socket"));
@@ -99,8 +116,10 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(ShoulderMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderMove);
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
-	EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
+	//EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
 	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
+
+	EnhancedInputComponent->BindAction(IA_Shot, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Shot);
 
 }
 
@@ -211,25 +230,33 @@ void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 }
 
 void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
-	APlayerController* Controll = Cast<APlayerController>(GetController());
-	if (!Controll)
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (!PlayerController)
 		return;
 
-	const UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(Controll->GetLocalPlayer());
+	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
+	if (!LocalPlayer)
+		return;
+
+	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
 	if (!InputSubsystem)
 		return;
 
-	TArray<FKey> PressKey = InputSubsystem->QueryKeysMappedToAction(WingNormalAttack);
+	// IMC에서 설정된 키와 매핑된 액션 확인
+	if (IA_Shot)
+	{
+		TArray<FKey> PressedKeys = InputSubsystem->QueryKeysMappedToAction(IA_Shot);
 
-	for (const FKey& Key : PressKey) {
-		if (Key == EKeys::LeftMouseButton) {
-			if (Wing)
-				Wing->NormalAttack();
+		for (const FKey& Key : PressedKeys) {
+			if (Key == EKeys::LeftMouseButton) {
+				if (Wing)
+					Wing->NormalAttack();
+			}
+			else if (Key == EKeys::One) {
+				if (Wing)
+					Wing->QSkill();
+			}
 		}
-		else if (Key == EKeys::One)
-			if (Wing)
-				Wing->QSkill();
-	
 	}
 }
 

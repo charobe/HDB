@@ -8,6 +8,9 @@
 #include "HDBCharacterPlayer.generated.h"
 
 class ACharacter_Wing;
+class UInputMappingContext;
+class UInputAction;
+class UEnhancedInputComponent;
 
 /**
  * 
@@ -82,6 +85,12 @@ protected:
 
 	// wingAttack
 	void Shot(const FInputActionValue& value);
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputMappingContext* WingCombatIMC;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* IA_Shot;
 
 	// HP Setting
 	UPROPERTY(EditDefaultsOnly)
