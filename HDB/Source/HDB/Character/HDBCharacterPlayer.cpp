@@ -256,6 +256,18 @@ void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
 				if (Wing)
 					Wing->QSkill();
 			}
+			else if (Key == EKeys::Two) {
+				if (Wing)
+					Wing->WSkill();
+			}
+			else if (Key == EKeys::Three) {
+				if (Wing)
+					Wing->ESkill();
+			}
+			else if (Key == EKeys::Four) {
+				if (Wing)
+					Wing->RSkill();
+			}
 		}
 	}
 }
