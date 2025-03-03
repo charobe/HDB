@@ -89,8 +89,8 @@ void AHDBCharacterPlayer::BeginPlay()
 	if (!InputSubsystem)
 		return;
 
-	if (WingCombatIMC)
-		InputSubsystem->AddMappingContext(WingCombatIMC, 0);
+	if (IMC_Shoulder)
+		InputSubsystem->AddMappingContext(IMC_Shoulder, 0);
 
 
 	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
@@ -119,7 +119,7 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	//EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
 	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
 
-	EnhancedInputComponent->BindAction(IA_Shot, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Shot);
+	EnhancedInputComponent->BindAction(IA_WingAttack, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Shot);
 
 }
 
@@ -230,22 +230,38 @@ void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 }
 
 void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
+	UE_LOG(LogTemp, Warning, TEXT("Shot function called!"));
+
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	if (!PlayerController)
+	if (!PlayerController) {
+		UE_LOG(LogTemp, Warning, TEXT("Pc is nullptr!"));
 		return;
+	}
 
 	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
-	if (!LocalPlayer)
+	if (!LocalPlayer){
+		UE_LOG(LogTemp, Warning, TEXT("Lc is nullptr!"));
 		return;
+	}
 
 	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
-	if (!InputSubsystem)
+	if (!InputSubsystem) {
+		UE_LOG(LogTemp, Warning, TEXT("inputsub is nullptr!"));
 		return;
+	}
+
+	if (!Wing) {
+		UE_LOG(LogTemp, Warning, TEXT("Wing is nullptr!"));
+		return;
+	}
 
 	// IMC에서 설정된 키와 매핑된 액션 확인
-	if (IA_Shot)
-	{
-		TArray<FKey> PressedKeys = InputSubsystem->QueryKeysMappedToAction(IA_Shot);
+	if (IA_WingAttack) {
+		TArray<FKey> PressedKeys = InputSubsystem->QueryKeysMappedToAction(IA_WingAttack);
+
+		for (const FKey& Key : PressedKeys) {
+			UE_LOG(LogTemp, Warning, TEXT("Pressed Key: %s"), *Key.GetDisplayName().ToString());
+		}
 
 		for (const FKey& Key : PressedKeys) {
 			if (Key == EKeys::LeftMouseButton) {

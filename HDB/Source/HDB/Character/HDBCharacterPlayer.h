@@ -87,10 +87,10 @@ protected:
 	void Shot(const FInputActionValue& value);
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputMappingContext* WingCombatIMC;
+	UInputMappingContext* IMC_Shoulder;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputAction* IA_Shot;
+	UInputAction* IA_WingAttack;
 
 	// HP Setting
 	UPROPERTY(EditDefaultsOnly)
