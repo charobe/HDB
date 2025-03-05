@@ -6,6 +6,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/DamageEvents.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 
 // Sets default values
 ACharacter_Wing::ACharacter_Wing()
@@ -24,8 +27,7 @@ ACharacter_Wing::ACharacter_Wing()
 
 void ACharacter_Wing::NormalAttack() {
 	UE_LOG(LogTemp, Warning, TEXT("Normal Shooting"));
-	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
-
+	UNiagaraFunctionLibrary::SpawnSystemAttached(FeatherEffect, Mesh, TEXT("ShotSocket"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 	// Get Owener
 	APawn* OwnerPawn = Cast<APawn>(GetOwner());
 

@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
 #include "Character_Wing.generated.h"
+#include "NiagaraSystem.h"
 
 UCLASS()
 class HDB_API ACharacter_Wing : public AActor
@@ -44,7 +45,7 @@ private:
 	USkeletalMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere)
-	UParticleSystem* FeatherEffect;
+	UNiagaraSystem* FeatherEffect;
 
 	//range default value = 1000
 	UPROPERTY(EditAnywhere)
