@@ -5,8 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h"
-#include "Character_Wing.generated.h"
 #include "NiagaraSystem.h"
+#include "Character_Wing.generated.h"
+
 
 UCLASS()
 class HDB_API ACharacter_Wing : public AActor

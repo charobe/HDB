@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterBase.h"
+#include "Interface/HDBSpiderAIInterface.h"
 #include "HDBCharacterNonPlayer.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class HDB_API AHDBCharacterNonPlayer : public AHDBCharacterBase
+class HDB_API AHDBCharacterNonPlayer : public AHDBCharacterBase, public IHDBSpiderAIInterface
 {
 	GENERATED_BODY()
 
@@ -20,5 +21,9 @@ public:
 protected:
 	void SetDead() override;
 
-	
+// AI Section
+	virtual float GetAIPatrolRadius() override;
+	virtual float GetAIDetectRange()  override;
+	virtual float GetAttackRange()  override; 
+	virtual float GetAITurnSpeed()  override;
 };

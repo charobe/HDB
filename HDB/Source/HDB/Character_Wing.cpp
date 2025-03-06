@@ -123,7 +123,7 @@ void ACharacter_Wing::QSkill() {
 
 void ACharacter_Wing::WSkill() {
 	UE_LOG(LogTemp, Warning, TEXT("W Shooting"));
-	WCount = 0; // °ø°Ý È½¼ö ÃÊ±âÈ­
+	WCount = 0; // ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	GetWorldTimerManager().SetTimer(WSkillTimerHandle, this, &ACharacter_Wing::PerformWSkill, 0.5f, true);
 }
 
@@ -183,7 +183,7 @@ void ACharacter_Wing::ESkill() {
 	FRotator Rotation;
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 
-	//60µµ ¾Æ·¡¸¦ °ø°ÝÇÔ
+	//60ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Rotation.Pitch -= 60.0f;
 
 	// Feather range setting
@@ -256,7 +256,7 @@ void ACharacter_Wing::RSkill() {
 		Params.AddIgnoredActor(this);
 		Params.AddIgnoredActor(GetOwner());
 
-		float TraceRadius = 50.0; // µÎ²²
+		float TraceRadius = 50.0; // ï¿½Î²ï¿½
 
 		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, Location, End, FQuat::Identity, ECollisionChannel::ECC_GameTraceChannel1, FCollisionShape::MakeSphere(TraceRadius), Params);
 
