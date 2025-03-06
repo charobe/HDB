@@ -22,3 +22,23 @@ void AHDBCharacterNonPlayer::SetDead()
 		}
 	), DeadEventDelayTime, false);
 }
+
+float AHDBCharacterNonPlayer::GetAIPatrolRadius()
+{
+	return 800.0f;
+}
+
+float AHDBCharacterNonPlayer::GetAIDetectRange()
+{
+	return 400.0f;
+}
+
+float AHDBCharacterNonPlayer::GetAttackRange()
+{
+	return 0.0f;
+}
+
+float AHDBCharacterNonPlayer::GetAITurnSpeed()
+{
+	return 0.0f;
+}
