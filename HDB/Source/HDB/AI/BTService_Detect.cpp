@@ -2,13 +2,11 @@
 
 
 #include "AI/BTService_Detect.h"
-#include "Engine/World.h"           // UWorld 관련 함수 사용
-#include "Engine/EngineTypes.h"     // FOverlapResult의 정의 포함
-#include "GameFramework/Pawn.h"     // APawn의 정의 포함
 #include "AIController.h"
 #include "Interface/HDBSpiderAIInterface.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/OverlapResult.h"
 
 UBTService_Detect::UBTService_Detect()
 {
