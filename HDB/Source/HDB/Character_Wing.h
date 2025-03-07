@@ -46,7 +46,10 @@ private:
 	USkeletalMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere)
-	UNiagaraSystem* FeatherEffect;
+	UNiagaraSystem *FeatherEffect;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem *FeatherHitEffect;
 
 	//range default value = 1000
 	UPROPERTY(EditAnywhere)
@@ -64,6 +67,12 @@ private:
 	UPROPERTY(EditAnywhere)
 	float QDamage = 30;
 
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* QEffect;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* QHitEffect;
+
 
 	//W
 	FTimerHandle WSkillTimerHandle;
@@ -76,12 +85,24 @@ private:
 
 	int WCount = 0;
 
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* WEffect;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* WHitEffect;
+
 	//E
 	UPROPERTY(EditAnywhere)
 	float ERange = 300;
 
 	UPROPERTY(EditAnywhere)
 	float EDamage = 50;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* EEffect;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* EHitEffect;
 
 	//R
 	FTimerHandle RSkillTimerHandle;
@@ -91,5 +112,11 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float RDamage = 300;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* REffect;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* RHitEffect;
 
 };

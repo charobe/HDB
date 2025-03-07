@@ -57,9 +57,8 @@ void ACharacter_Wing::NormalAttack() {
 	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 
 	if (bSuccess) {
-		//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
 		FVector ShotDirection = -Rotation.Vector();
-		//UGameplayStatics::SpawnEmitterAtLocation();
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FeatherHitEffect, Hit.Location, ShotDirection.Rotation());
 
 		AActor* HitActor = Hit.GetActor();
 
@@ -78,6 +77,7 @@ void ACharacter_Wing::QSkill() {
 
 	GetWorld()->GetTimerManager().SetTimer(QSkillTimerHandle, [this]() {
 		UE_LOG(LogTemp, Warning, TEXT("Q Shooting"));
+		UNiagaraFunctionLibrary::SpawnSystemAttached(QEffect, Mesh, TEXT("ShotSocket"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 
 		// Get Owner
 		APawn* OwnerPawn = Cast<APawn>(GetOwner());
@@ -123,11 +123,13 @@ void ACharacter_Wing::QSkill() {
 
 void ACharacter_Wing::WSkill() {
 	UE_LOG(LogTemp, Warning, TEXT("W Shooting"));
-	WCount = 0; // ���� Ƚ�� �ʱ�ȭ
+	WCount = 0;
 	GetWorldTimerManager().SetTimer(WSkillTimerHandle, this, &ACharacter_Wing::PerformWSkill, 0.5f, true);
 }
 
 void ACharacter_Wing::PerformWSkill() {
+	UNiagaraFunctionLibrary::SpawnSystemAttached(FeatherEffect, Mesh, TEXT("ShotSocket"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+
 	if (WCount >= 3) {
 		GetWorldTimerManager().ClearTimer(WSkillTimerHandle);
 		return;
@@ -166,6 +168,7 @@ void ACharacter_Wing::PerformWSkill() {
 
 void ACharacter_Wing::ESkill() {
 	UE_LOG(LogTemp, Warning, TEXT("E Shooting"));
+	UNiagaraFunctionLibrary::SpawnSystemAttached(FeatherEffect, Mesh, TEXT("ShotSocket"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 
 	// Get Owner
 	APawn* OwnerPawn = Cast<APawn>(GetOwner());
@@ -183,7 +186,6 @@ void ACharacter_Wing::ESkill() {
 	FRotator Rotation;
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 
-	//60�� �Ʒ��� ������
 	Rotation.Pitch -= 60.0f;
 
 	// Feather range setting
@@ -225,10 +227,10 @@ void ACharacter_Wing::ESkill() {
 
 void ACharacter_Wing::RSkill() {
 	UE_LOG(LogTemp, Warning, TEXT("R Ready"));
-	// UGameplayStatics::SpawnEmitterAttached(FeatherEffect, Mesh, TEXT(""));
 
 	GetWorld()->GetTimerManager().SetTimer(RSkillTimerHandle, [this]() {
 		UE_LOG(LogTemp, Warning, TEXT("R Shooting"));
+		UNiagaraFunctionLibrary::SpawnSystemAttached(FeatherEffect, Mesh, TEXT("ShotSocket"), FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 
 		// Get Owener
 		APawn* OwnerPawn = Cast<APawn>(GetOwner());
