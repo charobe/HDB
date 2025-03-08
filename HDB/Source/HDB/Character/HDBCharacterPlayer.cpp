@@ -9,6 +9,7 @@
 #include "InputMappingContext.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "InputActionValue.h"
 #include "HDBCharacterControlData.h"
 #include "Components/CapsuleComponent.h"
 
@@ -116,9 +117,8 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(ShoulderMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderMove);
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
-	//EnhancedInputComponent->BindAction(WingNormalAttack, ETriggerEvent::Started, this, &AHDBCharacterPlayer::Shot);
-	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
 
+	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
 	EnhancedInputComponent->BindAction(IA_WingAttack, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Shot);
 
 }
@@ -255,37 +255,34 @@ void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
 		return;
 	}
 
-	// IMC에서 설정된 키와 매핑된 액션 확인
-	if (IA_WingAttack) {
-		TArray<FKey> PressedKeys = InputSubsystem->QueryKeysMappedToAction(IA_WingAttack);
+	TArray<FKey> PressedKeys = InputSubsystem->QueryKeysMappedToAction(IA_WingAttack);
 
-		for (const FKey& Key : PressedKeys) {
-			UE_LOG(LogTemp, Warning, TEXT("Pressed Key: %s"), *Key.GetDisplayName().ToString());
-		}
-
-		for (const FKey& Key : PressedKeys) {
-			if (Key == EKeys::LeftMouseButton) {
-				if (Wing)
-					Wing->NormalAttack();
-			}
-			else if (Key == EKeys::One) {
-				if (Wing)
-					Wing->QSkill();
-			}
-			else if (Key == EKeys::Two) {
-				if (Wing)
-					Wing->WSkill();
-			}
-			else if (Key == EKeys::Three) {
-				if (Wing)
-					Wing->ESkill();
-			}
-			else if (Key == EKeys::Four) {
-				if (Wing)
-					Wing->RSkill();
-			}
-		}
+	if (PressedKeys.Num() == 0) {
+		UE_LOG(LogTemp, Warning, TEXT("No keys"));
+		return;
 	}
+
+	FKey PressedKey = PressedKeys[0];
+
+	UE_LOG(LogTemp, Warning, TEXT("Processed Key: %s"), *PressedKey.GetDisplayName().ToString());
+
+	if (PressedKey == EKeys::LeftMouseButton) {
+		Wing->NormalAttack();	
+	}
+	else if (PressedKey == EKeys::One) {
+		Wing->QSkill();
+	}
+	else if (PressedKey == EKeys::Two) {
+		Wing->WSkill();
+	}
+	else if (PressedKey == EKeys::Three) {
+		Wing->ESkill();
+	}
+	else if (PressedKey == EKeys::Four) {
+		Wing->RSkill();
+	}
+
+
 }
 
 void AHDBCharacterPlayer::Attack()
