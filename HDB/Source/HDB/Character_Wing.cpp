@@ -109,6 +109,7 @@ void ACharacter_Wing::QSkill() {
 
 			if (bSuccess) {
 				FVector ShotDirection = -AdjustedRotation.Vector();
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FeatherHitEffect, Hit.Location, ShotDirection.Rotation());
 				AActor* HitActor = Hit.GetActor();
 				if (HitActor) {
 					FPointDamageEvent DamageEvent(QDamage, Hit, ShotDirection, nullptr);
@@ -158,6 +159,7 @@ void ACharacter_Wing::PerformWSkill() {
 	if (bSuccess) {
 		FVector ShotDirection = -Rotation.Vector();
 		AActor* HitActor = Hit.GetActor();
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FeatherHitEffect, Hit.Location, ShotDirection.Rotation());
 
 		if (HitActor != nullptr) {
 			FPointDamageEvent DamageEvent(WDamage, Hit, ShotDirection, nullptr);
@@ -203,6 +205,7 @@ void ACharacter_Wing::ESkill() {
 	if (bSuccess && Hit.GetActor()) {
 		FVector ShotDirection = -Rotation.Vector();
 		AActor* HitActor = Hit.GetActor();
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FeatherHitEffect, Hit.Location, ShotDirection.Rotation());
 
 		// Ensure a valid hit component
 		FPointDamageEvent DamageEvent(EDamage, Hit, ShotDirection, nullptr);
@@ -265,7 +268,7 @@ void ACharacter_Wing::RSkill() {
 		if (bSuccess) {
 			//DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
 			FVector ShotDirection = -Rotation.Vector();
-			//UGameplayStatics::SpawnEmitterAtLocation();
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FeatherHitEffect, Hit.Location, ShotDirection.Rotation());
 
 			AActor* HitActor = Hit.GetActor();
 
