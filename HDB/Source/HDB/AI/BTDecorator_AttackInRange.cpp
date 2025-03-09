@@ -27,11 +27,15 @@ bool UBTDecorator_AttackInRange::CalculateRawConditionValue(UBehaviorTreeCompone
         return false;
     }
 
-    APawn* Target = Cast<APawn>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(TEXT("Target");
+    APawn* Target = Cast<APawn>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(TEXT("Target")));
+    if (nullptr == Target)
+    {
+        return false;
+    }
 
     float DistanceToTarget = ControllingPawn->GetDistanceTo(Target);
     float AttackRangeWithRadius = AIPawn->GetAttackRange();
-    bResult = (DistanceToTarget) <= AttackRangeWithRadius);
+    bResult = (DistanceToTarget <= AttackRangeWithRadius);
 
     return bResult;
 }

@@ -20,5 +20,11 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 	}
 
 	IHDBSpiderAIInterface* AIPawn = Cast<IHDBSpiderAIInterface>(ControllingPawn);
+	if (nullptr == AIPawn)
+	{
+		return EBTNodeResult::Failed;
+	}
+
+	return EBTNodeResult::InProgress;
 }
 	
