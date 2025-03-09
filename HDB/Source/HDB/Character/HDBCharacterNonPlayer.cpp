@@ -35,7 +35,7 @@ float AHDBCharacterNonPlayer::GetAIDetectRange()
 
 float AHDBCharacterNonPlayer::GetAttackRange()
 {
-	return 0.0f;
+	return 250.0f;
 }
 
 float AHDBCharacterNonPlayer::GetAITurnSpeed()
