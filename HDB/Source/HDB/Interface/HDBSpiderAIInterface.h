@@ -13,6 +13,8 @@ class UHDBSpiderAIInterface : public UInterface
 	GENERATED_BODY()
 };
 
+DECLARE_DELEGATE(FAICharacterAttackFinshed);
+
 /**
  * 
  */
@@ -26,4 +28,7 @@ public:
 	virtual float GetAIDetectRange() = 0;
 	virtual float GetAttackRange() = 0;
 	virtual float GetAITurnSpeed() = 0;
+
+	virtual void AttackByAI() = 0;
+	virtual void SetAIAttackDelegate(const FAICharacterAttackFinshed& InOnAttackFinished) = 0;
 };

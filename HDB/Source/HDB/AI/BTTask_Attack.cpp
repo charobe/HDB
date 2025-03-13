@@ -25,6 +25,8 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 		return EBTNodeResult::Failed;
 	}
 
+
+	AIPawn->AttackByAI();
 	return EBTNodeResult::InProgress;
 }
 	
