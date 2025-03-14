@@ -42,3 +42,11 @@ float AHDBCharacterNonPlayer::GetAITurnSpeed()
 {
 	return 0.0f;
 }
+
+void AHDBCharacterNonPlayer::SetAIAttackDelegate(const FAICharacterAttackFinshed& InOnAttackFinished)
+{
+}
+
+void AHDBCharacterNonPlayer::AttackByAI()
+{
+}

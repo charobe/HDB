@@ -26,4 +26,7 @@ protected:
 	virtual float GetAIDetectRange()  override;
 	virtual float GetAttackRange()  override; 
 	virtual float GetAITurnSpeed()  override;
+
+	virtual void SetAIAttackDelegate(const FAICharacterAttackFinshed& InOnAttackFinished) override;
+	virtual void AttackByAI() override;
 };
