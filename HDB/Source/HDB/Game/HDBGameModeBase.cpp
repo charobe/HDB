@@ -12,7 +12,6 @@ AHDBGameModeBase::AHDBGameModeBase()
 		DefaultPawnClass = DefaultPawnClassRef.Class;
 	}
 
-
 	// DefaultPawnClass
 	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerClassRef(TEXT("/Script/HDB.HDBPlayerController"));
 

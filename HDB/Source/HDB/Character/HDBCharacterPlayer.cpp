@@ -2,7 +2,6 @@
 
 
 #include "Character/HDBCharacterPlayer.h"
-#include "Character_Wing.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/PlayerController.h"
@@ -56,11 +55,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 		QuaterMoveAction = InputActionQuaterMoveRef.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionWingNormalAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_WingAttack.IA_WingAttack'"));
-	if (nullptr != InputActionWingNormalAttackRef.Object) {
-		WingNormalAttack = InputActionWingNormalAttackRef.Object;
-	}
-
 	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_Attack.IA_Attack'"));
 	if (nullptr != InputActionAttackRef.Object) {
 		AttackAction = InputActionAttackRef.Object;
@@ -90,15 +84,6 @@ void AHDBCharacterPlayer::BeginPlay()
 	if (!InputSubsystem)
 		return;
 
-	if (IMC_Shoulder)
-		InputSubsystem->AddMappingContext(IMC_Shoulder, 0);
-
-
-	Wing = GetWorld()->SpawnActor<ACharacter_Wing>(WingClass);
-
-	Wing->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Wing_Socket"));
-	Wing->SetOwner(this);
-
 }
 
 bool AHDBCharacterPlayer::IsDead() const {
@@ -119,8 +104,6 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
 
 	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
-	EnhancedInputComponent->BindAction(IA_WingAttack, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Shot);
-
 }
 
 float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
@@ -229,61 +212,6 @@ void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 	AddMovementInput(MoveDirection, MovementVectorSize);
 }
 
-void AHDBCharacterPlayer::Shot(const FInputActionValue& value) {
-	UE_LOG(LogTemp, Warning, TEXT("Shot function called!"));
-
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	if (!PlayerController) {
-		UE_LOG(LogTemp, Warning, TEXT("Pc is nullptr!"));
-		return;
-	}
-
-	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
-	if (!LocalPlayer){
-		UE_LOG(LogTemp, Warning, TEXT("Lc is nullptr!"));
-		return;
-	}
-
-	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
-	if (!InputSubsystem) {
-		UE_LOG(LogTemp, Warning, TEXT("inputsub is nullptr!"));
-		return;
-	}
-
-	if (!Wing) {
-		UE_LOG(LogTemp, Warning, TEXT("Wing is nullptr!"));
-		return;
-	}
-
-	TArray<FKey> PressedKeys = InputSubsystem->QueryKeysMappedToAction(IA_WingAttack);
-
-	if (PressedKeys.Num() == 0) {
-		UE_LOG(LogTemp, Warning, TEXT("No keys"));
-		return;
-	}
-
-	FKey PressedKey = PressedKeys[0];
-
-	UE_LOG(LogTemp, Warning, TEXT("Processed Key: %s"), *PressedKey.GetDisplayName().ToString());
-
-	if (PressedKey == EKeys::LeftMouseButton) {
-		Wing->NormalAttack();	
-	}
-	else if (PressedKey == EKeys::One) {
-		Wing->QSkill();
-	}
-	else if (PressedKey == EKeys::Two) {
-		Wing->WSkill();
-	}
-	else if (PressedKey == EKeys::Three) {
-		Wing->ESkill();
-	}
-	else if (PressedKey == EKeys::Four) {
-		Wing->RSkill();
-	}
-
-
-}
 
 void AHDBCharacterPlayer::Attack()
 {

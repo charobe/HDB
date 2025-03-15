@@ -67,12 +67,6 @@ protected:
 	TObjectPtr<class UInputAction> ChangeControlAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputAction> WingNormalAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputAction> WingQAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UInputAction> AttackAction;
 
 	
@@ -83,14 +77,9 @@ protected:
 
 	ECharacterControlType CurrentCharacterControlType;
 
-	// wingAttack
-	void Shot(const FInputActionValue& value);
-
-	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputMappingContext* IMC_Shoulder;
-
-	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputAction* IA_WingAttack;
+	
+	
+	void Attack();
 
 	// HP Setting
 	UPROPERTY(EditDefaultsOnly)
@@ -99,14 +88,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float HP;
 
-	// Wing
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ACharacter_Wing> WingClass;
-
-	UPROPERTY()
-	ACharacter_Wing* Wing;
-
-	void Attack();
 
 
 };
