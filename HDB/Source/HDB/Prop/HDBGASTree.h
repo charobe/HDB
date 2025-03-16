@@ -4,15 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "AbilitySystemInterface.h"
 #include "HDBGASTree.generated.h"
 
 UCLASS()
-class HDB_API AHDBGASTree : public AActor
+class HDB_API AHDBGASTree : public AActor,public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
 public:	
 	AHDBGASTree();
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	virtual void PostInitializeComponents() override;

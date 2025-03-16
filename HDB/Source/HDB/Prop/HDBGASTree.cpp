@@ -19,6 +19,11 @@ AHDBGASTree::AHDBGASTree()
 	}
 }
 
+UAbilitySystemComponent* AHDBGASTree::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+
 void AHDBGASTree::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
