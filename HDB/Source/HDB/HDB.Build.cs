@@ -10,9 +10,13 @@ public class HDB : ModuleRules
 
         PublicIncludePaths.AddRange(new string[] { "HDB" });
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "EnhancedInput", "AIModule", "UMG", "NavigationSystem", "Niagara", "GameplayTasks"});
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "EnhancedInput", "AIModule", "UMG", "NavigationSystem", "Niagara"});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[] { 
+            "GameFeatures",
+            "GameplayAbilities",
+            "GameplayTasks",
+            "GameplayTags" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
