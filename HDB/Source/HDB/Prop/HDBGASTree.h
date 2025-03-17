@@ -30,6 +30,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Timer)
 	float ActionPeriod;
 
+	UPROPERTY(EditAnywhere, Category=GAS)
+	TObjectPtr<class UAbilitySystemComponent> ASC;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 	TObjectPtr<class UStaticMeshComponent> Mesh;
 

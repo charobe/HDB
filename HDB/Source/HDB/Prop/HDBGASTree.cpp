@@ -4,9 +4,13 @@
 #include "Prop/HDBGASTree.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/RotatingMovementComponent.h"
+#include "AbilitySystemComponent.h"
+#include "GameplayAbilitySpec.h"
+#include "GA/HDBGA_Rotate.h"
 
 AHDBGASTree::AHDBGASTree()
 {
+	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
 	RotatingMovement = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotateMovement"));
 	ActionPeriod = 3.0f;
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
@@ -21,7 +25,7 @@ AHDBGASTree::AHDBGASTree()
 
 UAbilitySystemComponent* AHDBGASTree::GetAbilitySystemComponent() const
 {
-	return nullptr;
+	return ASC;
 }
 
 void AHDBGASTree::PostInitializeComponents()
@@ -30,6 +34,10 @@ void AHDBGASTree::PostInitializeComponents()
 
 	RotatingMovement->bAutoActivate = false;
 	RotatingMovement->Deactivate();
+
+	ASC->InitAbilityActorInfo(this, this);
+	FGameplayAbilitySpec RotateSkillSpec(UHDBGA_Rotate::StaticClass());
+	ASC->GiveAbility(RotateSkillSpec);
 }
 
 void AHDBGASTree::BeginPlay()
@@ -44,13 +52,29 @@ void AHDBGASTree::TimerAction()
 {
 	UE_LOG(LogTemp, Log, TEXT("Begin"));
 
-	if (!RotatingMovement->IsActive())
+	FGameplayAbilitySpec* RotateGASpec = ASC->FindAbilitySpecFromClass(UHDBGA_Rotate::StaticClass());
+	if (!RotateGASpec)
 	{
-		RotatingMovement->Activate(true);
+		UE_LOG(LogTemp, Error, TEXT("No Rotate Spec Found!"));
+		return;
+	}
+
+	if (!RotateGASpec->IsActive())
+	{
+		ASC->TryActivateAbility(RotateGASpec->Handle);
 	}
 	else
 	{
-		RotatingMovement->Deactivate();
+		ASC->CancelAbilityHandle(RotateGASpec->Handle);
 	}
+
+	//if (!RotatingMovement->IsActive())
+	//{
+	//	RotatingMovement->Activate(true);
+	//}
+	//else
+	//{
+	//	RotatingMovement->Deactivate();
+	//}
 }
 
