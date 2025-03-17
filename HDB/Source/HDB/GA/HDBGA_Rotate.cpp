@@ -25,8 +25,6 @@ void UHDBGA_Rotate::CancelAbility(const FGameplayAbilitySpecHandle Handle, const
 {
 	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
 
-	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
 	AActor* AvatarActor = ActorInfo->AvatarActor.Get();
 	if (AvatarActor)
 	{
