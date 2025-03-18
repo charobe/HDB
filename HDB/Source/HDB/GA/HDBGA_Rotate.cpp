@@ -3,7 +3,13 @@
 
 #include "GA/HDBGA_Rotate.h"
 #include "GameFramework/RotatingMovementComponent.h"
+#include "Tag/HDBGameplayTag.h"
 
+UHDBGA_Rotate::UHDBGA_Rotate()
+{
+	AbilityTags.AddTag(HDBTAG_ACTOR_ROTATE);
+	ActivationOwnedTags.AddTag(HDBTAG_ACTOR_ISROTATING);
+}
 
 void UHDBGA_Rotate::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {

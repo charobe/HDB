@@ -36,5 +36,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 	TObjectPtr<class UStaticMeshComponent> Mesh;
 
+	UPROPERTY(EditAnywhere, Category=GAS)
+	TArray < TSubclassOf <class UGameplayAbility >> StartAbilities;
+
 	FTimerHandle ActionTimer;
 };

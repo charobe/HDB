@@ -13,6 +13,9 @@ UCLASS()
 class HDB_API UHDBGA_Rotate : public UGameplayAbility
 {
 	GENERATED_BODY()
+
+public:
+	UHDBGA_Rotate();
 	
 public:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;

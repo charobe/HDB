@@ -6,7 +6,9 @@
 #include "GameFramework/RotatingMovementComponent.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
-#include "GA/HDBGA_Rotate.h"
+#include "Abilities/GameplayAbility.h"
+#include "Tag/HDBGameplayTag.h"
+// #include "GA/HDBGA_Rotate.h"
 
 AHDBGASTree::AHDBGASTree()
 {
@@ -36,8 +38,12 @@ void AHDBGASTree::PostInitializeComponents()
 	RotatingMovement->Deactivate();
 
 	ASC->InitAbilityActorInfo(this, this);
-	FGameplayAbilitySpec RotateSkillSpec(UHDBGA_Rotate::StaticClass());
-	ASC->GiveAbility(RotateSkillSpec);
+	for (const auto& StartAbility : StartAbilities)
+	{
+		FGameplayAbilitySpec StartSpec(StartAbility);
+		ASC->GiveAbility(StartSpec);
+	}
+	
 }
 
 void AHDBGASTree::BeginPlay()
@@ -52,21 +58,32 @@ void AHDBGASTree::TimerAction()
 {
 	UE_LOG(LogTemp, Log, TEXT("Begin"));
 
-	FGameplayAbilitySpec* RotateGASpec = ASC->FindAbilitySpecFromClass(UHDBGA_Rotate::StaticClass());
-	if (!RotateGASpec)
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Rotate Spec Found!"));
-		return;
-	}
+	FGameplayTagContainer TargetTag(HDBTAG_ACTOR_ROTATE);
 
-	if (!RotateGASpec->IsActive())
+	if (!ASC->HasMatchingGameplayTag(HDBTAG_ACTOR_ISROTATING))
 	{
-		ASC->TryActivateAbility(RotateGASpec->Handle);
+		ASC->TryActivateAbilitiesByTag(TargetTag);
 	}
 	else
 	{
-		ASC->CancelAbilityHandle(RotateGASpec->Handle);
+		ASC->CancelAbilities(&TargetTag);
 	}
+
+//	FGameplayAbilitySpec* RotateGASpec = ASC->FindAbilitySpecFromClass(UHDBGA_Rotate::StaticClass());
+//	if (!RotateGASpec)
+//	{
+//		UE_LOG(LogTemp, Error, TEXT("No Rotate Spec Found!"));
+//		return;
+//	}
+
+//	if (!RotateGASpec->IsActive())
+//	{
+//		ASC->TryActivateAbility(RotateGASpec->Handle);
+//	}
+//	else
+//	{
+//		ASC->CancelAbilityHandle(RotateGASpec->Handle);
+//	}
 
 	//if (!RotatingMovement->IsActive())
 	//{
