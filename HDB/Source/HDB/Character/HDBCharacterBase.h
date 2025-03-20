@@ -50,4 +50,25 @@ protected:
 	void PlayDeadAnimation();
 
 	float DeadEventDelayTime = 5.0f;
+
+	//default status
+	UPROPERTY(EditDefaultsOnly)
+	float MaxHealth = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Atk = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Def = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Spd = 100;
+
+	//haza status
+	UPROPERTY(EditDefaultsOnly)
+	float HazaStack_Body = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+	float HazaStack_Mind = 100;
+
 };

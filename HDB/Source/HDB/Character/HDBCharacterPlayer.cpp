@@ -69,6 +69,7 @@ void AHDBCharacterPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	HP = MaxHP;
+	HazaStack_Mind = 0;
 
 	SetCharacterControl(CurrentCharacterControlType);
 
@@ -123,6 +124,8 @@ float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent co
 // 현재 캐릭터 컨트롤 타입의 ENUM 값을 보고 반대쪽 ENUM값으로 변경
 void AHDBCharacterPlayer::ChangeCharacterControl()
 {
+	HazaStack_Body = 0;
+
 	if (CurrentCharacterControlType == ECharacterControlType::Quater)
 	{
 		SetCharacterControl(ECharacterControlType::Shoulder);
