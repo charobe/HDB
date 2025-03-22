@@ -4,14 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterPlayer.h"
+#include "AbilitySystemInterface.h"
 #include "HDBGASCharacterPlayer.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class HDB_API AHDBGASCharacterPlayer : public AHDBCharacterPlayer
+class HDB_API AHDBGASCharacterPlayer : public AHDBCharacterPlayer, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
+public:
+	AHDBGASCharacterPlayer();
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void PossessedBy(AController* NewController) override;
+
+protected:
+	UPROPERTY(EditAnywhere, Category = GAS)
+	TObjectPtr<class UAbilitySystemComponent> ASC;
+
+	UPROPERTY(EditAnywhere, Category=GAS)
+	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 };
