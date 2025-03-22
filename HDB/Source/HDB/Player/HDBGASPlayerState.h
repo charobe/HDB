@@ -4,14 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+#include "AbilitySystemInterface.h"
 #include "HDBGASPlayerState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class HDB_API AHDBGASPlayerState : public APlayerState
+class HDB_API AHDBGASPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
+public:
+	AHDBGASPlayerState();
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+protected:
+	UPROPERTY(EditAnywhere,Category = GAS)
+	TObjectPtr<class UAbilitySystemComponent> ASC;
+
+
 };
