@@ -32,12 +32,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 		JumpAction = InputActionJumpRef.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputChangeActionControlRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_Change_Control.IA_Change_Control'"));
-	if (nullptr != InputChangeActionControlRef.Object)
-	{
-		ChangeControlAction = InputChangeActionControlRef.Object;
-	}
-
 	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionShoulderMoveRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_ShoulderMove.IA_ShoulderMove'"));
 	if (nullptr != InputActionShoulderMoveRef.Object)
 	{
@@ -50,19 +44,13 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 		ShoulderLookAction = InputActionShoulderLookRef.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionQuaterMoveRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_QuaterMove.IA_QuaterMove'"));
-	if (nullptr != InputActionQuaterMoveRef.Object)
-	{
-		QuaterMoveAction = InputActionQuaterMoveRef.Object;
-	}
-
 	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_Attack.IA_Attack'"));
 	if (nullptr != InputActionAttackRef.Object) {
 		AttackAction = InputActionAttackRef.Object;
 	}
 
 
-	CurrentCharacterControlType = ECharacterControlType::Quater;
+	CurrentCharacterControlType = ECharacterControlType::Shoulder;
 
 
 	//default Status
@@ -111,10 +99,8 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-	EnhancedInputComponent->BindAction(ChangeControlAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ChangeCharacterControl);
 	EnhancedInputComponent->BindAction(ShoulderMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderMove);
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
-	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::QuaterMove);
 
 	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
 }
@@ -165,8 +151,6 @@ void AHDBCharacterPlayer::SetCharacterControl(ECharacterControlType NewCharacter
 			Subsystem->AddMappingContext(NewMappingContext, 0);
 		}
 	}
-
-	CurrentCharacterControlType = NewCharacterControlType;
 }
 
 void AHDBCharacterPlayer::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)
@@ -203,28 +187,6 @@ void AHDBCharacterPlayer::ShoulderLook(const FInputActionValue& Value)
 
 	AddControllerYawInput(LookAxisVector.X);
 	AddControllerPitchInput(LookAxisVector.Y);
-}
-
-void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
-{
-	FVector2D MovementVector = Value.Get<FVector2D>();
-
-	float InputSizeSquared = MovementVector.SquaredLength();
-	float MovementVectorSize = 1.0f;
-	float MovementVectorSizeSquared = MovementVector.SquaredLength();
-	if (MovementVectorSizeSquared > 1.0f)
-	{
-		MovementVector.Normalize();
-		MovementVectorSizeSquared = 1.0f;
-	}
-	else
-	{
-		MovementVectorSize = FMath::Sqrt(MovementVectorSizeSquared);
-	}
-
-	FVector MoveDirection = FVector(MovementVector.X, MovementVector.Y, 0.0f);
-	GetController()->SetControlRotation(FRotationMatrix::MakeFromX(MoveDirection).Rotator());
-	AddMovementInput(MoveDirection, MovementVectorSize);
 }
 
 

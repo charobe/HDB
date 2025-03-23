@@ -53,12 +53,6 @@ AHDBCharacterBase::AHDBCharacterBase()
 		CharacterControlManager.Add(ECharacterControlType::Shoulder, ShoulderDataRef.Object);
 	}
 
-	static ConstructorHelpers::FObjectFinder<UHDBCharacterControlData> QuaterDataRef(TEXT("/Script/HDB.HDBCharacterControlData'/Game/HDB/CharacterControl/HDBC_Quater.HDBC_Quater'"));
-	if (QuaterDataRef.Object)
-	{
-		CharacterControlManager.Add(ECharacterControlType::Quater, QuaterDataRef.Object);
-	}
-
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> ComboActionMontageRef(TEXT("/Script/Engine.AnimMontage'/Game/HDB/Character/Player/AM_ComboAttack.AM_ComboAttack'"));
 	if (ComboActionMontageRef.Object)
 	{
