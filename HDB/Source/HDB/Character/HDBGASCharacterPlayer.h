@@ -20,6 +20,12 @@ public:
 
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void PossessedBy(AController* NewController) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+	void SetupGASInputComponent();
+	void GASInputPressed(int32 InputId);
+	void GASInputReleased(int32 InputId);
 
 protected:
 	UPROPERTY(EditAnywhere, Category = GAS)
