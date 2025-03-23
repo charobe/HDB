@@ -7,6 +7,7 @@
 #include "HDBCharacterControlData.h"
 #include "Animation/AnimMontage.h"
 #include "Engine/DamageEvents.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 AHDBCharacterBase::AHDBCharacterBase()
@@ -59,7 +60,6 @@ AHDBCharacterBase::AHDBCharacterBase()
 		ComboActionMontage = ComboActionMontageRef.Object;
 	}
 	
-
 }
 
 void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)

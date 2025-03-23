@@ -60,6 +60,10 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	HP = MaxHp;
 	HazaStack_Mind = 0;
 
+
+	//Shader
+	GetMesh()->SetRenderCustomDepth(true);
+	GetMesh()->SetCustomDepthStencilValue(1);
 }
 
 void AHDBCharacterPlayer::BeginPlay()
