@@ -81,13 +81,16 @@ protected:
 	
 	void Attack();
 
-	// HP Setting
-	UPROPERTY(EditDefaultsOnly)
-	float MaxHP = 100;
+private:
 
 	UPROPERTY(VisibleAnywhere)
 	float HP;
 
+	FTimerHandle HazaBodyTimerHandle;
+	void HazaBody();
+
+	FTimerHandle HazaMindTimerHandle;
+	void HazaMind();
 
 
 };

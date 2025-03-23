@@ -53,7 +53,7 @@ protected:
 
 	//default status
 	UPROPERTY(EditDefaultsOnly)
-	float MaxHealth = 100;
+	float MaxHp = 100;
 
 	UPROPERTY(EditDefaultsOnly)
 	float Atk = 100;

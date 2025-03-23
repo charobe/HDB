@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "HDBCharacterControlData.h"
 #include "Components/CapsuleComponent.h"
+#include "Math/UnrealMathUtility.h"
 
 AHDBCharacterPlayer::AHDBCharacterPlayer()
 {
@@ -62,14 +63,21 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 
 
 	CurrentCharacterControlType = ECharacterControlType::Quater;
+
+
+	//default Status
+	Atk = 10;
+	Def = 10;
+	Spd = 10;
+	HP = MaxHp;
+	HazaStack_Mind = 0;
+
 }
 
 void AHDBCharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	HP = MaxHP;
-	HazaStack_Mind = 0;
 
 	SetCharacterControl(CurrentCharacterControlType);
 
@@ -84,6 +92,10 @@ void AHDBCharacterPlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
 	if (!InputSubsystem)
 		return;
+
+	// Haza
+	GetWorld()->GetTimerManager().SetTimer(HazaBodyTimerHandle, this, &AHDBCharacterPlayer::HazaBody, 5.0f, true);
+	GetWorld()->GetTimerManager().SetTimer(HazaMindTimerHandle, this, &AHDBCharacterPlayer::HazaMind, 10.0f, true);
 
 }
 
@@ -219,4 +231,27 @@ void AHDBCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 void AHDBCharacterPlayer::Attack()
 {
 	ProcessComboCommand();
+}
+
+void AHDBCharacterPlayer::HazaBody() {
+	int RandomStat = FMath::RandRange(0, 1);  // 0 = ATK, 1 = DEF
+
+	switch (RandomStat) {
+	case 0:
+		Atk -= 1;
+		UE_LOG(LogTemp, Warning, TEXT("Atk 하자"));
+		break;
+	case 1:
+		Def -= 1;
+		UE_LOG(LogTemp, Warning, TEXT("Def 하자"));
+		break;
+	}
+	
+}
+
+void AHDBCharacterPlayer::HazaMind() {
+	HazaStack_Mind += 1;
+
+	HP -= HazaStack_Mind;
+
 }
