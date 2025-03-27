@@ -200,7 +200,7 @@ void AHDBCharacterPlayer::Attack()
 }
 
 void AHDBCharacterPlayer::HazaBody() {
-	int RandomStat = FMath::RandRange(0, 1);  // 0 = ATK, 1 = DEF
+	int RandomStat = FMath::RandRange(0, 2);  // 0 = ATK, 1 = DEF
 
 	switch (RandomStat) {
 	case 0:
