@@ -11,7 +11,9 @@
 #include "InputActionValue.h"
 #include "HDBCharacterControlData.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/BoxComponent.h"
 #include "Math/UnrealMathUtility.h"
+#include "TimerManager.h"
 
 AHDBCharacterPlayer::AHDBCharacterPlayer()
 {
@@ -53,6 +55,10 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	CurrentCharacterControlType = ECharacterControlType::Shoulder;
 
 
+	PrimaryActorTick.bCanEverTick = true;
+	Ghost = CreateDefaultSubobject<UBoxComponent>(TEXT("Ghost"));
+	Ghost->SetupAttachment(RootComponent);
+
 	//default Status
 	Atk = 10;
 	Def = 10;
@@ -85,9 +91,23 @@ void AHDBCharacterPlayer::BeginPlay()
 	if (!InputSubsystem)
 		return;
 
+	GetWorldTimerManager().SetTimer(GhostUpdate, this, &AHDBCharacterPlayer::UpdateGhost, GhostUpdateInterval, true);
+
 	// Haza
 	GetWorld()->GetTimerManager().SetTimer(HazaBodyTimerHandle, this, &AHDBCharacterPlayer::HazaBody, 5.0f, true);
 	GetWorld()->GetTimerManager().SetTimer(HazaMindTimerHandle, this, &AHDBCharacterPlayer::HazaMind, 10.0f, true);
+
+}
+
+void AHDBCharacterPlayer::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	GhostLocations.Add(GetActorLocation());
+
+	if (GhostLocations.Num() > 60){
+		GhostLocations.RemoveAt(0);
+	}
 
 }
 
@@ -197,6 +217,14 @@ void AHDBCharacterPlayer::ShoulderLook(const FInputActionValue& Value)
 void AHDBCharacterPlayer::Attack()
 {
 	ProcessComboCommand();
+}
+
+void AHDBCharacterPlayer::UpdateGhost() {
+	if (GhostLocations.Num() > 0)
+	{
+		FVector OldestLocation = GhostLocations[0];
+		Ghost->SetWorldLocation(OldestLocation);
+	}
 }
 
 void AHDBCharacterPlayer::HazaBody() {

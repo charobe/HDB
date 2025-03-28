@@ -27,6 +27,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Tick(float DeltaTime) override;
+
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
@@ -72,7 +74,21 @@ protected:
 	void Attack();
 
 private:
+	//follow
+	TArray<FVector> GhostLocations;
 
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* Ghost; 
+	
+	UPROPERTY(EditAnywhere)
+	float GhostUpdateInterval = 1.0f;
+
+	FTimerHandle GhostUpdate;
+
+	void UpdateGhost();
+
+
+	//stat
 	UPROPERTY(VisibleAnywhere)
 	float HP;
 
