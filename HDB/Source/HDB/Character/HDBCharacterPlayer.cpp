@@ -2,6 +2,7 @@
 
 
 #include "Character/HDBCharacterPlayer.h"
+#include "HDB/HDBDebugHelper.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/PlayerController.h"
@@ -76,7 +77,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 void AHDBCharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
 
 	SetCharacterControl(CurrentCharacterControlType);
 
