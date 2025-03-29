@@ -17,6 +17,8 @@
 
 AHDBCharacterPlayer::AHDBCharacterPlayer()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Camera
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
@@ -55,7 +57,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	CurrentCharacterControlType = ECharacterControlType::Shoulder;
 
 
-	PrimaryActorTick.bCanEverTick = true;
 	Ghost = CreateDefaultSubobject<UBoxComponent>(TEXT("Ghost"));
 	Ghost->SetupAttachment(RootComponent);
 
