@@ -33,7 +33,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<class UInputMappingContext> DefaultMappingContext;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputAction"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
 	TArray<FHDBInputActionConfig> NativeInputActions;
 
 	TObjectPtr<class UInputAction> FindNativeInputActionByTag(const FGameplayTag& InInputTag);
