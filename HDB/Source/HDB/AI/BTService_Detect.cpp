@@ -7,6 +7,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/OverlapResult.h"
+#include "Components/BoxComponent.h"
 
 UBTService_Detect::UBTService_Detect()
 {
@@ -55,6 +56,7 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		for (auto const& OverlapResult : OverlapResults)
 		{
 			APawn* Pawn = Cast<APawn>(OverlapResult.GetActor());
+			/*
 			if (Pawn && Pawn->GetController()->IsPlayerController())
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Pawn);
@@ -62,6 +64,15 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 
 				DrawDebugPoint(World, Pawn->GetActorLocation(), 10.0f, FColor::Green, false, 0.2f);
 				DrawDebugLine(World, ControllingPawn->GetActorLocation(), Pawn->GetActorLocation(), FColor::Green, false, 0.27f);
+				return;
+			}*/
+			UBoxComponent* TargetComponent = Pawn->GetComponentByClass<UBoxComponent>();
+			if (TargetComponent)
+			{
+				OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("TargetComponent"), TargetComponent);
+				DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Green, false, 0.2f);
+				DrawDebugPoint(World, TargetComponent->GetComponentLocation(), 10.0f, FColor::Green, false, 0.2f);
+				DrawDebugLine(World, ControllingPawn->GetActorLocation(), TargetComponent->GetComponentLocation(), FColor::Green, false, 0.27f);
 				return;
 			}
 		}
