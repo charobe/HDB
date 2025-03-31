@@ -45,20 +45,4 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxHp = 100;
 
-	UPROPERTY(EditDefaultsOnly)
-	float Atk = 100;
-
-	UPROPERTY(EditDefaultsOnly)
-	float Def = 100;
-
-	UPROPERTY(EditDefaultsOnly)
-	float Spd = 100;
-
-	//haza status
-	UPROPERTY(EditDefaultsOnly)
-	float HazaStack_Body = 100;
-
-	UPROPERTY(EditDefaultsOnly)
-	float HazaStack_Mind = 100;
-
 };

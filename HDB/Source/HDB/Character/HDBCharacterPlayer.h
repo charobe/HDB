@@ -21,16 +21,6 @@ public:
 protected: 
 	virtual void BeginPlay() override;
 
-public:
-	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintPure)
-	bool IsDead() const;
-
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
-
 // Character Control Section
 protected:
 	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData) override;
@@ -45,36 +35,14 @@ protected:
 	TObjectPtr<class UCameraComponent> FollowCamera;
 
 private:
-	//follow
-	TArray<FVector> GhostLocations;
-
-	UPROPERTY(EditAnywhere)
-	class UBoxComponent* Ghost; 
-	
-	UPROPERTY(EditAnywhere)
-	float GhostUpdateInterval = 1.0f;
-
-	FTimerHandle GhostUpdate;
-
-	void UpdateGhost();
-
-
-	//stat
-	UPROPERTY(VisibleAnywhere)
-	float HP;
-
-	FTimerHandle HazaBodyTimerHandle;
-	void HazaBody();
-
-	FTimerHandle HazaMindTimerHandle;
-	void HazaMind();
-
-private:
-// Input Section
+	// Input Section
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UDataAsset_InputConfig> InputConfigDataAsset;
 
 	void Input_Move(const struct FInputActionValue& InputActionValue);
 	void Input_Look(const struct FInputActionValue& InputActionValue);
 
+
+public:
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };
