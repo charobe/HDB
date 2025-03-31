@@ -48,12 +48,6 @@ AHDBCharacterBase::AHDBCharacterBase()
 		GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
 	}
 
-	static ConstructorHelpers::FObjectFinder<UHDBCharacterControlData> ShoulderDataRef(TEXT("/Script/HDB.HDBCharacterControlData'/Game/HDB/CharacterControl/HDBC_Shoulder.HDBC_Shoulder'"));
-	if (ShoulderDataRef.Object)
-	{
-		CharacterControlManager.Add(ECharacterControlType::Shoulder, ShoulderDataRef.Object);
-	}
-
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> ComboActionMontageRef(TEXT("/Script/Engine.AnimMontage'/Game/HDB/Character/Player/AM_ComboAttack.AM_ComboAttack'"));
 	if (ComboActionMontageRef.Object)
 	{

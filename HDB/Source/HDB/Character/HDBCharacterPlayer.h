@@ -7,11 +7,6 @@
 #include "InputActionValue.h"
 #include "HDBCharacterPlayer.generated.h"
 
-class ACharacter_Wing;
-class UInputMappingContext;
-class UInputAction;
-class UEnhancedInputComponent;
-
 /**
  * 
  */
@@ -38,8 +33,6 @@ public:
 
 // Character Control Section
 protected:
-	void ChangeCharacterControl();
-	void SetCharacterControl(ECharacterControlType NewCharacterControlType);
 	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData) override;
 
 // Camera Section
@@ -50,28 +43,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UCameraComponent> FollowCamera;
-
-// Input Section
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputAction> JumpAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputAction> ShoulderMoveAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr <class UInputAction> ShoulderLookAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UInputAction> AttackAction;
-
-	
-	void ShoulderMove(const FInputActionValue& Value);
-	void ShoulderLook(const FInputActionValue& Value);
-
-	ECharacterControlType CurrentCharacterControlType;
-	
-	void Attack();
 
 private:
 	//follow
@@ -98,5 +69,10 @@ private:
 	FTimerHandle HazaMindTimerHandle;
 	void HazaMind();
 
+private:
+// Input Section
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UDataAsset_InputConfig> InputConfigDataAsset;
 
+	void Input_Move(const struct FInputActionValue& InputActionValue);
 };

@@ -2,7 +2,6 @@
 
 
 #include "Character/HDBCharacterPlayer.h"
-#include "HDB/HDBDebugHelper.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/PlayerController.h"
@@ -15,6 +14,12 @@
 #include "Components/BoxComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "TimerManager.h"
+#include "DataAsset/DataAsset_InputConfig.h"
+#include "Components/HDBInputComponent.h"
+#include "Tag/HDBGameplayTag.h"
+
+#include "HDB/HDBDebugHelper.h"
+
 
 AHDBCharacterPlayer::AHDBCharacterPlayer()
 {
@@ -30,34 +35,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	// Input
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionJumpRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_Jump.IA_Jump'"));
-	if (nullptr != InputActionJumpRef.Object)
-	{
-		JumpAction = InputActionJumpRef.Object;
-	}
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionShoulderMoveRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_ShoulderMove.IA_ShoulderMove'"));
-	if (nullptr != InputActionShoulderMoveRef.Object)
-	{
-		ShoulderMoveAction = InputActionShoulderMoveRef.Object;
-	}
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionShoulderLookRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_ShoulderLook.IA_ShoulderLook'"));
-	if (nullptr != InputActionShoulderLookRef.Object)
-	{
-		ShoulderLookAction = InputActionShoulderLookRef.Object;
-	}
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> InputActionAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/HDB/Input/Actions/IA_Attack.IA_Attack'"));
-	if (nullptr != InputActionAttackRef.Object) {
-		AttackAction = InputActionAttackRef.Object;
-	}
-
-
-	CurrentCharacterControlType = ECharacterControlType::Shoulder;
-
-
 	Ghost = CreateDefaultSubobject<UBoxComponent>(TEXT("Ghost"));
 	Ghost->SetupAttachment(RootComponent);
 
@@ -68,7 +45,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	HP = MaxHp;
 	HazaStack_Mind = 0;
 
-
 	//Shader
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(1);
@@ -77,8 +53,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 void AHDBCharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
-	SetCharacterControl(CurrentCharacterControlType);
 
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 	if (!PlayerController)
@@ -120,14 +94,19 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+	checkf(InputConfigDataAsset, TEXT("input config에 적절한 데이터 에셋을 연결하지 않았음"));
 
-	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-	EnhancedInputComponent->BindAction(ShoulderMoveAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderMove);
-	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::ShoulderLook);
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	
+	check(Subsystem);
 
-	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AHDBCharacterPlayer::Attack);
+	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext,0);
+
+	UHDBInputComponent* HDBInputComponent = CastChecked<UHDBInputComponent>(PlayerInputComponent);
+
+	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Jump, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
+
 }
 
 float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) {
@@ -144,39 +123,6 @@ float AHDBCharacterPlayer::TakeDamage(float DamageAmount, struct FDamageEvent co
 	return DamageToApply;
 }
 
-// 현재 캐릭터 컨트롤 타입의 ENUM 값을 보고 반대쪽 ENUM값으로 변경
-void AHDBCharacterPlayer::ChangeCharacterControl()
-{
-	HazaStack_Body = 0;
-
-	if (CurrentCharacterControlType == ECharacterControlType::Quater)
-	{
-		SetCharacterControl(ECharacterControlType::Shoulder);
-	}
-	else if (CurrentCharacterControlType == ECharacterControlType::Shoulder)
-	{
-		SetCharacterControl(ECharacterControlType::Quater);
-	}
-}
-
-void AHDBCharacterPlayer::SetCharacterControl(ECharacterControlType NewCharacterControlType)
-{
-	UHDBCharacterControlData* NewCharacterControl = CharacterControlManager[NewCharacterControlType];
-	check(NewCharacterControl);
-
-	SetCharacterControlData(NewCharacterControl);
-
-	APlayerController* PlayerController = CastChecked<APlayerController>(GetController());
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-	{
-		Subsystem->ClearAllMappings();
-		UInputMappingContext* NewMappingContext = NewCharacterControl->InputMappingContext;
-		if (NewMappingContext)
-		{
-			Subsystem->AddMappingContext(NewMappingContext, 0);
-		}
-	}
-}
 
 void AHDBCharacterPlayer::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)
 {
@@ -192,33 +138,6 @@ void AHDBCharacterPlayer::SetCharacterControlData(const UHDBCharacterControlData
 
 }
 
-void AHDBCharacterPlayer::ShoulderMove(const FInputActionValue& Value)
-{
-	FVector2D MovementVector = Value.Get<FVector2D>();
-
-	const FRotator Rotation = Controller->GetControlRotation();
-	const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-	AddMovementInput(ForwardDirection, MovementVector.X);
-	AddMovementInput(RightDirection, MovementVector.Y);
-}
-
-void AHDBCharacterPlayer::ShoulderLook(const FInputActionValue& Value)
-{
-	FVector2D LookAxisVector = Value.Get<FVector2D>();
-
-	AddControllerYawInput(LookAxisVector.X);
-	AddControllerPitchInput(LookAxisVector.Y);
-}
-
-
-void AHDBCharacterPlayer::Attack()
-{
-	ProcessComboCommand();
-}
 
 void AHDBCharacterPlayer::UpdateGhost() {
 	if (GhostLocations.Num() > 0)
@@ -249,4 +168,24 @@ void AHDBCharacterPlayer::HazaMind() {
 
 	HP -= HazaStack_Mind;
 
+}
+
+void AHDBCharacterPlayer::Input_Move(const FInputActionValue& InputActionValue)
+{
+	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
+	const FRotator MovementRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
+	
+	if (MovementVector.Y != 0.f)
+	{
+		const FVector ForwardDirection = MovementRotation.RotateVector(FVector::ForwardVector);
+		
+		AddMovementInput(ForwardDirection, MovementVector.Y);
+	}
+
+	if (MovementVector.X != 0.f)
+	{
+		const FVector RightDirection = MovementRotation.RotateVector(FVector::RightVector);
+
+		AddMovementInput(RightDirection, MovementVector.X);
+	}
 }
