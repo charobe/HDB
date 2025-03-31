@@ -75,4 +75,6 @@ private:
 	TObjectPtr<class UDataAsset_InputConfig> InputConfigDataAsset;
 
 	void Input_Move(const struct FInputActionValue& InputActionValue);
+	void Input_Look(const struct FInputActionValue& InputActionValue);
+
 };

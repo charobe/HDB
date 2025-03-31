@@ -105,7 +105,8 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	UHDBInputComponent* HDBInputComponent = CastChecked<UHDBInputComponent>(PlayerInputComponent);
 
-	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Jump, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
+	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
+	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
 
 }
 
@@ -187,5 +188,19 @@ void AHDBCharacterPlayer::Input_Move(const FInputActionValue& InputActionValue)
 		const FVector RightDirection = MovementRotation.RotateVector(FVector::RightVector);
 
 		AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+
+void AHDBCharacterPlayer::Input_Look(const FInputActionValue& InputActionValue)
+{
+	const FVector2D LookAxisVector = InputActionValue.Get<FVector2d>();
+
+	if (LookAxisVector.X != 0.f)
+	{
+		AddControllerYawInput(LookAxisVector.X);
+	}
+	if (LookAxisVector.Y != 0.f)
+	{
+		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
