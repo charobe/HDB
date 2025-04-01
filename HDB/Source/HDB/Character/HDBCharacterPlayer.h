@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterBase.h"
 #include "InputActionValue.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "HDBCharacterPlayer.generated.h"
 
 /**
