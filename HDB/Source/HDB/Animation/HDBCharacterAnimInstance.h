@@ -13,5 +13,20 @@ UCLASS()
 class HDB_API UHDBCharacterAnimInstance : public UHDBBaseAnimInstance
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void NativeInitializeAnimation() override;
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+
+protected:
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Refrences")
+	TObjectPtr<AHDBCharacterPlayer> OwningPlayerCharacter;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	bool bEnterRelaxState;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	float bEnterRelaxStateThreshold = 5.f;
+
+	float IdleElpasedTime;
 };
