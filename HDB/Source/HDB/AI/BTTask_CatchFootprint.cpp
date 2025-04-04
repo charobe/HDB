@@ -26,11 +26,49 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
     }
 
     return EBTNodeResult::Succeeded;
+
+
 }
+
+/*
+FColor UBTTask_CatchFootprint::GetColorAtLocation(UTextureRenderTarget2D* RenderTarget, FVector WorldLocation, APlayerController* PlayerController)
+{
+    if (!RenderTarget || !PlayerController) return FColor::Black;
+
+    FVector2D ScreenLocation;
+    PlayerController->ProjectWorldLocationToScreen(WorldLocation, ScreenLocation);
+
+    FRenderTarget* RenderTargetResource = RenderTarget->GameThread_GetRenderTargetResource();
+    FColor PixelColor;
+
+    if (RenderTargetResource)
+    {
+        RenderTargetResource->ReadPixels(TArray<FColor>(), FReadSurfaceDataFlags(), PixelColor);
+    }
+
+    return PixelColor;
+}
+*/
 
 bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor)
 {
     if (!Actor) return false;
+
+    FHitResult HitResult;
+    FVector Start = Actor->GetActorLocation();
+    FVector End = Start - FVector(0, 0, 500);
+
+    FCollisionQueryParams Params;
+    Params.AddIgnoredActor(Actor);
+
+    if (Actor->GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, Params))
+    {
+        UMaterialInterface* HitMaterial = HitResult.Component->GetMaterial(0);
+        /*if (HitMaterial && HitMaterial->GetName().Contains("M_Road"))
+        {
+            return true;
+        }*/
+    }
 
     return false;
 
