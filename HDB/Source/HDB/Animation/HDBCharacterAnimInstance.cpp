@@ -27,6 +27,6 @@ void UHDBCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecon
 	else
 	{
 		IdleElpasedTime += DeltaSeconds;
-		bEnterRelaxState = (IdleElpasedTime >= bEnterRelaxStateThreshold);
+		bEnterRelaxState = (IdleElpasedTime >= EnterRelaxStateThreshold);
 	}
 }
