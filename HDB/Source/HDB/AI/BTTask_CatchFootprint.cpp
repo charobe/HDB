@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "Engine/EngineTypes.h"
+#include "DrawDebugHelpers.h"
 
 UBTTask_CatchFootprint::UBTTask_CatchFootprint() {
     NodeName = "Check Ground Material";
@@ -22,37 +23,28 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
 
     if (IsOnFootprint(AIPawn))
     {
+        UE_LOG(LogTemp, Warning, TEXT("Catch"));
+
         return EBTNodeResult::Failed; 
     }
+    UE_LOG(LogTemp, Warning, TEXT("No Catch"));
 
     return EBTNodeResult::Succeeded;
 
 
 }
 
-/*
-FColor UBTTask_CatchFootprint::GetColorAtLocation(UTextureRenderTarget2D* RenderTarget, FVector WorldLocation, APlayerController* PlayerController)
-{
-    if (!RenderTarget || !PlayerController) return FColor::Black;
-
-    FVector2D ScreenLocation;
-    PlayerController->ProjectWorldLocationToScreen(WorldLocation, ScreenLocation);
-
-    FRenderTarget* RenderTargetResource = RenderTarget->GameThread_GetRenderTargetResource();
-    FColor PixelColor;
-
-    if (RenderTargetResource)
-    {
-        RenderTargetResource->ReadPixels(TArray<FColor>(), FReadSurfaceDataFlags(), PixelColor);
-    }
-
-    return PixelColor;
-}
-*/
 
 bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor)
 {
     if (!Actor) return false;
+
+    UWorld* World = Actor->GetWorld();
+    if (!World) 
+        return false;
+
+    //DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
+
 
     FHitResult HitResult;
     FVector Start = Actor->GetActorLocation();
