@@ -10,12 +10,20 @@ AHDBWeaponBase::AHDBWeaponBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
-	SetRootComponent(WeaponMesh);
+	RightWeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
+	SetRootComponent(RightWeaponMesh);
 
-	WeaponCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("WeaponCollisionBox"));
-	WeaponCollisionBox->SetupAttachment(GetRootComponent());
-	WeaponCollisionBox->SetBoxExtent(FVector(20.f));
-	WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LeftWeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
+	SetRootComponent(LeftWeaponMesh);
+
+	RightWeaponCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("WeaponCollisionBox"));
+	RightWeaponCollisionBox->SetupAttachment(GetRootComponent());
+	RightWeaponCollisionBox->SetBoxExtent(FVector(20.f));
+	RightWeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	LeftWeaponCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("WeaponCollisionBox"));
+	LeftWeaponCollisionBox->SetupAttachment(GetRootComponent());
+	LeftWeaponCollisionBox->SetBoxExtent(FVector(20.f));
+	LeftWeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 

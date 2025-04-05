@@ -16,12 +16,20 @@ public:
 	AHDBWeaponBase();
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Weapons")
-	UStaticMeshComponent* WeaponMesh;
+	UStaticMeshComponent* RightWeaponMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
-	TObjectPtr<class UBoxComponent> WeaponCollisionBox;
+	UStaticMeshComponent* LeftWeaponMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
+	TObjectPtr<class UBoxComponent> RightWeaponCollisionBox;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
+	TObjectPtr<class UBoxComponent> LeftWeaponCollisionBox;
+
 
 public:
-	FORCEINLINE UBoxComponent* GetWeaponCollisionBox() const { return WeaponCollisionBox; }
+	FORCEINLINE UBoxComponent* GetRightWeaponCollisionBox() const { return RightWeaponCollisionBox; }
+	FORCEINLINE UBoxComponent* GetLeftWeaponCollisionBox() const { return LeftWeaponCollisionBox; }
 
 };
