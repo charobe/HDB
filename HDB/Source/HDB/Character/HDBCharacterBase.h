@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Interface/HDBAnimationAttackInterface.h"
 #include "HDBCharacterBase.generated.h"
 
 UCLASS()
-class HDB_API AHDBCharacterBase : public ACharacter , public IHDBAnimationAttackInterface
+class HDB_API AHDBCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -18,31 +17,13 @@ public:
 protected:
 	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData);
 
-// Combo Action Section
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
-	TObjectPtr<class UAnimMontage> ComboActionMontage;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TObjectPtr<class UPlayerAbilitySystemComponent> PlayerAbilitySystemComponent;
 
-	void ProcessComboCommand();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TObjectPtr<class UPlayerAttributeSet> PlayerAttributeSet;
 
-// Attack Hit Section
-
-	virtual void AttackHitCheck() override;
-	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
-
-// Dead Section
-
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, Meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UAnimMontage> DeadMontage;
-
-	virtual void SetDead();
-	void PlayDeadAnimation();
-
-	float DeadEventDelayTime = 5.0f;
-
-	//default status
-	UPROPERTY(EditDefaultsOnly)
-	float MaxHp = 100;
-
+public:
+	FORCEINLINE UPlayerAbilitySystemComponent* GetPlayerAbilitySystemComponent() const { return PlayerAbilitySystemComponent; }
+	FORCEINLINE UPlayerAttributeSet* GetPlayerAttributeSet() const {return PlayerAttributeSet;	}
 };
