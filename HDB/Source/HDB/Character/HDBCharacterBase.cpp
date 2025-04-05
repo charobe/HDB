@@ -15,6 +15,11 @@ AHDBCharacterBase::AHDBCharacterBase()
 	PlayerAttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>(TEXT("PlayerAttributeSet"));
 }
 
+UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
+{
+	return GetAbilitySystemComponent();
+}
+
 void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)
 {
 	// 폰 섹션과 무브먼트 섹션에 관련된 데이터들을 설정
@@ -26,4 +31,15 @@ void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* 
 	GetCharacterMovement()->bOrientRotationToMovement = CharacterControlData->bOrientRotationToMovement;
 	GetCharacterMovement()->bUseControllerDesiredRotation = CharacterControlData->bUseControllerDesiredRotation;
 	GetCharacterMovement()->RotationRate = CharacterControlData->RotationRate;
+}
+
+void AHDBCharacterBase::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (PlayerAbilitySystemComponent)
+	{
+		PlayerAbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
+	
 }

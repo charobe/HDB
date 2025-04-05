@@ -20,6 +20,8 @@ public:
 	AHDBCharacterPlayer();
 
 protected: 
+	void PossessedBy(AController* NewController) override;
+
 	virtual void BeginPlay() override;
 
 // Character Control Section

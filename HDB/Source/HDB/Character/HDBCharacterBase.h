@@ -4,18 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "HDBCharacterBase.generated.h"
 
 UCLASS()
-class HDB_API AHDBCharacterBase : public ACharacter
+class HDB_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	AHDBCharacterBase();
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+
 protected:
 	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData);
+
+	// Ability System
+
+	void PossessedBy(AController* NewController) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<class UPlayerAbilitySystemComponent> PlayerAbilitySystemComponent;

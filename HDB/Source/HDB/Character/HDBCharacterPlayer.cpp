@@ -2,18 +2,16 @@
 
 
 #include "Character/HDBCharacterPlayer.h"
-#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
-#include "Components/SkeletalMeshComponent.h"
-#include "InputMappingContext.h"
-#include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "HDBCharacterControlData.h"
-#include "Components/CapsuleComponent.h"
 #include "DataAsset/DataAsset_InputConfig.h"
 #include "Components/HDBInputComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "Tag/HDBGameplayTag.h"
 
 #include "HDB/HDBDebugHelper.h"
@@ -59,6 +57,18 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	//Shader
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(1);
+}
+
+void AHDBCharacterPlayer::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (PlayerAbilitySystemComponent && PlayerAttributeSet)
+	{
+		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"), *PlayerAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *PlayerAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		Debug::Print(TEXT("어빌리티 시스템 컴포넌트가 유효함.") + ASCText,FColor::Green);
+		Debug::Print(TEXT("어트리뷰트 세트가 유효함."), FColor::Green);
+	}
 }
 
 void AHDBCharacterPlayer::BeginPlay()
