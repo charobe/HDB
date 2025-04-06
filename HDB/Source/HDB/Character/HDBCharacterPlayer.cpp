@@ -6,13 +6,13 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/PlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "HDBCharacterControlData.h"
 #include "DataAsset/DataAsset_InputConfig.h"
 #include "Components/HDBInputComponent.h"
-#include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "Tag/HDBGameplayTag.h"
+#include "AbilitySystem/PlayerAbilitySystemComponent.h"
+#include "DataAsset/DataAsset_PlayerStartUpData.h"
 
 #include "HDB/HDBDebugHelper.h"
 
@@ -63,12 +63,14 @@ void AHDBCharacterPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (PlayerAbilitySystemComponent && PlayerAttributeSet)
+	if (!CharacterStartUpData.IsNull())
 	{
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"), *PlayerAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *PlayerAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		Debug::Print(TEXT("어빌리티 시스템 컴포넌트가 유효함.") + ASCText,FColor::Green);
-		Debug::Print(TEXT("어트리뷰트 세트가 유효함."), FColor::Green);
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(PlayerAbilitySystemComponent);
+		}
 	}
+	
 }
 
 void AHDBCharacterPlayer::BeginPlay()

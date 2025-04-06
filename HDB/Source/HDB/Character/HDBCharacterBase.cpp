@@ -40,6 +40,8 @@ void AHDBCharacterBase::PossessedBy(AController* NewController)
 	if (PlayerAbilitySystemComponent)
 	{
 		PlayerAbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartUpData.IsNull(), TEXT("스타트 데이터 설정이 안되어 있음. %s"), *GetName());
 	}
 	
 }
