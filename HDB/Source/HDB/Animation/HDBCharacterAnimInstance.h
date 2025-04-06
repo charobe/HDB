@@ -16,17 +16,18 @@ class HDB_API UHDBCharacterAnimInstance : public UHDBBaseAnimInstance
 
 public:
 	virtual void NativeInitializeAnimation() override;
-	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds)override;
 
 protected:
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Refrences")
-	TObjectPtr<AHDBCharacterPlayer> OwningPlayerCharacter;
+	UPROPERTY()
+	TObjectPtr<class AHDBCharacterPlayer> OwningCharacter;
+
+	UPROPERTY()
+	TObjectPtr<class UCharacterMovementComponent> OwningMovementComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
-	bool bEnterRelaxState;
+	float GroundSpeed;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
-	float EnterRelaxStateThreshold = 5.f;
-
-	float IdleElpasedTime;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	bool bHasAcceleration;
 };

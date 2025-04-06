@@ -3,30 +3,27 @@
 
 #include "Animation/HDBCharacterAnimInstance.h"
 #include "Character/HDBCharacterPlayer.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 
 void UHDBCharacterAnimInstance::NativeInitializeAnimation()
 {
-	Super::NativeInitializeAnimation();
+	OwningCharacter = Cast<AHDBCharacterPlayer>(TryGetPawnOwner());
 
 	if (OwningCharacter)
 	{
-		OwningCharacter = Cast<AHDBCharacterPlayer>(OwningCharacter);
+		OwningMovementComponent = OwningCharacter->GetCharacterMovement();
 	}
 }
 
 void UHDBCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
-	Super::NativeThreadSafeUpdateAnimation(DeltaSeconds);
+	if (!OwningCharacter || !OwningMovementComponent)
+	{
+		return;
+	}
 
-	if (bHasAcceleration)
-	{
-		IdleElpasedTime = 0.f;
-		bEnterRelaxState = false;
-	}
-	else
-	{
-		IdleElpasedTime += DeltaSeconds;
-		bEnterRelaxState = (IdleElpasedTime >= EnterRelaxStateThreshold);
-	}
+	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
+	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
 }

@@ -15,7 +15,7 @@ class HDB_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterf
 public:
 	AHDBCharacterBase();
 
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData);
