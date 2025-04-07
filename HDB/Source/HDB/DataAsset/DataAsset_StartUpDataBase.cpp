@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "DataAsset/DataAsset_StartUpDataBase.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
-#include "DataAsset/DataAsset_StartUpDataBase.h"
 
 void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(UPlayerAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
