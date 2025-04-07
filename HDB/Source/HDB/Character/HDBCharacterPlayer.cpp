@@ -13,6 +13,7 @@
 #include "Tag/HDBGameplayTag.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "DataAsset/DataAsset_PlayerStartUpData.h"
+#include "Components/PlayerCombatComponent.h"
 
 #include "HDB/HDBDebugHelper.h"
 
@@ -27,8 +28,9 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	bUseControllerRotationRoll = false;
 
 	// Capsule
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 68.0f);
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HDBCapsule"));
+
 
 	//Movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -40,7 +42,7 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	// Mesh
-	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -100.0f), FRotator(0.0f, -90.0f, 0.0f));
+	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 0.0f), FRotator(0.0f, -90.0f, 0.0f));
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 	GetMesh()->SetCollisionProfileName(TEXT("NoCollsion"));
 
@@ -57,6 +59,9 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	//Shader
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(1);
+
+	//Combat
+	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
 }
 
 void AHDBCharacterPlayer::PossessedBy(AController* NewController)
