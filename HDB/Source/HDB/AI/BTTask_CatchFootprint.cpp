@@ -37,30 +37,45 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
 
 bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor)
 {
-    if (!Actor) return false;
+    const FVector StartLocation = Actor->GetActorLocation();
+    const FVector ForwardVector = Actor->GetActorForwardVector();
+
+    const float ScanDistance = 500; // 5m
+    const float AngleRange = 15;
+    const int RayCount = 10;
 
     UWorld* World = Actor->GetWorld();
-    if (!World) 
-        return false;
+    if (!World) return false;
 
     //DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
 
+    for (int i = -RayCount / 2; i <= RayCount / 2; ++i) {
+        float AngleDeg = i * (AngleRange / (RayCount / 2));
+        FRotator RotOffset(0, AngleDeg, 0);
+        FVector Dir = RotOffset.RotateVector(ForwardVector).GetSafeNormal();
+        FVector End = StartLocation + Dir * ScanDistance;
 
-    FHitResult HitResult;
-    FVector Start = Actor->GetActorLocation();
-    FVector End = Start - FVector(0, 0, 500);
+        FVector RayStart = End;
+        FVector RayEnd = End - FVector(0, 0, 100);
 
-    FCollisionQueryParams Params;
-    Params.AddIgnoredActor(Actor);
+        FHitResult HitResult;
+        FCollisionQueryParams Params;
+        Params.AddIgnoredActor(Actor);
 
-    if (Actor->GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, Params))
-    {
-        UMaterialInterface* HitMaterial = HitResult.Component->GetMaterial(0);
-        /*if (HitMaterial && HitMaterial->GetName().Contains("M_Road"))
+        bool bHit = World->LineTraceSingleByChannel(HitResult, RayStart, RayEnd, ECC_Visibility, Params);
+
+        DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
+
+        if (bHit)
         {
-            return true;
-        }*/
+            UMaterialInterface* HitMat = HitResult.Component->GetMaterial(0);
+            if (HitMat && HitMat->GetName().Contains(TEXT("MI_Powdered_Coal_And_Soil_vbzoecbdy_2K")))
+            {
+                return true;
+            }
+        }
     }
+
 
     return false;
 
