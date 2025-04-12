@@ -21,10 +21,22 @@ void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResit
 
 TArray<AHDBWeaponBase*> UPawnCombatComponent::GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const
 {
+	if (CharacterOwnedWeaponMap.Contains(InWeaponTagToGet))
+	{
+		if (const TArray<AHDBWeaponBase*>* FoundWeapon = CharacterOwnedWeaponMap.Find(InWeaponTagToGet))
+		{
+			return *FoundWeapon;
+		}
+	}
+
 	return TArray<AHDBWeaponBase*>();
 }
 
-AHDBWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
+TArray<AHDBWeaponBase*> UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 {
-	return nullptr;
+	if (!CurrentEquippedWeaponTag.IsValid())
+	{
+		return TArray<AHDBWeaponBase*>();
+	}
+	return GetCharacterOwnedWeaponByTag(CurrentEquippedWeaponTag);
 }
