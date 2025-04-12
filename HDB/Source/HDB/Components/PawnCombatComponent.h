@@ -18,16 +18,16 @@ class HDB_API UPawnCombatComponent : public UPawnExtensionComponentBase
 
 public:
 	UFUNCTION(BlueprintCallable,Category = "HDB|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResiter,TArray<AHDBWeaponBase*> InWeaponToResiter, bool bResgiterAsEquippedWeapon = false);
+	void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResiter,AHDBWeaponBase* InWeaponToResiter, bool bResgiterAsEquippedWeapon = false);
 	
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
-	TArray<AHDBWeaponBase*> GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
+	AHDBWeaponBase* GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
 
 	UPROPERTY(BlueprintReadWrite, Category = "HDB|Combat")
 	FGameplayTag CurrentEquippedWeaponTag;
 
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
-	TArray<AHDBWeaponBase*> GetCharacterCurrentEquippedWeapon() const;
+	AHDBWeaponBase* GetCharacterCurrentEquippedWeapon() const;
 private:
-	TMap<FGameplayTag, TArray<AHDBWeaponBase*>> CharacterOwnedWeaponMap;
+	TMap<FGameplayTag, AHDBWeaponBase*> CharacterOwnedWeaponMap;
 };

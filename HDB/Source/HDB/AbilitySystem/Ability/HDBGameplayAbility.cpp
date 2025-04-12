@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
+#include "Components/PawnCombatComponent.h"
 
 void UHDBGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -32,4 +33,10 @@ void UHDBGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, co
 
 		}
 	}
+}
+
+UPawnCombatComponent* UHDBGameplayAbility::GetPawnCombatComponentFromActorInfo() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass< UPawnCombatComponent>();
+	
 }

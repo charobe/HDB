@@ -2,41 +2,46 @@
 
 
 #include "Components/PawnCombatComponent.h"
+#include "Item/HDBWeaponBase.h"
 
-void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResiter, TArray<AHDBWeaponBase*> InWeaponToResiter, bool bResgiterAsEquippedWeapon)
+
+#include "HDB/HDBDebugHelper.h"
+
+void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResiter, AHDBWeaponBase* InWeaponToResiter, bool bResgiterAsEquippedWeapon)
 {
 	checkf(!CharacterOwnedWeaponMap.Contains(InWeaponTagToResiter), TEXT("무기 %s 가 이미 등록되었습니다."), *InWeaponTagToResiter.ToString());
-	for (AHDBWeaponBase* InWeapon : InWeaponToResiter)
-	{
-		check(InWeapon);
-	}
-
+	check(InWeaponToResiter);
+	
 	CharacterOwnedWeaponMap.Emplace(InWeaponTagToResiter, InWeaponToResiter);
 
 	if (bResgiterAsEquippedWeapon)
 	{
 		CurrentEquippedWeaponTag = InWeaponTagToResiter;
 	}
+	
+	const FString String = FString::Printf(TEXT("%s 가 tag %s를 사용해서 저장되었습니다."), *InWeaponToResiter->GetName(), *InWeaponTagToResiter.ToString());
+	Debug::Print(String);
+	
 }
 
-TArray<AHDBWeaponBase*> UPawnCombatComponent::GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const
+AHDBWeaponBase* UPawnCombatComponent::GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const
 {
 	if (CharacterOwnedWeaponMap.Contains(InWeaponTagToGet))
 	{
-		if (const TArray<AHDBWeaponBase*>* FoundWeapon = CharacterOwnedWeaponMap.Find(InWeaponTagToGet))
+		if (AHDBWeaponBase* const* FoundWeapon = CharacterOwnedWeaponMap.Find(InWeaponTagToGet))
 		{
 			return *FoundWeapon;
 		}
 	}
 
-	return TArray<AHDBWeaponBase*>();
+	return nullptr;
 }
 
-TArray<AHDBWeaponBase*> UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
+AHDBWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 {
 	if (!CurrentEquippedWeaponTag.IsValid())
 	{
-		return TArray<AHDBWeaponBase*>();
+		return  nullptr;
 	}
 	return GetCharacterOwnedWeaponByTag(CurrentEquippedWeaponTag);
 }
