@@ -27,7 +27,7 @@ public:
 	FGameplayTag CurrentEquippedWeaponTag;
 
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
-	AHDBWeaponBase* GetCharacterCurrentEquippedWeapon() const;
+	TArray<AHDBWeaponBase*> GetCharacterCurrentEquippedWeapon() const;
 private:
 	TMap<FGameplayTag, TArray<AHDBWeaponBase*>> CharacterOwnedWeaponMap;
 };
