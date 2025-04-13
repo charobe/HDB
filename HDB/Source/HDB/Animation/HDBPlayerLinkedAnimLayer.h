@@ -6,6 +6,7 @@
 #include "Animation/HDBBaseAnimInstance.h"
 #include "HDBPlayerLinkedAnimLayer.generated.h"
 
+class UHDBPlayerAnimInstance;
 /**
  * 
  */
@@ -14,4 +15,7 @@ class HDB_API UHDBPlayerLinkedAnimLayer : public UHDBBaseAnimInstance
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintPure, meta=(BlueprintThreadSafe))
+	UHDBPlayerAnimInstance* GetPlayerAnimInstance() const;
 };
