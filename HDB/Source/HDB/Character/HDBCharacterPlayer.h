@@ -55,4 +55,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent; }
 
+	UPROPERTY(BlueprintReadWrite, Category = "CharacterForm")
+	FGameplayTag CurrentCharacterForm;
+
 };
