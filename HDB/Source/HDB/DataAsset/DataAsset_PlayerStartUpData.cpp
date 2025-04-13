@@ -2,4 +2,31 @@
 
 
 #include "DataAsset/DataAsset_PlayerStartUpData.h"
+#include "AbilitySystem/Ability/HDBGameplayAbility.h"
+#include "AbilitySystem/PlayerAbilitySystemComponent.h"
 
+
+
+bool FHDBPlayerAbilitySet::IsValid() const
+{
+	return InputTag.IsValid() && AbilityToGrant;
+}
+
+void UDataAsset_PlayerStartUpData::GiveToAbilitySystemComponent(UPlayerAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
+{
+	Super::GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
+
+	for (const FHDBPlayerAbilitySet& AbilitySet : PlayerStartUpAbilitySet)
+	{
+		if (AbilitySet.IsValid())
+		{
+			continue;
+		}
+		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+
+		InASCToGive->GiveAbility(AbilitySpec);
+	}
+}
