@@ -18,7 +18,7 @@ void UDataAsset_PlayerStartUpData::GiveToAbilitySystemComponent(UPlayerAbilitySy
 
 	for (const FHDBPlayerAbilitySet& AbilitySet : PlayerStartUpAbilitySet)
 	{
-		if (AbilitySet.IsValid())
+		if (!AbilitySet.IsValid())
 		{
 			continue;
 		}

@@ -17,7 +17,7 @@ AHDBCharacterBase::AHDBCharacterBase()
 
 UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
 {
-	return GetAbilitySystemComponent();
+	return GetPlayerAbilitySystemComponent();
 }
 
 void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)

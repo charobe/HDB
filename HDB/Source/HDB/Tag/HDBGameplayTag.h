@@ -16,7 +16,5 @@ namespace HDBGameplayTags
 	// Player Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawL);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawR);
-
-
 }
 

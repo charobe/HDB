@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterBase.h"
-#include "InputActionValue.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "GameplayTagContainer.h"
 #include "HDBCharacterPlayer.generated.h"
 
 /**
@@ -49,6 +48,8 @@ private:
 	void Input_Move(const struct FInputActionValue& InputActionValue);
 	void Input_Look(const struct FInputActionValue& InputActionValue);
 
+	void Input_AbilityInputPressed(FGameplayTag InputTag);
+	void Input_AbilityReleasedPressed(FGameplayTag InputTag);
 
 public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

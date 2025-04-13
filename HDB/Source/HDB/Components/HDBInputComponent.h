@@ -46,6 +46,7 @@ inline void UHDBInputComponent::BindAbilityInputAction(const UDataAsset_InputCon
 		{
 			continue;
 		}
+
 		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Started, ContextObject, InputPressedFunc, AbilityInputActionConfig.InputTag);
 		BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent::Completed, ContextObject, InputReleasedFunc, AbilityInputActionConfig.InputTag);
 

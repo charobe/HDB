@@ -159,6 +159,17 @@ void AHDBCharacterPlayer::Input_Look(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AHDBCharacterPlayer::Input_AbilityInputPressed(FGameplayTag InputTag)
+{
+	PlayerAbilitySystemComponent->OnAbilityInputPressed(InputTag);
+
+}
+
+void AHDBCharacterPlayer::Input_AbilityReleasedPressed(FGameplayTag InputTag)
+{
+	PlayerAbilitySystemComponent->OnAbilityInputReleased(InputTag);
+}
+
 void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -177,5 +188,6 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
 
+	HDBInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityReleasedPressed);
 }
 
