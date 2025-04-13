@@ -7,6 +7,7 @@
 #include "HDBGameplayAbility.generated.h"
 
 class UPawnCombatComponent;
+class UPlayerAbilitySystemComponent;
 
 UENUM(BlueprintType)
 enum class EHDBAbilityActivationPolicy : uint8
@@ -33,4 +34,7 @@ protected:
 	
 	UFUNCTION(BlueprintPure,Category="HDB|Ability")
 	UPawnCombatComponent* GetPawnCombatComponentFromActorInfo() const;
+
+	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
+	UPlayerAbilitySystemComponent* GetHDBAbilitySystemComponentFromActorInfo() const;
 };
