@@ -2,4 +2,9 @@
 
 
 #include "Components/PlayerCombatComponent.h"
+#include "Item/HDBPlayerWeapon.h"
 
+AHDBPlayerWeapon* UPlayerCombatComponent::GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag)
+{
+    return Cast<AHDBPlayerWeapon>(GetCharacterOwnedWeaponByTag(InWeaponTag));
+}

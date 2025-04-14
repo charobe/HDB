@@ -6,6 +6,8 @@
 #include "Components/PawnCombatComponent.h"
 #include "PlayerCombatComponent.generated.h"
 
+class AHDBPlayerWeapon;
+
 /**
  * 
  */
@@ -14,4 +16,7 @@ class HDB_API UPlayerCombatComponent : public UPawnCombatComponent
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
+	AHDBPlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag);
 };
