@@ -18,5 +18,5 @@ class HDB_API UPlayerCombatComponent : public UPawnCombatComponent
 	
 public:
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
-	AHDBPlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag);
+	AHDBPlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
 };

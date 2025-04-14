@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterBase.h"
 #include "GameplayTagContainer.h"
+#include "Type/HDBStructType.h"
 #include "HDBCharacterPlayer.generated.h"
 
 /**
@@ -55,6 +56,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent; }
 
+//Character Form Section
 	UPROPERTY(BlueprintReadWrite, Category = "CharacterForm")
 	FGameplayTag CurrentCharacterForm;
 
