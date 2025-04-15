@@ -131,16 +131,14 @@ void AHDBCharacterPlayer::Input_Move(const FInputActionValue& InputActionValue)
 	//slide
 	UCharacterMovementComponent* MoveComp = GetCharacterMovement();
 
-	if (MoveComp)
-	{
-		if (MoveComp->Velocity.Size() < 10.f)
-		{
-			FVector AdjustedVelocity = MoveComp->Velocity.GetSafeNormal() * 100.f;
+	if (MoveComp) {
+		if (MoveComp->Velocity.Size() < 10.f) {
+			FVector AdjustedVelocity = MoveComp->Velocity.GetSafeNormal() * 50.f;
 			MoveComp->Velocity = AdjustedVelocity;
 		}
 
 		MoveComp->BrakingFrictionFactor = 0.5f;
-		MoveComp->BrakingDecelerationWalking = 200.f;
+		MoveComp->BrakingDecelerationWalking = 100.f;
 	}
 
 }
