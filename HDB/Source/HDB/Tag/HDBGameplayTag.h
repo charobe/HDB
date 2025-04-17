@@ -11,6 +11,8 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_EquipClawL);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_EquipClawR);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ChangeFormWolf);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ChangeFormNormal);
+
 
 	// Player Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_ClawL);
@@ -29,7 +31,10 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_ClawR);
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ChangeForm_Wolf);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ChangeForm_Normal);
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Form_Wolf);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Form_Normal);
+
 }
 

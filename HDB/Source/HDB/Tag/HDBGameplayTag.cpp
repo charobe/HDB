@@ -8,6 +8,7 @@ namespace HDBGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipClawL, "InputTag.EquipClawL");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipClawR, "InputTag.EquipClawR");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ChangeFormWolf, "InputTag.ChangeFormWolf");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_ChangeFormNormal, "InputTag.ChangeFormNormal");
 
 	// Player Tag 
 
@@ -27,6 +28,8 @@ namespace HDBGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_ClawR, "Player.Event.Unequip.ClawR");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Form_Wolf, "Player.Ability.ChangeForm.Wolf");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Form_Normal, "Player.Ability.ChangeForm.Normal");
 
-	UE_DEFINE_GAMEPLAY_TAG(Player_Form_Wolf, "Player.Form.Wolf");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Form_Wolf, "Player.Form.Normal");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Form_Normal, "Player.Form.Wolf");
 }
