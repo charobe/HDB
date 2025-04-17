@@ -9,15 +9,6 @@ class UHDBPlayerLinkedAnimLayer;
 class UHDBGameplayAbility;
 
 USTRUCT(BlueprintType)
-struct FHDBPlayerWeaponData
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
-	TSubclassOf<UHDBPlayerLinkedAnimLayer> WeaponAnimLayerToLink;
-};
-
-USTRUCT(BlueprintType)
 struct FHDBPlayerAbilitySet
 {
 	GENERATED_BODY()
@@ -30,3 +21,20 @@ struct FHDBPlayerAbilitySet
 
 	bool IsValid() const;
 };
+
+
+USTRUCT(BlueprintType)
+struct FHDBPlayerWeaponData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TSubclassOf<UHDBPlayerLinkedAnimLayer> WeaponAnimLayerToLink;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<class UInputMappingContext> WeaponInputMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta =(TitleProperty= "InputTag"))
+	TArray<FHDBPlayerAbilitySet> DefaultWeaponAbilities;
+};
+

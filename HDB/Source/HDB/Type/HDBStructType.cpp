@@ -4,8 +4,6 @@
 #include "Type/HDBStructType.h"
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
 
-
-
 bool FHDBPlayerAbilitySet::IsValid() const
 {
 	return InputTag.IsValid() && AbilityToGrant;
