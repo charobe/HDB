@@ -2,9 +2,11 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "HDBStructType.generated.h"
 
 class UHDBPlayerLinkedAnimLayer;
+class UHDBGameplayAbility;
 
 USTRUCT(BlueprintType)
 struct FHDBPlayerWeaponData
@@ -13,4 +15,18 @@ struct FHDBPlayerWeaponData
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	TSubclassOf<UHDBPlayerLinkedAnimLayer> WeaponAnimLayerToLink;
+};
+
+USTRUCT(BlueprintType)
+struct FHDBPlayerAbilitySet
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
+	FGameplayTag InputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UHDBGameplayAbility> AbilityToGrant;
+
+	bool IsValid() const;
 };

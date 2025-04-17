@@ -4,22 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "DataAsset/DataAsset_StartUpDataBase.h"
-#include "GameplayTagContainer.h"
+#include "Type/HDBStructType.h"
 #include "DataAsset_PlayerStartUpData.generated.h"
 
-USTRUCT(BlueprintType)
-struct FHDBPlayerAbilitySet
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
-	FGameplayTag InputTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UHDBGameplayAbility> AbilityToGrant;
-
-	bool IsValid() const;
-};
 
 /**
  * 
