@@ -21,4 +21,8 @@ public:
 
 	UFUNCTION(BlueprintCallable , Category = "HDB|Ability",meta = (ApplyLevel = "1"))
 	void GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles);
+
+	UFUNCTION(BlueprintCallable, Category = "HDB|Ability")
+	void RemoveGrantedWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);
+
 };
