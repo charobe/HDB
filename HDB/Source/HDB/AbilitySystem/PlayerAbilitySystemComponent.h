@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "Type/HDBStructType.h"
 #include "PlayerAbilitySystemComponent.generated.h"
 
 /**
@@ -17,4 +18,7 @@ class HDB_API UPlayerAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	void OnAbilityInputPressed(const FGameplayTag& InInputTag);
 	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
+
+	UFUNCTION(BlueprintCallable , Category = "HDB|Ability",meta = (ApplyLevel = "1"))
+	void GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel);
 };
