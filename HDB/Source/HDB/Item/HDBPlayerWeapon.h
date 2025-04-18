@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Item/HDBWeaponBase.h"
 #include "Type/HDBStructType.h"
+#include "GameplayAbilitySpecHandle.h"
 #include "HDBPlayerWeapon.generated.h"
 
 /**
@@ -17,4 +18,13 @@ class HDB_API AHDBPlayerWeapon : public AHDBWeaponBase
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
 	FHDBPlayerWeaponData PlayerWeaponData;
+
+	UFUNCTION(BlueprintCallable)
+	void AssignGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandle);
+
+	UFUNCTION(BlueprintPure)
+	TArray<FGameplayAbilitySpecHandle> GetGrantedAbilitySpecHandles() const;
+
+private:
+	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 };
