@@ -20,5 +20,5 @@ public:
 	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
 
 	UFUNCTION(BlueprintCallable , Category = "HDB|Ability",meta = (ApplyLevel = "1"))
-	void GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel);
+	void GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles);
 };

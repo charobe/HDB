@@ -24,7 +24,7 @@ void UPlayerAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& I
 {
 }
 
-void UPlayerAbilitySystemComponent::GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel)
+void UPlayerAbilitySystemComponent::GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
 {
 	if (InDefaultWeaponAbilities.IsEmpty())
 	{
@@ -42,6 +42,6 @@ void UPlayerAbilitySystemComponent::GrantPlayerWeaponAbilities(const TArray<FHDB
 		AbilitySpec.Level = ApplyLevel;
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
 		
-		GiveAbility(AbilitySpec);
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
 	}
 }
