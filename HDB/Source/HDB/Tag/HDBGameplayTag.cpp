@@ -5,12 +5,12 @@ namespace HDBGameplayTags
 	// Input Tags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "InputTag.Move");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, "InputTag.Look");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipClawL, "InputTag.EquipClawL");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipClawR, "InputTag.EquipClawR");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnequipClawL, "InputTag.UnequipClawL");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnequipClawR, "InputTag.UnequipClawR");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ChangeFormWolf, "InputTag.ChangeFormWolf");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ChangeFormNormal, "InputTag.ChangeFormNormal");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Claw, "InputTag.LightAttack.Claw");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Claw, "InputTag.HeavyAttack.Claw");
+
+
 
 	// Player Weapon Tag 
 
@@ -30,4 +30,10 @@ namespace HDBGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Form_Wolf, "Player.Form.Normal");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Form_Normal, "Player.Form.Wolf");
+
+
+	// Player Attack Tag
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Light_Claw, "Player.Ability.Attack.Light.Claw");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Heavy_Claw, "Player.Ability.Attack.Heavy.Claw");
 }
