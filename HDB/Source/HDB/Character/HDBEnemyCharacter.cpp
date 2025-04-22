@@ -3,6 +3,8 @@
 
 #include "Character/HDBEnemyCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/EnemyCombatComponent.h"
+
 
 
 AHDBEnemyCharacter::AHDBEnemyCharacter()
@@ -18,5 +20,7 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 180.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
+
+	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
 
 }

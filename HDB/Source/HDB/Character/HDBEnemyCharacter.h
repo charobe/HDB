@@ -16,4 +16,11 @@ class HDB_API AHDBEnemyCharacter : public AHDBCharacterBase
 	
 public:
 	AHDBEnemyCharacter();
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	TObjectPtr<class UEnemyCombatComponent> EnemyCombatComponent;
+
+public:
+	FORCEINLINE TObjectPtr<class UEnemyCombatComponent> GetEnemyCombatComponent() const { return EnemyCombatComponent; }
 };
