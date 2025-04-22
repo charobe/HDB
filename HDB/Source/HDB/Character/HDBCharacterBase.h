@@ -18,7 +18,6 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
-	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData);
 
 	// Ability System
 

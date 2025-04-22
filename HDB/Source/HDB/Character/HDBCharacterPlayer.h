@@ -24,10 +24,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-// Character Control Section
-protected:
-	virtual void SetCharacterControlData(const class UHDBCharacterControlData* CharacterControlData) override;
-
 // Camera Section
 
 protected:

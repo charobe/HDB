@@ -14,4 +14,6 @@ class HDB_API AHDBEnemyCharacter : public AHDBCharacterBase
 {
 	GENERATED_BODY()
 	
+public:
+	AHDBEnemyCharacter();
 };

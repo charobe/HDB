@@ -7,7 +7,6 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "HDBCharacterControlData.h"
 #include "DataAsset/DataAsset_InputConfig.h"
 #include "Components/HDBInputComponent.h"
 #include "Tag/HDBGameplayTag.h"
@@ -95,19 +94,6 @@ void AHDBCharacterPlayer::BeginPlay()
 		return;
 }
 
-void AHDBCharacterPlayer::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)
-{
-	Super::SetCharacterControlData(CharacterControlData);
-
-	CameraBoom->TargetArmLength = CharacterControlData->TargetArmLength;
-	CameraBoom->SetRelativeRotation(CharacterControlData->RelativeRotation);
-	CameraBoom->bUsePawnControlRotation = CharacterControlData->bUsePawnControlRotation;
-	CameraBoom->bInheritPitch = CharacterControlData->bInheritPitch;
-	CameraBoom->bInheritYaw = CharacterControlData->bInheritYaw;
-	CameraBoom->bInheritRoll = CharacterControlData->bInheritRoll;
-	CameraBoom->bDoCollisionTest = CharacterControlData->bDoCollisionTest;
-
-}
 
 void AHDBCharacterPlayer::Input_Move(const FInputActionValue& InputActionValue)
 {

@@ -2,7 +2,6 @@
 
 
 #include "Character/HDBCharacterBase.h"
-#include "HDBCharacterControlData.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "AbilitySystem/PlayerAttributeSet.h"
@@ -18,19 +17,6 @@ AHDBCharacterBase::AHDBCharacterBase()
 UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
 {
 	return GetPlayerAbilitySystemComponent();
-}
-
-void AHDBCharacterBase::SetCharacterControlData(const UHDBCharacterControlData* CharacterControlData)
-{
-	// 폰 섹션과 무브먼트 섹션에 관련된 데이터들을 설정
-
-	// Pawn 
-	bUseControllerRotationYaw = CharacterControlData->bUseControllerRotationYaw;
-
-	//CharacterMovement
-	GetCharacterMovement()->bOrientRotationToMovement = CharacterControlData->bOrientRotationToMovement;
-	GetCharacterMovement()->bUseControllerDesiredRotation = CharacterControlData->bUseControllerDesiredRotation;
-	GetCharacterMovement()->RotationRate = CharacterControlData->RotationRate;
 }
 
 void AHDBCharacterBase::PossessedBy(AController* NewController)
