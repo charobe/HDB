@@ -36,4 +36,7 @@ namespace HDBGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Light_Claw, "Player.Ability.Attack.Light.Claw");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Heavy_Claw, "Player.Ability.Attack.Heavy.Claw");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
+
 }
