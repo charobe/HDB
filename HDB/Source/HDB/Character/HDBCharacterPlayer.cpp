@@ -19,7 +19,6 @@
 
 AHDBCharacterPlayer::AHDBCharacterPlayer()
 {
-	PrimaryActorTick.bCanEverTick = true;
 
 	// Pawn
 	bUseControllerRotationPitch = false;

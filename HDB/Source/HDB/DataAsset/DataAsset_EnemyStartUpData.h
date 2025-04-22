@@ -6,6 +6,8 @@
 #include "DataAsset/DataAsset_StartUpDataBase.h"
 #include "DataAsset_EnemyStartUpData.generated.h"
 
+class UHDBEnemyGameplayAbility;
+
 /**
  * 
  */
@@ -13,5 +15,12 @@ UCLASS()
 class HDB_API UDataAsset_EnemyStartUpData : public UDataAsset_StartUpDataBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void GiveToAbilitySystemComponent(UPlayerAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1);
+
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
+	TArray<TSubclassOf<UHDBEnemyGameplayAbility>> EnemyCombatAbilities;
 };
