@@ -2,7 +2,8 @@
 
 
 #include "Type/HDBStructType.h"
-#include "AbilitySystem/Ability/HDBGameplayAbility.h"
+#include "AbilitySystem/Ability/HDBPlayerGameplayAbility.h"
+
 
 bool FHDBPlayerAbilitySet::IsValid() const
 {

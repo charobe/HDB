@@ -18,10 +18,6 @@ void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResit
 	{
 		CurrentEquippedWeaponTag = InWeaponTagToResiter;
 	}
-	
-	const FString String = FString::Printf(TEXT("%s 가 tag %s를 사용해서 저장되었습니다."), *InWeaponToResiter->GetName(), *InWeaponTagToResiter.ToString());
-	Debug::Print(String);
-	
 }
 
 AHDBWeaponBase* UPawnCombatComponent::GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const

@@ -6,7 +6,7 @@
 #include "HDBStructType.generated.h"
 
 class UHDBPlayerLinkedAnimLayer;
-class UHDBGameplayAbility;
+class UHDBPlayerGameplayAbility;
 
 USTRUCT(BlueprintType)
 struct FHDBPlayerAbilitySet
@@ -17,7 +17,7 @@ struct FHDBPlayerAbilitySet
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UHDBGameplayAbility> AbilityToGrant;
+	TSubclassOf<UHDBPlayerGameplayAbility> AbilityToGrant;
 
 	bool IsValid() const;
 };
