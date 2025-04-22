@@ -4,8 +4,10 @@
 #include "Character/HDBEnemyCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/EnemyCombatComponent.h"
+#include "Engine/AssetManager.h"
+#include "DataAsset/DataAsset_EnemyStartUpData.h"
 
-
+#include "HDBDebugHelper.h"
 
 AHDBEnemyCharacter::AHDBEnemyCharacter()
 {
@@ -23,4 +25,34 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
 
+}
+
+void AHDBEnemyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	InitEnemyStartUpData();
+}
+
+void AHDBEnemyCharacter::InitEnemyStartUpData()
+{
+	if (CharacterStartUpData.IsNull())
+	{
+		return;
+	}
+
+	UAssetManager::GetStreamableManager().RequestAsyncLoad(
+		CharacterStartUpData.ToSoftObjectPath(),
+		FStreamableDelegate::CreateLambda(
+			[this]()
+			{
+				if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.Get())
+				{
+					LoadedData->GiveToAbilitySystemComponent(PlayerAbilitySystemComponent);
+					
+					Debug::Print(TEXT("Enemy Start Up Data Loaded"), FColor::Green);
+				}
+			}
+		)
+	);
 }

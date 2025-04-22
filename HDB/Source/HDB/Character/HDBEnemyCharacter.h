@@ -18,8 +18,14 @@ public:
 	AHDBEnemyCharacter();
 
 protected:
+
+	virtual void PossessedBy(AController* NewController) override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<class UEnemyCombatComponent> EnemyCombatComponent;
+
+private:
+	void InitEnemyStartUpData();
 
 public:
 	FORCEINLINE TObjectPtr<class UEnemyCombatComponent> GetEnemyCombatComponent() const { return EnemyCombatComponent; }

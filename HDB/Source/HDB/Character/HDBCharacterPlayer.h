@@ -6,11 +6,13 @@
 #include "Character/HDBCharacterBase.h"
 #include "GameplayTagContainer.h"
 #include "Type/HDBStructType.h"
+#include "Engine/StreamableManager.h"
 #include "HDBCharacterPlayer.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class HDB_API AHDBCharacterPlayer : public AHDBCharacterBase
 {
@@ -53,7 +55,6 @@ public:
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent; }
 
 //Character Form Section
-	UPROPERTY(BlueprintReadWrite, Category = "CharacterForm")
-	FGameplayTag CurrentCharacterForm;
+
 
 };

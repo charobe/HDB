@@ -94,6 +94,7 @@ void AHDBCharacterPlayer::BeginPlay()
 }
 
 
+
 void AHDBCharacterPlayer::Input_Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
