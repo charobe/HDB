@@ -13,7 +13,6 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LightAttack_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_HeavyAttack_Claw);
 
-
 	// Player Weapon Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Unequip_Claw);
@@ -37,6 +36,10 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Heavy_Claw);
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
+
+	// Enemy Tag
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
+
 
 }
 

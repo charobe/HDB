@@ -6,6 +6,7 @@
 #include "Components/EnemyCombatComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAsset/DataAsset_EnemyStartUpData.h"
+#include "Components/BoxComponent.h"
 
 #include "HDBDebugHelper.h"
 
@@ -25,6 +26,16 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
 
+	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("LeftHandCollisionBox");
+	LeftHandCollisionBox->SetupAttachment(GetMesh());
+	LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LeftHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
+
+	RightHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("RightHandCollisionBox");
+	RightHandCollisionBox->SetupAttachment(GetMesh());
+	RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RightHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
+
 }
 
 void AHDBEnemyCharacter::PossessedBy(AController* NewController)
@@ -32,6 +43,10 @@ void AHDBEnemyCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 	
 	InitEnemyStartUpData();
+}
+
+void AHDBEnemyCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 }
 
 void AHDBEnemyCharacter::InitEnemyStartUpData()
