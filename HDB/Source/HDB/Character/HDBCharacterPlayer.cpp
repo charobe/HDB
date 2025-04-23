@@ -60,7 +60,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 
 	//Combat
 	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
-
 }
 
 void AHDBCharacterPlayer::PossessedBy(AController* NewController)
@@ -92,8 +91,6 @@ void AHDBCharacterPlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
 	if (!InputSubsystem)
 		return;
-
-
 }
 
 
@@ -177,3 +174,4 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	HDBInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityReleasedPressed);
 }
+
