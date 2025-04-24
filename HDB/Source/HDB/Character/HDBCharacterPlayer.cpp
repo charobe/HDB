@@ -47,8 +47,10 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	// Camera
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f;
+	CameraBoom->TargetArmLength = 200.0f;
+	CameraBoom->SocketOffset = FVector(0.f, 0.f, 30.f);
 	CameraBoom->bUsePawnControlRotation = true;
+
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
