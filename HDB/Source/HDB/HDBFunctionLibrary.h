@@ -7,6 +7,7 @@
 #include "HDBFunctionLibrary.generated.h"
 
 class UPlayerAbilitySystemComponent;
+class UPawnCombatComponent;
 
 UENUM()
 enum class EHDBConfirmType : uint8
@@ -37,5 +38,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HDB|FunctionLibrary", meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EHDBConfirmType& OutConfirmType);
 
-
+	static UPawnCombatComponent* NativeGetPawnCombatComponentFromActor(AActor* InActor);
 };

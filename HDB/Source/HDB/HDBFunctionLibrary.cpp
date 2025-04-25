@@ -2,6 +2,7 @@
 
 #include "HDBFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Interface/PawnCombatInterface.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 
 UPlayerAbilitySystemComponent* UHDBFunctionLibrary::NativeGetASCFromActor(AActor* InActor)
@@ -43,6 +44,17 @@ bool UHDBFunctionLibrary::NativeDoesActorHaveTag(AActor* InActor, FGameplayTag T
 void UHDBFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EHDBConfirmType& OutConfirmType)
 {
 	OutConfirmType = NativeDoesActorHaveTag(InActor, TagToCheck) ? EHDBConfirmType::Yes : EHDBConfirmType::No;
+}
+
+UPawnCombatComponent* UHDBFunctionLibrary::NativeGetPawnCombatComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	if (IPawnCombatInterface* PawnCombatInterface = Cast<IPawnCombatInterface>(InActor))
+	{
+		return PawnCombatInterface->GetPawnCombatComponent();
+	}
+	return nullptr;
 }
 
  

@@ -64,6 +64,11 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
 }
 
+UPawnCombatComponent* AHDBCharacterPlayer::GetPawnCombatComponent() const
+{
+	return PlayerCombatComponent;
+}
+
 void AHDBCharacterPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

@@ -21,6 +21,8 @@ class HDB_API AHDBCharacterPlayer : public AHDBCharacterBase
 public:
 	AHDBCharacterPlayer();
 
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+
 protected: 
 	void PossessedBy(AController* NewController) override;
 
