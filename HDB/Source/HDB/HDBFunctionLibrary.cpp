@@ -57,4 +57,13 @@ UPawnCombatComponent* UHDBFunctionLibrary::NativeGetPawnCombatComponentFromActor
 	return nullptr;
 }
 
+UPawnCombatComponent* UHDBFunctionLibrary::BP_GetPawnCombatComponentFromActor(AActor* InActor, EHDBValidType& OutValidType)
+{
+	UPawnCombatComponent* CombatComponent = NativeGetPawnCombatComponentFromActor(InActor);
+
+	OutValidType = CombatComponent ? EHDBValidType::Valid : EHDBValidType::Invalid;
+
+	return CombatComponent;
+}
+
  

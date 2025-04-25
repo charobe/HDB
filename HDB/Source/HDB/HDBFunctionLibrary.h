@@ -4,17 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Type/HDBEnumTypes.h"
 #include "HDBFunctionLibrary.generated.h"
 
 class UPlayerAbilitySystemComponent;
 class UPawnCombatComponent;
 
-UENUM()
-enum class EHDBConfirmType : uint8
-{
-	Yes,
-	No
-};
 
 /**
  * 
@@ -39,4 +34,7 @@ public:
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EHDBConfirmType& OutConfirmType);
 
 	static UPawnCombatComponent* NativeGetPawnCombatComponentFromActor(AActor* InActor);
+
+	UFUNCTION(BlueprintCallable, Category = "HDB|FunctionLibrary", meta = (DisplayName = "GetPawnCombatComponent", ExpandEnumAsExecs = "OutValidType"))
+	static UPawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* InActor, EHDBValidType& OutValidType);
 };
