@@ -86,8 +86,6 @@ void AHDBEnemyCharacter::InitEnemyStartUpData()
 				if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.Get())
 				{
 					LoadedData->GiveToAbilitySystemComponent(PlayerAbilitySystemComponent);
-					
-					Debug::Print(TEXT("Enemy Start Up Data Loaded"), FColor::Green);
 				}
 			}
 		)

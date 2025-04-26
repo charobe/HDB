@@ -3,7 +3,7 @@
 
 #include "Components/PawnCombatComponent.h"
 #include "Item/HDBWeaponBase.h"
-
+#include "Components/BoxComponent.h"
 
 #include "HDB/HDBDebugHelper.h"
 
@@ -40,4 +40,26 @@ AHDBWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 		return  nullptr;
 	}
 	return GetCharacterOwnedWeaponByTag(CurrentEquippedWeaponTag);
+}
+
+void UPawnCombatComponent::ToggleWeaponCollsion(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		AHDBWeaponBase*  WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+	
+		check(WeaponToToggle);
+
+		if (bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Debug::Print(WeaponToToggle->GetName() + TEXT("충돌 가능"), FColor::Green);
+		}
+		else
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Debug::Print(WeaponToToggle->GetName() + TEXT("충돌 불가"), FColor::Red);
+		}
+	}
+	
 }
