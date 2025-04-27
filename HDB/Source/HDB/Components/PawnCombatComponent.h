@@ -27,7 +27,7 @@ class HDB_API UPawnCombatComponent : public UPawnExtensionComponentBase
 
 public:
 	UFUNCTION(BlueprintCallable,Category = "HDB|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResiter,AHDBWeaponBase* InWeaponToResiter, bool bResgiterAsEquippedWeapon = false);
+	void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister,AHDBWeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon = false);
 	
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
 	AHDBWeaponBase* GetCharacterOwnedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
@@ -40,6 +40,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
 	void ToggleWeaponCollsion(bool bShouldEnable, EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
+
+	virtual void OnHitTargetActor(AActor* HitActor);
+
+	virtual void OnWeaponPulledTargetActor(AActor* InteractedActor);
+
 private:
 	TMap<FGameplayTag, AHDBWeaponBase*> CharacterOwnedWeaponMap;
 };

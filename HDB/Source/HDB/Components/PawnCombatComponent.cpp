@@ -7,16 +7,19 @@
 
 #include "HDB/HDBDebugHelper.h"
 
-void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToResiter, AHDBWeaponBase* InWeaponToResiter, bool bResgiterAsEquippedWeapon)
+void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AHDBWeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
 {
-	checkf(!CharacterOwnedWeaponMap.Contains(InWeaponTagToResiter), TEXT("무기 %s 가 이미 등록되었습니다."), *InWeaponTagToResiter.ToString());
-	check(InWeaponToResiter);
+	checkf(!CharacterOwnedWeaponMap.Contains(InWeaponTagToRegister), TEXT("무기 %s 가 이미 등록되었습니다."), *InWeaponTagToRegister.ToString());
+	check(InWeaponToRegister);
 	
-	CharacterOwnedWeaponMap.Emplace(InWeaponTagToResiter, InWeaponToResiter);
+	CharacterOwnedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
-	if (bResgiterAsEquippedWeapon)
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledTargetActor);
+
+	if (bRegisterAsEquippedWeapon)
 	{
-		CurrentEquippedWeaponTag = InWeaponTagToResiter;
+		CurrentEquippedWeaponTag = InWeaponTagToRegister;
 	}
 }
 
@@ -62,4 +65,12 @@ void UPawnCombatComponent::ToggleWeaponCollsion(bool bShouldEnable, EToggleDamag
 	
 	//
 
+}
+
+void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UPawnCombatComponent::OnWeaponPulledTargetActor(AActor* InteractedActor)
+{
 }

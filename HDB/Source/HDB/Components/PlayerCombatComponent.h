@@ -19,4 +19,9 @@ class HDB_API UPlayerCombatComponent : public UPawnCombatComponent
 public:
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
 	AHDBPlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
+
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+
+	virtual void OnWeaponPulledTargetActor(AActor* InteractedActor) override;
+
 };

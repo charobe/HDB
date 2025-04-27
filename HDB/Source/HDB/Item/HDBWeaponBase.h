@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "HDBWeaponBase.generated.h"
 
+DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate,AActor*)
+
 UCLASS()
 class HDB_API AHDBWeaponBase : public AActor
 {
@@ -14,6 +16,10 @@ class HDB_API AHDBWeaponBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AHDBWeaponBase();
+
+	FOnTargetInteractedDelegate OnWeaponHitTarget;
+	FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
+
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Weapons")
 	UStaticMeshComponent* WeaponMesh;

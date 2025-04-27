@@ -34,7 +34,7 @@ void AHDBWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedC
 	{
 		if (WeaponOwningPawn != HitPawn)
 		{
-			Debug::Print(GetName() + TEXT("begin overlap with") + HitPawn->GetName(), FColor::Green);
+			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
 	}
 }
@@ -49,7 +49,7 @@ void AHDBWeaponBase::OnCollsionBoxEndOverlap(UPrimitiveComponent* OverlappedComp
 	{
 		if (WeaponOwningPawn != HitPawn)
 		{
-			Debug::Print(GetName() + TEXT("end overlap with") + HitPawn->GetName(), FColor::Red);
+			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
 		}
 	}
 }
