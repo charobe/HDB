@@ -6,27 +6,15 @@
 #include "AIController.h"
 #include "HDBAIController.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class HDB_API AHDBAIController : public AAIController
 {
-	GENERATED_BODY()
-
-public:
-	AHDBAIController();
-
-	void RunAI();
-	void StopAI();
+    GENERATED_BODY()
 
 protected:
-	virtual void OnPossess(APawn* InPawn) override;
+    virtual void BeginPlay() override;
 
-private:
-	UPROPERTY()
-	TObjectPtr<class UBlackboardData> BBAsset;
-
-	UPROPERTY()
-	TObjectPtr<class UBehaviorTree> BTAsset;
+public:
+    UPROPERTY(EditAnywhere, Category = "AI")
+    class UBehaviorTree* BehaviorTreeAsset;
 };
