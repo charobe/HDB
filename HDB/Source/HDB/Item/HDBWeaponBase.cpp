@@ -4,6 +4,8 @@
 #include "Item/HDBWeaponBase.h"
 #include "Components/BoxComponent.h"
 
+#include "HDBDebugHelper.h"
+
 
 AHDBWeaponBase::AHDBWeaponBase()
 {
@@ -18,5 +20,37 @@ AHDBWeaponBase::AHDBWeaponBase()
 	WeaponCollisionBox->SetupAttachment(GetRootComponent());
 	WeaponCollisionBox->SetBoxExtent(FVector(20.f));
 	WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	WeaponCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnCollisionBoxBeginOverlap);
+	WeaponCollisionBox->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnCollsionBoxEndOverlap);
+}
+
+void AHDBWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	APawn* WeaponOwningPawn = GetInstigator<APawn>();
+
+	checkf(WeaponOwningPawn, TEXT("Instigator가 지정되지 않음 : %s"), *GetName());
+
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (WeaponOwningPawn != HitPawn)
+		{
+			Debug::Print(GetName() + TEXT("begin overlap with") + HitPawn->GetName(), FColor::Green);
+		}
+	}
+}
+
+void AHDBWeaponBase::OnCollsionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	APawn* WeaponOwningPawn = GetInstigator<APawn>();
+
+	checkf(WeaponOwningPawn, TEXT("Instigator가 지정되지 않음 : %s"), *GetName());
+
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (WeaponOwningPawn != HitPawn)
+		{
+			Debug::Print(GetName() + TEXT("end overlap with") + HitPawn->GetName(), FColor::Red);
+		}
+	}
 }
 
