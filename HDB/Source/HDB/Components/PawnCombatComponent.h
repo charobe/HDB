@@ -45,6 +45,9 @@ public:
 
 	virtual void OnWeaponPulledTargetActor(AActor* InteractedActor);
 
+protected:
+	TArray<AActor*> OverlappedActors;
+
 private:
 	TMap<FGameplayTag, AHDBWeaponBase*> CharacterOwnedWeaponMap;
 };

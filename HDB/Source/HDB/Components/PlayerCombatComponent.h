@@ -24,4 +24,5 @@ public:
 
 	virtual void OnWeaponPulledTargetActor(AActor* InteractedActor) override;
 
+
 };

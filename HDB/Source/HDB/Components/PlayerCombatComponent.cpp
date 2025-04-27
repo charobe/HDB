@@ -3,6 +3,9 @@
 
 #include "Components/PlayerCombatComponent.h"
 #include "Item/HDBPlayerWeapon.h"
+#include "Tag/HDBGameplayTag.h"
+#include "AbilitySystemBlueprintLibrary.h"
+
 
 #include "HDBDebugHelper.h"
 
@@ -13,10 +16,24 @@ AHDBPlayerWeapon* UPlayerCombatComponent::GetPlayerCarriedWeaponByTag(FGameplayT
 
 void UPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
-    Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT("공격") + HitActor->GetActorNameOrLabel(), FColor::Green);
+    if (OverlappedActors.Contains(HitActor))
+    {
+        return;
+    }
+    OverlappedActors.AddUnique(HitActor);
+
+    FGameplayEventData Data;
+    Data.Instigator = GetOwningPawn();
+    Data.Target = HitActor;
+
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+        GetOwningPawn(),
+        HDBGameplayTags::Shared_Event_MeleeHit,
+        Data
+    );
+        
 }
 
 void UPlayerCombatComponent::OnWeaponPulledTargetActor(AActor* InteractedActor)
 {
-    Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT("공격한 무기") + InteractedActor->GetActorNameOrLabel(), FColor::Red);
 }
