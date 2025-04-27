@@ -40,6 +40,11 @@ namespace HDBGameplayTags
 	// Enemy Tag
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 
+	// Shared Tag
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+
+
+
 
 }
 
