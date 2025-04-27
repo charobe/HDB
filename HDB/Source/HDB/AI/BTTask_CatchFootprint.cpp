@@ -27,9 +27,11 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
 
         return EBTNodeResult::Succeeded;
     }
-    UE_LOG(LogTemp, Warning, TEXT("No Catch"));
+    else {
+        UE_LOG(LogTemp, Warning, TEXT("No Catch"));
 
-    return EBTNodeResult::Failed;
+        return EBTNodeResult::Failed;
+    }
 
 
 }
@@ -40,9 +42,9 @@ bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor, UBehaviorTreeComponent
     const FVector StartLocation = Actor->GetActorLocation();
     const FVector ForwardVector = Actor->GetActorForwardVector();
 
-    const float ScanDistance = 500; // 5m
-    const float AngleRange = 15;
-    const int RayCount = 10;
+    const float ScanDistance = 300; // 5m
+    const float AngleRange = 30;
+    const int RayCount = 20;
 
     UWorld* World = Actor->GetWorld();
     if (!World) return false;
@@ -63,10 +65,13 @@ bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor, UBehaviorTreeComponent
         bool bHit = World->LineTraceSingleByChannel(HitResult, RayStart, RayEnd, ECC_Visibility, Params);
 
         DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
+        //UE_LOG(LogTemp, Warning, TEXT("Draw Debug"));
 
         if (bHit)
         {
             UMaterialInterface* HitMat = HitResult.Component->GetMaterial(0);
+            return true;
+
             if (HitMat && HitMat->GetName().Contains(TEXT("MI_Powdered_Coal_And_Soil_vbzoecbdy_2K"))) { //check metirial
                 UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();
                 if (BlackboardComp) {
