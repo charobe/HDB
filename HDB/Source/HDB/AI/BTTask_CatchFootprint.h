@@ -23,6 +23,6 @@ protected:
 private:
 	//FColor GetColorAtLocation(UTextureRenderTarget2D* RenderTarget, FVector WorldLocation, APlayerController* PlayerController);
 
-	bool IsOnFootprint(AActor* Actor);
+	bool IsOnFootprint(AActor* Actor, UBehaviorTreeComponent&);
 	
 };

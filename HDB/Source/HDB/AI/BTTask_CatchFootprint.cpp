@@ -21,21 +21,21 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
     APawn* AIPawn = AIController->GetPawn();
     if (!AIPawn) return EBTNodeResult::Failed;
 
-    if (IsOnFootprint(AIPawn))
+    if (IsOnFootprint(AIPawn, OwnerComp))
     {
         UE_LOG(LogTemp, Warning, TEXT("Catch"));
 
-        return EBTNodeResult::Failed; 
+        return EBTNodeResult::Succeeded;
     }
     UE_LOG(LogTemp, Warning, TEXT("No Catch"));
 
-    return EBTNodeResult::Succeeded;
+    return EBTNodeResult::Failed;
 
 
 }
 
 
-bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor)
+bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor, UBehaviorTreeComponent& OwnerComp)
 {
     const FVector StartLocation = Actor->GetActorLocation();
     const FVector ForwardVector = Actor->GetActorForwardVector();
@@ -46,8 +46,6 @@ bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor)
 
     UWorld* World = Actor->GetWorld();
     if (!World) return false;
-
-    //DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
 
     for (int i = -RayCount / 2; i <= RayCount / 2; ++i) {
         float AngleDeg = i * (AngleRange / (RayCount / 2));
@@ -69,11 +67,20 @@ bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor)
         if (bHit)
         {
             UMaterialInterface* HitMat = HitResult.Component->GetMaterial(0);
-            if (HitMat && HitMat->GetName().Contains(TEXT("MI_Powdered_Coal_And_Soil_vbzoecbdy_2K")))
-            {
+            if (HitMat && HitMat->GetName().Contains(TEXT("MI_Powdered_Coal_And_Soil_vbzoecbdy_2K"))) { //check metirial
+                UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();
+                if (BlackboardComp) {
+                    DrawDebugLine(World, RayStart, RayEnd, FColor::Red, false, 0.5f, 0, 1.0f);
+                    BlackboardComp->SetValueAsVector(TEXT("TargetLocation"), HitResult.Location);
+                }
                 return true;
+
             }
         }
+        else {
+            DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
+        }
+
     }
 
 
