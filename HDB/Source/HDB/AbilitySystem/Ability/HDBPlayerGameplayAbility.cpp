@@ -4,6 +4,10 @@
 #include "AbilitySystem/Ability/HDBPlayerGameplayAbility.h"
 #include "Character/HDBCharacterPlayer.h"
 #include "Player/HDBPlayerController.h"
+#include "AbilitySystem/PlayerAbilitySystemComponent.h"
+#include "Tag/HDBGameplayTag.h"
+
+
 
 
 AHDBCharacterPlayer* UHDBPlayerGameplayAbility::GetPlayerCharacterFromActorInfo()
@@ -29,4 +33,32 @@ AHDBPlayerController* UHDBPlayerGameplayAbility::GetPlayerControllerFromActorInf
 UPlayerCombatComponent* UHDBPlayerGameplayAbility::GetPlayerCombatComponentFromActorInfo()
 {
     return GetPlayerCharacterFromActorInfo()->GetPlayerCombatComponent();
+}
+
+FGameplayEffectSpecHandle UHDBPlayerGameplayAbility::MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InCurrentComboCount)
+{
+    check(EffectClass);
+
+    FGameplayEffectContextHandle ContextHandle = GetHDBAbilitySystemComponentFromActorInfo()->MakeEffectContext();
+    ContextHandle.SetAbility(this);
+    ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+    ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+
+    FGameplayEffectSpecHandle EffectSpecHandle = GetHDBAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(
+        EffectClass, GetAbilityLevel(),
+        ContextHandle
+    );
+
+    EffectSpecHandle.Data->SetSetByCallerMagnitude(
+        HDBGameplayTags::Shared_SetByCaller_BaseDamage,
+        InWeaponBaseDamage
+    );
+
+    if (InCurrentAttackTypeTag.IsValid())
+    {
+        EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InCurrentComboCount);
+
+    }
+    
+    return EffectSpecHandle;
 }

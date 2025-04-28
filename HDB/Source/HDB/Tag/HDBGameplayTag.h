@@ -42,6 +42,7 @@ namespace HDBGameplayTags
 
 	// Shared Tag
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 
 
 
