@@ -4,6 +4,7 @@
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "Components/PawnCombatComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 void UHDBGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -44,4 +45,26 @@ UPawnCombatComponent* UHDBGameplayAbility::GetPawnCombatComponentFromActorInfo()
 UPlayerAbilitySystemComponent* UHDBGameplayAbility::GetHDBAbilitySystemComponentFromActorInfo() const
 {
 	return Cast<UPlayerAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
+
+FActiveGameplayEffectHandle UHDBGameplayAbility::NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	
+	check(TargetASC && InSpecHandle.IsValid());
+	
+	return GetHDBAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget
+	(
+		*InSpecHandle.Data,
+		TargetASC
+	);
+}
+
+FActiveGameplayEffectHandle UHDBGameplayAbility::BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EHDBSuccessType& OutSuccessType)
+{
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
+
+	OutSuccessType = ActiveGameplayEffectHandle.WasSuccessfullyApplied() ? EHDBSuccessType::Successful : EHDBSuccessType::Failed;
+
+	return ActiveGameplayEffectHandle;
 }
