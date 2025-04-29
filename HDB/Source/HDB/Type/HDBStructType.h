@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameplayTagContainer.h"
+#include "ScalableFloat.h"
 #include "HDBStructType.generated.h"
 
 class UHDBPlayerLinkedAnimLayer;
@@ -36,5 +37,8 @@ struct FHDBPlayerWeaponData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta =(TitleProperty= "InputTag"))
 	TArray<FHDBPlayerAbilitySet> DefaultWeaponAbilities;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FScalableFloat WeaponBaseDamage;
 };
 

@@ -14,6 +14,16 @@ AHDBPlayerWeapon* UPlayerCombatComponent::GetPlayerCarriedWeaponByTag(FGameplayT
     return Cast<AHDBPlayerWeapon>(GetCharacterOwnedWeaponByTag(InWeaponTag));
 }
 
+AHDBPlayerWeapon* UPlayerCombatComponent::GetPlayerCurrentEquippedWeapon() const
+{
+    return Cast<AHDBPlayerWeapon>(GetCharacterCurrentEquippedWeapon());
+}
+
+float UPlayerCombatComponent::GetPlayerCurrentEquippWeaponDamageAtLevel(float InLevel) const
+{
+    return GetPlayerCurrentEquippedWeapon()->PlayerWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
+}
+
 void UPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
     if (OverlappedActors.Contains(HitActor))
