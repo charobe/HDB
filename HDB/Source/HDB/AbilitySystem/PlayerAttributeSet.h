@@ -24,6 +24,9 @@ class HDB_API UPlayerAttributeSet : public UAttributeSet
 
 public:
 	UPlayerAttributeSet();
+
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	FGameplayAttributeData CurrentHealth;
