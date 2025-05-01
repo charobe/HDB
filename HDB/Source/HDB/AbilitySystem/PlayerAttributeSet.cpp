@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/PlayerAttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "HDBFunctionLibrary.h"
+#include "Tag/HDBGameplayTag.h"
 
 #include "HDBDebugHelper.h"
 
@@ -55,5 +57,10 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			OldHealth, DamageDone, NewCurrentHealth
 		);
 		Debug::Print(DebugString, FColor::Green);
+
+		if (NewCurrentHealth == 0.f)
+		{
+			UHDBFunctionLibrary::AddGameplayTagToActor(Data.Target.GetAvatarActor(), HDBGameplayTags::Shared_Status_Death);
+		}
 	}
 }
