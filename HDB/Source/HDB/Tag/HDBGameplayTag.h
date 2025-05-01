@@ -22,7 +22,6 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawL);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawR);
 
-
 	// Player Form Tag
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ChangeForm_Wolf);
@@ -34,10 +33,15 @@ namespace HDBGameplayTags
 	// Player Attack Tag
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Light_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Heavy_Claw);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_HitPause);
+
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_HitPause);
+
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);	
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Heavy);
+
 
 	// Enemy Tag
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
