@@ -47,3 +47,4 @@ void UPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 void UPlayerCombatComponent::OnWeaponPulledTargetActor(AActor* InteractedActor)
 {
 }
+

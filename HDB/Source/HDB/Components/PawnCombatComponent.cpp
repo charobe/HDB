@@ -75,3 +75,38 @@ void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
 void UPawnCombatComponent::OnWeaponPulledTargetActor(AActor* InteractedActor)
 {
 }
+
+AHDBWeaponBase* UPawnCombatComponent::GetRegisteredWeaponByTag(FGameplayTag WeaponTag) const
+{
+	if (AHDBWeaponBase* const* FoundWeaponPtr = CharacterOwnedWeaponMap.Find(WeaponTag))
+	{
+		return *FoundWeaponPtr;
+	}
+	return nullptr;
+}
+
+void UPawnCombatComponent::UnregisterWeapon(FGameplayTag WeaponTagToRemove)
+{
+	AHDBWeaponBase* const* FoundWeaponPtr = CharacterOwnedWeaponMap.Find(WeaponTagToRemove);
+	if (!FoundWeaponPtr || !IsValid(*FoundWeaponPtr))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UnregisterWeapon: 등록된 무기를 찾을 수 없습니다. (%s)"), *WeaponTagToRemove.ToString());
+		return;
+	}
+
+	AHDBWeaponBase* WeaponToRemove = *FoundWeaponPtr;
+
+	// 1. 소켓에서 분리
+	WeaponToRemove->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+	// 2. 이벤트 바인딩 해제 (안정성 보강용)
+	WeaponToRemove->OnWeaponHitTarget.Unbind();
+	WeaponToRemove->OnWeaponPulledFromTarget.Unbind();
+
+	// 3. 액터 제거
+	WeaponToRemove->Destroy();
+
+	// 4. Map에서 제거
+	CharacterOwnedWeaponMap.Remove(WeaponTagToRemove);
+
+}

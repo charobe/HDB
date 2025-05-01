@@ -45,6 +45,14 @@ public:
 
 	virtual void OnWeaponPulledTargetActor(AActor* InteractedActor);
 
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	AHDBWeaponBase* GetRegisteredWeaponByTag(FGameplayTag WeaponTag) const;
+
+	
+	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
+	void UnregisterWeapon(FGameplayTag InWeaponTagToUnregister);
+
+
 protected:
 	TArray<AActor*> OverlappedActors;
 
