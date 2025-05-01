@@ -9,7 +9,11 @@
 
 void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AHDBWeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
 {
-	checkf(!CharacterOwnedWeaponMap.Contains(InWeaponTagToRegister), TEXT("무기 %s 가 이미 등록되었습니다."), *InWeaponTagToRegister.ToString());
+	if (CharacterOwnedWeaponMap.Contains(InWeaponTagToRegister))
+	{
+		return;
+	}
+
 	check(InWeaponToRegister);
 	
 	CharacterOwnedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
