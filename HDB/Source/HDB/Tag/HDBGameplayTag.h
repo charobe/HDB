@@ -42,8 +42,15 @@ namespace HDBGameplayTags
 	// Enemy Tag
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Ranged);
+
 	// Shared Tag
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
+
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 
 
