@@ -6,7 +6,7 @@
 #include "Character/HDBCharacterBase.h"
 #include "GameplayTagContainer.h"
 #include "Type/HDBStructType.h"
-#include "Engine/StreamableManager.h"
+#include "Components/UI/PlayerUIComponent.h"
 #include "HDBCharacterPlayer.generated.h"
 
 /**
@@ -41,6 +41,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UPlayerCombatComponent> PlayerCombatComponent;
 
+// UI 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = UI, Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<class UPlayerUIComponent> PlayerUIComponent;
+
 private:
 	// Input Section
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", Meta = (AllowPrivateAccess = "true"))
@@ -55,8 +59,6 @@ private:
 public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent; }
-
-//Character Form Section
 
 
 };

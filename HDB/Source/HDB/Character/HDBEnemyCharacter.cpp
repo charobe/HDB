@@ -6,6 +6,7 @@
 #include "Components/EnemyCombatComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAsset/DataAsset_EnemyStartUpData.h"
+#include "Components/UI/EnemyUIComponent.h"
 #include "Components/BoxComponent.h"
 
 #include "HDBDebugHelper.h"
@@ -25,6 +26,8 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
+
+	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>("EnemyUIComponent");
 
 	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("LeftHandCollisionBox");
 	LeftHandCollisionBox->SetupAttachment(GetMesh());

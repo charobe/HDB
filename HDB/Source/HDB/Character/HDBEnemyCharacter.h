@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/HDBCharacterBase.h"
+#include "Components/UI/EnemyUIComponent.h"
 #include "HDBEnemyCharacter.generated.h"
 
 class UBoxComponent;
@@ -32,6 +33,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<class UEnemyCombatComponent> EnemyCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<class UEnemyUIComponent> EnemyUIComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	UBoxComponent* LeftHandCollisionBox;

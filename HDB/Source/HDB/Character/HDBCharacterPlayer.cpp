@@ -13,6 +13,7 @@
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "DataAsset/DataAsset_PlayerStartUpData.h"
 #include "Components/PlayerCombatComponent.h"
+#include "Components/UI/PlayerUIComponent.h"
 
 #include "HDB/HDBDebugHelper.h"
 
@@ -28,7 +29,6 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 	// Capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 68.0f);
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("HDBCapsule"));
-
 
 	//Movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -62,6 +62,9 @@ AHDBCharacterPlayer::AHDBCharacterPlayer()
 
 	//Combat
 	PlayerCombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponent"));
+
+	PlayerUIComponent = CreateDefaultSubobject<UPlayerUIComponent>(TEXT("PlayerUIComponent"));
+
 }
 
 UPawnCombatComponent* AHDBCharacterPlayer::GetPawnCombatComponent() const
