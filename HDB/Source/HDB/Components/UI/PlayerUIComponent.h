@@ -14,4 +14,11 @@ class HDB_API UPlayerUIComponent : public UPawnUIComponent
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnPercentChangedDelegate OnCurrentRageChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPercentChangedDelegate OnCurrentHazaChanged;
+
 };

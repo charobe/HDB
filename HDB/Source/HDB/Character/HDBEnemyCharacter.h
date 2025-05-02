@@ -22,6 +22,8 @@ public:
 
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 
+	virtual UPawnUIComponent* GetUIComponent() const override;
+
 
 protected:
 

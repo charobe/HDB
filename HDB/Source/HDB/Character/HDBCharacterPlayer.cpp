@@ -72,6 +72,16 @@ UPawnCombatComponent* AHDBCharacterPlayer::GetPawnCombatComponent() const
 	return PlayerCombatComponent;
 }
 
+UPawnUIComponent* AHDBCharacterPlayer::GetUIComponent() const
+{
+	return PlayerUIComponent;
+}
+
+UPlayerUIComponent* AHDBCharacterPlayer::GetPlayerUIComponent() const
+{
+	return PlayerUIComponent;
+}
+
 void AHDBCharacterPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

@@ -5,6 +5,9 @@
 #include "GameplayEffectExtension.h"
 #include "HDBFunctionLibrary.h"
 #include "Tag/HDBGameplayTag.h"
+#include "Interface/PawnUIInterface.h"
+#include "Components/UI/PawnUIComponent.h"
+#include "Components/UI/PlayerUIComponent.h"
 
 #include "HDBDebugHelper.h"
 
@@ -22,26 +25,49 @@ UPlayerAttributeSet::UPlayerAttributeSet()
 
 void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
+	if (CachedPawnUIInterface.IsValid())
+	{
+		CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
+	}
+
+	checkf(CachedPawnUIInterface.IsValid(), TEXT("%s 는 UI Interface를 구현하지 않았습니다."), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
+	
+	UPawnUIComponent* PawnUIComponent = CachedPawnUIInterface->GetUIComponent();
+
+	checkf(PawnUIComponent, TEXT("%s에서 PawnUIComponent를 불러오지 못했습니다."), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
+
+
 	if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
 	{
 		const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
 
 		SetCurrentHealth(NewCurrentHealth);
+
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
 
 	if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
 	{
 		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
 
-		SetCurrentHealth(NewCurrentRage);
+		SetCurrentRage(NewCurrentRage);
+
+		if (UPlayerUIComponent* PlayerUIComponent = CachedPawnUIInterface->GetPlayerUIComponent())
+		{
+			PlayerUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
+		}
 	}
 
 	if (Data.EvaluatedData.Attribute == GetCurrentHazaAttribute())
 	{
 		const float NewCurrentHaza = FMath::Clamp(GetCurrentHaza(), 0.f, GetMaxHaza());
 		
-		SetCurrentHealth(NewCurrentHaza);
+		SetCurrentHaza(NewCurrentHaza);
 
+		if (UPlayerUIComponent* PlayerUIComponent = CachedPawnUIInterface->GetPlayerUIComponent())
+		{
+			PlayerUIComponent->OnCurrentHazaChanged.Broadcast(GetCurrentHaza() / GetMaxHaza());
+		}
 	}
 
 	if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
@@ -57,6 +83,8 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			OldHealth, DamageDone, NewCurrentHealth
 		);
 		Debug::Print(DebugString, FColor::Green);
+
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 
 		if (NewCurrentHealth == 0.f)
 		{

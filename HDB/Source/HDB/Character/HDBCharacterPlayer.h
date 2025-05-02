@@ -23,6 +23,10 @@ public:
 
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 
+	virtual UPawnUIComponent* GetUIComponent() const override;
+	virtual UPlayerUIComponent* GetPlayerUIComponent() const override;
+
+
 protected: 
 	void PossessedBy(AController* NewController) override;
 
