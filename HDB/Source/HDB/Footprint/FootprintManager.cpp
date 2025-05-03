@@ -18,7 +18,7 @@ UFootprintManager* UFootprintManager::Get(UWorld* World)
 void UFootprintManager::AddFootprint(const FVector& Location, float CurrentTime)
 {
     FootprintInfos.Add(FFootprintInfo(Location, CurrentTime));
-    UE_LOG(LogTemp, Log, TEXT("Footprint added at %s (Time=%.2f)"), *Location.ToString(), CurrentTime);
+    //UE_LOG(LogTemp, Log, TEXT("Footprint added at %s (Time=%.2f)"), *Location.ToString(), CurrentTime);
 }
 
 void UFootprintManager::Update(float CurrentTime, float MaxLifetimeSeconds)

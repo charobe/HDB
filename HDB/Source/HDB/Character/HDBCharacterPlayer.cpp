@@ -115,7 +115,7 @@ void AHDBCharacterPlayer::BeginPlay()
 	if (!InputSubsystem)
 		return;
 
-	GetWorldTimerManager().SetTimer(FootprintTimerHandle, this, &AHDBCharacterPlayer::AddFootprintTick,1.0f, true); //1sec
+	GetWorldTimerManager().SetTimer(FootprintTimerHandle, this, &AHDBCharacterPlayer::AddFootprintTick,0.2f, true); //1sec
 }
 
 
@@ -191,7 +191,7 @@ void AHDBCharacterPlayer::AddFootprintTick()
 
 	UFootprintManager::Get(World)->AddFootprint(FootprintLocation, CurrentTime); //get pos
 
-	UFootprintManager::Get(World)->Update(CurrentTime, 5.0f);
+	UFootprintManager::Get(World)->Update(CurrentTime, 3.0f);
 
 }
 
