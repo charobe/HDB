@@ -60,6 +60,9 @@ private:
 	void Input_AbilityInputPressed(FGameplayTag InputTag);
 	void Input_AbilityReleasedPressed(FGameplayTag InputTag);
 
+	FTimerHandle FootprintTimerHandle;
+	void AddFootprintTick();
+
 public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponent; }

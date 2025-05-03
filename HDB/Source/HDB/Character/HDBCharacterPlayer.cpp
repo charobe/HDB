@@ -14,6 +14,9 @@
 #include "DataAsset/DataAsset_PlayerStartUpData.h"
 #include "Components/PlayerCombatComponent.h"
 #include "Components/UI/PlayerUIComponent.h"
+#include "Footprint/FootprintManager.h"
+#include "TimerManager.h"
+#include "Engine/World.h"
 
 #include "HDB/HDBDebugHelper.h"
 
@@ -111,6 +114,8 @@ void AHDBCharacterPlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
 	if (!InputSubsystem)
 		return;
+
+	GetWorldTimerManager().SetTimer(FootprintTimerHandle, this, &AHDBCharacterPlayer::AddFootprintTick,1.0f, true); //1sec
 }
 
 
@@ -172,6 +177,22 @@ void AHDBCharacterPlayer::Input_AbilityInputPressed(FGameplayTag InputTag)
 void AHDBCharacterPlayer::Input_AbilityReleasedPressed(FGameplayTag InputTag)
 {
 	PlayerAbilitySystemComponent->OnAbilityInputReleased(InputTag);
+}
+
+void AHDBCharacterPlayer::AddFootprintTick()
+{
+	UWorld* World = GetWorld();
+	if (!World) return;
+
+	float CurrentTime = World->GetTimeSeconds();
+	FVector FootprintLocation = GetActorLocation();
+
+	UE_LOG(LogTemp, Warning, TEXT("Footprint Location: %s"), *FootprintLocation.ToString());
+
+	UFootprintManager::Get(World)->AddFootprint(FootprintLocation, CurrentTime); //get pos
+
+	UFootprintManager::Get(World)->Update(CurrentTime, 5.0f);
+
 }
 
 void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
