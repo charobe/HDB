@@ -25,7 +25,7 @@ UPlayerAttributeSet::UPlayerAttributeSet()
 
 void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	if (CachedPawnUIInterface.IsValid())
+	if (!CachedPawnUIInterface.IsValid())
 	{
 		CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
 	}
@@ -86,7 +86,7 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 
-		if (NewCurrentHealth == 0.f)
+		if (GetCurrentHealth() == 0.f)
 		{
 			UHDBFunctionLibrary::AddGameplayTagToActor(Data.Target.GetAvatarActor(), HDBGameplayTags::Shared_Status_Death);
 		}
