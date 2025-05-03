@@ -19,3 +19,17 @@ void UHDBWidgetBase::NativeOnInitialized()
 
 
 }
+
+void UHDBWidgetBase::InitEnemyCratedWidget(AActor* OwningEnemyActor)
+{
+	if (IPawnUIInterface* PawnUIInterface = Cast<IPawnUIInterface>(OwningEnemyActor))
+	{
+		UEnemyUIComponent* EnemyUIComponent = PawnUIInterface->GetEnemyUIComponent();
+
+		checkf(EnemyUIComponent, TEXT("%s로부터 EnemyUIComponent를 추출하지 못했습니다."), *OwningEnemyActor->GetActorNameOrLabel());
+	
+		BP_OnOwningEnemyUIComponentInitalized(EnemyUIComponent);
+
+
+	}
+}

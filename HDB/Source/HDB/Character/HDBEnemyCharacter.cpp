@@ -51,6 +51,11 @@ UPawnUIComponent* AHDBEnemyCharacter::GetUIComponent() const
 	return EnemyUIComponent;
 }
 
+UEnemyUIComponent* AHDBEnemyCharacter::GetEnemyUIComponent() const
+{
+	return EnemyUIComponent;
+}
+
 void AHDBEnemyCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

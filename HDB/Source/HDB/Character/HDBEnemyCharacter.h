@@ -24,6 +24,7 @@ public:
 
 	virtual UPawnUIComponent* GetUIComponent() const override;
 
+	virtual UEnemyUIComponent* GetEnemyUIComponent() const override;
 
 protected:
 
