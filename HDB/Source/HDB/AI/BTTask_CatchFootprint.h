@@ -21,8 +21,6 @@ protected:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 private:
-	//FColor GetColorAtLocation(UTextureRenderTarget2D* RenderTarget, FVector WorldLocation, APlayerController* PlayerController);
+	bool IsFootprintInSight(AActor* Actor, UBehaviorTreeComponent& OwnerComp);
 
-	bool IsOnFootprint(AActor* Actor, UBehaviorTreeComponent&);
-	
 };

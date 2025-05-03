@@ -6,9 +6,9 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
-#include "Engine/EngineTypes.h"
-#include "PhysicalMaterials/PhysicalMaterial.h"
 #include "DrawDebugHelpers.h"
+#include "Footprint/FootprintManager.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UBTTask_CatchFootprint::UBTTask_CatchFootprint() {
     NodeName = "Check Ground Material";
@@ -22,63 +22,52 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
     APawn* AIPawn = AIController->GetPawn();
     if (!AIPawn) return EBTNodeResult::Failed;
 
-    if (IsOnFootprint(AIPawn, OwnerComp))
+    if (IsFootprintInSight(AIPawn, OwnerComp))
     {
-        UE_LOG(LogTemp, Warning, TEXT("Catch"));
-
+        UE_LOG(LogTemp, Warning, TEXT("Footprint!"));
         return EBTNodeResult::Succeeded;
     }
-    else {
-        UE_LOG(LogTemp, Warning, TEXT("No Catch"));
 
-        return EBTNodeResult::Failed;
-    }
-
-
+    UE_LOG(LogTemp, Warning, TEXT("No footprint"));
+    return EBTNodeResult::Failed;
 }
 
-bool UBTTask_CatchFootprint::IsOnFootprint(AActor* Actor, UBehaviorTreeComponent& OwnerComp)
+
+bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComponent& OwnerComp)
 {
     const FVector StartLocation = Actor->GetActorLocation();
     const FVector ForwardVector = Actor->GetActorForwardVector();
 
-    const float ScanDistance = 300;
-    const float AngleRange = 30;
-    const int RayCount = 20;
+    const float ScanDistance = 500.f;
+    const float AngleRange = 30.f;
+    const float XYThreshold = 50.f;
 
     UWorld* World = Actor->GetWorld();
     if (!World) return false;
 
-    for (int i = -RayCount / 2; i <= RayCount / 2; ++i)
+    const float CurrentTime = World->GetTimeSeconds();
+    const float MaxLifetime = 5.f;
+
+    TArray<FVector> Footprints = UFootprintManager::Get(World)->GetActiveFootprintLocations(CurrentTime, MaxLifetime);
+
+    for (const FVector& Footprint : Footprints)
     {
-        float AngleDeg = i * (AngleRange / (RayCount / 2));
-        FRotator RotOffset(0, AngleDeg, 0);
-        FVector Dir = RotOffset.RotateVector(ForwardVector).GetSafeNormal();
-        FVector End = StartLocation + Dir * ScanDistance;
+        FVector DirectionToFootprint = (Footprint - StartLocation).GetSafeNormal2D();
+        float Dot = FVector::DotProduct(ForwardVector.GetSafeNormal2D(), DirectionToFootprint);
+        float AngleDeg = FMath::RadiansToDegrees(FMath::Acos(Dot));
 
-        FVector RayStart = End;
-        FVector RayEnd = End - FVector(0, 0, 100);
+        float Distance = FVector::Dist2D(StartLocation, Footprint);
 
-        FHitResult HitResult;
-        FCollisionQueryParams Params;
-        Params.AddIgnoredActor(Actor);
-
-        bool bHit = World->LineTraceSingleByChannel(HitResult, RayStart, RayEnd, ECC_Visibility, Params);
-
-        DrawDebugLine(World, RayStart, RayEnd, FColor::Green, false, 0.5f, 0, 1.0f);
-
-        if (bHit && HitResult.PhysMaterial.IsValid())
+        if (AngleDeg <= AngleRange && Distance <= ScanDistance)
         {
-            FString PhysName = HitResult.PhysMaterial->GetName();
-            UE_LOG(LogTemp, Warning, TEXT("Hit PhysMaterial: %s"), *PhysName);
-
-            if (PhysName.Contains(TEXT("MI_Powdered_Coal_And_Soil_vbzoecbdy_2K")))
+            if (FMath::Abs(Footprint.X - StartLocation.X) <= ScanDistance &&
+                FMath::Abs(Footprint.Y - StartLocation.Y) <= ScanDistance)
             {
-                UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();
-                if (BlackboardComp)
+                UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+                if (Blackboard)
                 {
-                    BlackboardComp->SetValueAsVector(TEXT("TargetLocation"), HitResult.Location);
-                    DrawDebugLine(World, RayStart, RayEnd, FColor::Red, false, 0.5f, 0, 1.0f);
+                    Blackboard->SetValueAsVector(TEXT("TargetLocation"), Footprint);
+                    DrawDebugSphere(World, Footprint, 20.f, 12, FColor::Red, false, 1.0f);
                 }
 
                 return true;
