@@ -8,6 +8,8 @@
 #include "DataAsset/DataAsset_EnemyStartUpData.h"
 #include "Components/UI/EnemyUIComponent.h"
 #include "Components/BoxComponent.h"
+#include "Components/WidgetComponent.h"
+#include "Widget/HDBWidgetBase.h"
 
 #include "HDBDebugHelper.h"
 
@@ -28,6 +30,9 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
 
 	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>("EnemyUIComponent");
+
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("EnemyHealthWidgetComponent");
+	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 
 	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("LeftHandCollisionBox");
 	LeftHandCollisionBox->SetupAttachment(GetMesh());
@@ -54,6 +59,16 @@ UPawnUIComponent* AHDBEnemyCharacter::GetUIComponent() const
 UEnemyUIComponent* AHDBEnemyCharacter::GetEnemyUIComponent() const
 {
 	return EnemyUIComponent;
+}
+
+void AHDBEnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UHDBWidgetBase* HealthWidget = Cast<UHDBWidgetBase>(EnemyHealthWidgetComponent->GetUserWidgetObject()))
+	{
+		HealthWidget->InitEnemyCratedWidget(this);
+	}
 }
 
 void AHDBEnemyCharacter::PossessedBy(AController* NewController)

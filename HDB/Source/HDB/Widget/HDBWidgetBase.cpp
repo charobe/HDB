@@ -29,7 +29,5 @@ void UHDBWidgetBase::InitEnemyCratedWidget(AActor* OwningEnemyActor)
 		checkf(EnemyUIComponent, TEXT("%s로부터 EnemyUIComponent를 추출하지 못했습니다."), *OwningEnemyActor->GetActorNameOrLabel());
 	
 		BP_OnOwningEnemyUIComponentInitalized(EnemyUIComponent);
-
-
 	}
 }

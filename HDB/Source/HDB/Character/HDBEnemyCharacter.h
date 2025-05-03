@@ -28,6 +28,8 @@ public:
 
 protected:
 
+	virtual void BeginPlay() override;
+	
 	virtual void PossessedBy(AController* NewController) override;
 
 #if WITH_EDITOR
@@ -39,6 +41,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<class UEnemyUIComponent> EnemyUIComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<class UWidgetComponent> EnemyHealthWidgetComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	UBoxComponent* LeftHandCollisionBox;
