@@ -17,4 +17,6 @@ protected:
 public:
     UPROPERTY(EditAnywhere, Category = "AI")
     class UBehaviorTree* BehaviorTreeAsset;
+
+    AHDBAIController(const FObjectInitializer& ObjectInitializer);
 };

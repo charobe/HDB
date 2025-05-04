@@ -4,6 +4,10 @@
 #include "HDBAIController.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Navigation/CrowdFollowingComponent.h"
+
+#include"HDBDebugHelper.h"
+
 
 void AHDBAIController::BeginPlay()
 {
@@ -15,3 +19,14 @@ void AHDBAIController::BeginPlay()
     }
 
 }
+
+AHDBAIController::AHDBAIController(const FObjectInitializer& ObjectInitializer)
+    :Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>("PathFollowingComponent"))
+{
+    if (UCrowdFollowingComponent* CrowdComp = Cast<UCrowdFollowingComponent>(GetPathFollowingComponent()))
+    {
+        Debug::Print(TEXT("CrowdFollowingComponent valid"), FColor::Green);
+    }
+
+}
+
