@@ -6,6 +6,9 @@
 #include "AIController.h"
 #include "HDBAIController.generated.h"
 
+class UAIPerceptionComponent;
+class UAISenseConfig_Sight;
+
 UCLASS()
 class HDB_API AHDBAIController : public AAIController
 {
@@ -19,4 +22,16 @@ public:
     class UBehaviorTree* BehaviorTreeAsset;
 
     AHDBAIController(const FObjectInitializer& ObjectInitializer);
+
+protected:
+   UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+   UAIPerceptionComponent* EnemyPerceptionComponent;
+
+   UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+   UAISenseConfig_Sight* AISenseConfig_Sight;
+
+   UFUNCTION()
+   virtual void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+
+
 };
