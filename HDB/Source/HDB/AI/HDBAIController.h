@@ -23,6 +23,10 @@ public:
 
     AHDBAIController(const FObjectInitializer& ObjectInitializer);
 
+    // IGenericTeamAgentInterface
+    virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const;
+
+
 protected:
    UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
    UAIPerceptionComponent* EnemyPerceptionComponent;

@@ -3,10 +3,12 @@
 
 #include "Player/HDBPlayerController.h"
 
-void AHDBPlayerController::BeginPlay()
+AHDBPlayerController::AHDBPlayerController()
 {
-	Super::BeginPlay();
+	PlayerTeamID = FGenericTeamId(0);
+}
 
-	FInputModeGameOnly GameOnlyInputMode;
-	SetInputMode(GameOnlyInputMode);
+FGenericTeamId AHDBPlayerController::GetGericTeamId() const
+{
+	return PlayerTeamID;
 }
