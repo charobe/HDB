@@ -15,12 +15,11 @@ class HDB_API AHDBPlayerController : public APlayerController, public IGenericTe
 {
 	GENERATED_BODY()
 
-
 public:
 	AHDBPlayerController();
 
 	// IGenericTeamAgentInterface 
-	virtual FGenericTeamId GetGericTeamId() const;
+	virtual FGenericTeamId GetGenericTeamId() const override;
 
 private:
 	FGenericTeamId PlayerTeamID;

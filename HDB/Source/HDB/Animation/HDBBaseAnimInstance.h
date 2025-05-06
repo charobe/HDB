@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "GameplayTagContainer.h"
 #include "HDBBaseAnimInstance.generated.h"
 
 /**
@@ -13,5 +14,9 @@ UCLASS()
 class HDB_API UHDBBaseAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
+
+protected:
+	UFUNCTION(BlueprintPure, meta = (BlueprintThreadSafe))
+	bool DoesOwnerHaveTag(FGameplayTag TagToCheck) const;
 
 };

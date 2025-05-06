@@ -14,17 +14,12 @@ class HDB_API AHDBAIController : public AAIController
 {
     GENERATED_BODY()
 
-protected:
-    virtual void BeginPlay() override;
-
 public:
-    UPROPERTY(EditAnywhere, Category = "AI")
-    class UBehaviorTree* BehaviorTreeAsset;
 
     AHDBAIController(const FObjectInitializer& ObjectInitializer);
 
     // IGenericTeamAgentInterface
-    virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const;
+    virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 
 
 protected:

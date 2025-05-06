@@ -7,20 +7,11 @@
 #include "Navigation/CrowdFollowingComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 #include"HDBDebugHelper.h"
 
 
-void AHDBAIController::BeginPlay()
-{
-    Super::BeginPlay();
-
-    if (BehaviorTreeAsset)
-    {
-        RunBehaviorTree(BehaviorTreeAsset);
-    }
-
-}
 
 AHDBAIController::AHDBAIController(const FObjectInitializer& ObjectInitializer)
     :Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>("PathFollowingComponent"))
@@ -63,7 +54,10 @@ void AHDBAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 {
     if (Stimulus.WasSuccessfullySensed() && Actor)
     {
-        Debug::Print(Actor->GetActorNameOrLabel() + TEXT("이 감지됨."), FColor::Green);
+        if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+        {
+            BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+        }
     }
 }
 

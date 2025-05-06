@@ -20,7 +20,7 @@ public:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<class AHDBCharacterPlayer> OwningCharacter;
+	TObjectPtr<class AHDBCharacterBase> OwningCharacter;
 
 	UPROPERTY()
 	TObjectPtr<class UCharacterMovementComponent> OwningMovementComponent;

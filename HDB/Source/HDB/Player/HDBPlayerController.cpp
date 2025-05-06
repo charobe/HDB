@@ -8,7 +8,7 @@ AHDBPlayerController::AHDBPlayerController()
 	PlayerTeamID = FGenericTeamId(0);
 }
 
-FGenericTeamId AHDBPlayerController::GetGericTeamId() const
+FGenericTeamId AHDBPlayerController::GetGenericTeamId() const
 {
 	return PlayerTeamID;
 }

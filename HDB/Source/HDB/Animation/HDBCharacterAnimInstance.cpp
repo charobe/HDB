@@ -9,7 +9,7 @@
 
 void UHDBCharacterAnimInstance::NativeInitializeAnimation()
 {
-	OwningCharacter = Cast<AHDBCharacterPlayer>(TryGetPawnOwner());
+	OwningCharacter = Cast<AHDBCharacterBase>(TryGetPawnOwner());
 
 	if (OwningCharacter)
 	{
@@ -25,5 +25,6 @@ void UHDBCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecon
 	}
 
 	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
+
 	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
 }
