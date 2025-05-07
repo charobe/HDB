@@ -49,6 +49,9 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Ranged);
 
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Strafing);
+
+
 	// Shared Tag
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
