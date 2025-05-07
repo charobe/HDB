@@ -16,7 +16,9 @@ public class HDB : ModuleRules
             "GameFeatures",
             "GameplayAbilities",
             "GameplayTasks",
-            "GameplayTags" });
+            "GameplayTags", 
+			"AnimGraphRuntime"
+		});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
