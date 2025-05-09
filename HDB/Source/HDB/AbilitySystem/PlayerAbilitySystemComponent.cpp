@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
-#include "AbilitySystem/Ability/HDBGameplayAbility.h"
+#include "AbilitySystem/Ability/HDBPlayerGameplayAbility.h"
 
 
 void UPlayerAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
@@ -62,4 +62,27 @@ void UPlayerAbilitySystemComponent::RemoveGrantedWeaponAbilities(UPARAM(ref)TArr
 	}
 
 	InSpecHandlesToRemove.Empty();
+}
+
+bool UPlayerAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToAct)
+{
+	check(AbilityTagToAct.IsValid());
+
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpec;
+
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToAct.GetSingleTagContainer(), FoundAbilitySpec);
+
+	if (!FoundAbilitySpec.IsEmpty())
+	{
+		const int32 RandomAbilityIndex = FMath::RandRange(0, FoundAbilitySpec.Num() - 1);
+		FGameplayAbilitySpec*  SpecToActivate = FoundAbilitySpec[RandomAbilityIndex];
+	
+		check(SpecToActivate);
+
+		if (!SpecToActivate->IsActive())
+		{
+			return TryActivateAbility(SpecToActivate->Handle);
+		}
+	}
+	return false;
 }
