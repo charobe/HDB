@@ -191,7 +191,7 @@ void AHDBCharacterPlayer::AddFootprintTick()
 
 	UFootprintManager::Get(World)->AddFootprint(FootprintLocation, CurrentTime); //get pos
 
-	UFootprintManager::Get(World)->Update(CurrentTime, 3.0f);
+	UFootprintManager::Get(World)->Update(CurrentTime, 7.0f);
 
 }
 

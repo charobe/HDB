@@ -40,51 +40,51 @@ bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComp
     const FVector ForwardVector = Actor->GetActorForwardVector();
 
     const float ScanDistance = 500.f;
-    const float AngleRange = 30.f;
+    const float AngleRange = 60.f;
+    const float MaxLifetime = 7.0f;
 
     UWorld* World = Actor->GetWorld();
     if (!World) return false;
 
-    const float CurrentTime = World->GetTimeSeconds();
-    const float MaxLifetime = 5.f;
+    float CurrentTime = World->GetTimeSeconds();
+    TArray<FVector> Footprints = UFootprintManager::Get(World)->GetActiveFootprintLocations(CurrentTime, MaxLifetime);
 
-    UFootprintManager* FootprintManager = UFootprintManager::Get(World);
-    if (!FootprintManager)
-    {
-        UE_LOG(LogTemp, Error, TEXT("FootprintManager is NULL!"));
-        return false;
-    }
-
-    TArray<FVector> Footprints = FootprintManager->GetActiveFootprintLocations(CurrentTime, MaxLifetime);
-    UE_LOG(LogTemp, Warning, TEXT("Found %d footprints."), Footprints.Num());
+    FVector BestTarget = FVector::ZeroVector;
+    float MaxDistance = -1.f;
+    bool bFound = false;
 
     for (const FVector& Footprint : Footprints)
     {
-        FVector DirectionToFootprint = (Footprint - StartLocation).GetSafeNormal2D();
-        float Dot = FVector::DotProduct(ForwardVector.GetSafeNormal2D(), DirectionToFootprint);
-        float AngleDeg = FMath::RadiansToDegrees(FMath::Acos(Dot));
+        FVector ToFootprint = Footprint - StartLocation;
+        float Distance = ToFootprint.Size2D();
 
-        float Distance = FVector::Dist2D(StartLocation, Footprint);
+        if (Distance > ScanDistance)
+            continue;
 
-        UE_LOG(LogTemp, Warning, TEXT("Footprint at %s: Angle=%.2f, Distance=%.2f"),
-            *Footprint.ToString(), AngleDeg, Distance);
+        float AngleDeg = FMath::RadiansToDegrees(
+            FMath::Acos(FVector::DotProduct(ForwardVector.GetSafeNormal2D(), ToFootprint.GetSafeNormal2D()))
+        );
 
-        if (AngleDeg <= AngleRange && Distance <= ScanDistance)
+        if (AngleDeg <= AngleRange)
         {
-            UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-            if (Blackboard)
+            if (Distance > MaxDistance)
             {
-                Blackboard->SetValueAsVector(TargetLocationKeyName, Footprint);
-                DrawDebugSphere(World, Footprint, 20.f, 12, FColor::Red, false, 1.0f);
-                UE_LOG(LogTemp, Warning, TEXT("Set TargetLocation to: %s"), *Footprint.ToString());
+                MaxDistance = Distance;
+                BestTarget = Footprint;
+                bFound = true;
             }
-            else
-            {
-                UE_LOG(LogTemp, Error, TEXT("Blackboard component is NULL!"));
-            }
-
-            return true;
         }
+    }
+
+    if (bFound)
+    {
+        UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+        if (Blackboard)
+        {
+            Blackboard->SetValueAsVector(TEXT("TargetLocation"), BestTarget);
+            DrawDebugSphere(World, BestTarget, 20.f, 12, FColor::Blue, false, 1.0f);
+        }
+        return true;
     }
 
     return false;
