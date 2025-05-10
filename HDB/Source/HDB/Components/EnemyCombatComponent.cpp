@@ -3,3 +3,12 @@
 
 #include "Components/EnemyCombatComponent.h"
 
+#include "HDBDebugHelper.h"
+
+void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+	if (HitActor)
+	{
+		Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT(" is hitting") + HitActor->GetActorNameOrLabel());
+	}
+}

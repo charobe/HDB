@@ -3,6 +3,7 @@
 
 #include "Item/HDBWeaponBase.h"
 #include "Components/BoxComponent.h"
+#include "HDBFunctionLibrary.h"
 
 #include "HDBDebugHelper.h"
 
@@ -31,7 +32,7 @@ void AHDBWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedC
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (UHDBFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
@@ -43,10 +44,10 @@ void AHDBWeaponBase::OnCollsionBoxEndOverlap(UPrimitiveComponent* OverlappedComp
 	APawn* WeaponOwningPawn = GetInstigator<APawn>();
 
 	checkf(WeaponOwningPawn, TEXT("Instigator가 지정되지 않음 : %s"), *GetName());
-
+	
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (UHDBFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
 		}

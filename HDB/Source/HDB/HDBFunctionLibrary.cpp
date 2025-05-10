@@ -4,6 +4,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Interface/PawnCombatInterface.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
+#include "GenericTeamAgentInterface.h"
 
 UPlayerAbilitySystemComponent* UHDBFunctionLibrary::NativeGetASCFromActor(AActor* InActor)
 {
@@ -64,6 +65,21 @@ UPawnCombatComponent* UHDBFunctionLibrary::BP_GetPawnCombatComponentFromActor(AA
 	OutValidType = CombatComponent ? EHDBValidType::Valid : EHDBValidType::Invalid;
 
 	return CombatComponent;
+}
+
+bool UHDBFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+	check(QueryPawn && TargetPawn);
+
+	IGenericTeamAgentInterface* QueryTeamAgent =Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+	IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+	if (QueryTeamAgent && TargetTeamAgent)
+	{
+		return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+	}
+
+	return false;
 }
 
  
