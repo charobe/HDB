@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "AbilitySystem/PlayerAttributeSet.h"
+#include "MotionWarpingComponent.h" 
 
 // Sets default values
 AHDBCharacterBase::AHDBCharacterBase()
@@ -12,6 +13,8 @@ AHDBCharacterBase::AHDBCharacterBase()
 	PlayerAbilitySystemComponent = CreateDefaultSubobject<UPlayerAbilitySystemComponent>(TEXT("PlayerAbilitySystemComponent"));
 
 	PlayerAttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>(TEXT("PlayerAttributeSet"));
+
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }
 
 UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const

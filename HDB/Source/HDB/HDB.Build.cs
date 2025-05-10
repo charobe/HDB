@@ -17,7 +17,8 @@ public class HDB : ModuleRules
             "GameplayAbilities",
             "GameplayTasks",
             "GameplayTags", 
-			"AnimGraphRuntime"
+			"AnimGraphRuntime",
+			"MotionWarping"
 		});
 
 		// Uncomment if you are using Slate UI
