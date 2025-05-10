@@ -4,14 +4,48 @@
 #include "Components/EnemyCombatComponent.h"
 #include "Character/HDBEnemyCharacter.h"
 #include "Components/BoxComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "Tag/HDBGameplayTag.h"
+
 
 #include "HDBDebugHelper.h"
 
 void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
-	if (HitActor)
+	if (OverlappedActors.Contains(HitActor))
 	{
-		Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT(" is hitting") + HitActor->GetActorNameOrLabel());
+		return;
+	}
+
+	OverlappedActors.AddUnique(HitActor);
+
+	bool bIsValidBlock = false;
+
+	const bool bIsPlayerBlocking = false;
+	const bool bIsMyAttackUnblockable = false;
+
+	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
+	{
+
+	}
+
+	FGameplayEventData EventData;
+	EventData.Instigator = GetOwningPawn();
+	EventData.Target = HitActor;
+
+
+	if (bIsValidBlock)
+	{
+
+	}
+	else
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			GetOwningPawn(),
+			HDBGameplayTags::Shared_Event_MeleeHit,
+			EventData
+		);
+
 	}
 }
 
@@ -38,7 +72,7 @@ void UEnemyCombatComponent::ToggleBodyCollsionBoxCollsion(bool bShouldEnable, ET
 		break;
 	}
 
-	if (bShouldEnable)
+	if (!bShouldEnable)
 	{
 		OverlappedActors.Empty();
 	}
