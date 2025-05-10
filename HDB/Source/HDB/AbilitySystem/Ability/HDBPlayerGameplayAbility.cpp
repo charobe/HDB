@@ -45,7 +45,8 @@ FGameplayEffectSpecHandle UHDBPlayerGameplayAbility::MakePlayerDamageEffectSpecH
     ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
 
     FGameplayEffectSpecHandle EffectSpecHandle = GetHDBAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(
-        EffectClass, GetAbilityLevel(),
+        EffectClass, 
+        GetAbilityLevel(),
         ContextHandle
     );
 
@@ -57,7 +58,6 @@ FGameplayEffectSpecHandle UHDBPlayerGameplayAbility::MakePlayerDamageEffectSpecH
     if (InCurrentAttackTypeTag.IsValid())
     {
         EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InUsedComboCount);
-
     }
     
     return EffectSpecHandle;
