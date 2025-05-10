@@ -17,4 +17,7 @@ class HDB_API UEnemyCombatComponent : public UPawnCombatComponent
 public:
 	virtual void OnHitTargetActor(AActor* HitActor) override;
 
+protected:
+	virtual void ToggleBodyCollsionBoxCollsion(bool bShouldEnable, EToggleDamageType ToggleDamageType) override;
+
 };

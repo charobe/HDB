@@ -100,10 +100,10 @@ void AHDBEnemyCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* Ove
 {
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		//if (UHDBFunctionLibrary::IsTargetHostile())
-		//{
-
-		//}
+		if (UHDBFunctionLibrary::IsTargetPawnHostile(this, HitPawn))
+		{
+			EnemyCombatComponent->OnHitTargetActor(HitPawn);
+		}
 	}
 }
 

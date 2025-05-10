@@ -48,12 +48,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	AHDBWeaponBase* GetRegisteredWeaponByTag(FGameplayTag WeaponTag) const;
 
-	
-	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
-	void UnregisterWeapon(FGameplayTag InWeaponTagToUnregister);
-
-
 protected:
+	virtual void ToggleCurrentEquippedWeaponCollision(bool bShouldEnable);
+	virtual void ToggleBodyCollsionBoxCollsion(bool bShouldEnable, EToggleDamageType ToggleDamageType);
+
 	TArray<AActor*> OverlappedActors;
 
 private:
