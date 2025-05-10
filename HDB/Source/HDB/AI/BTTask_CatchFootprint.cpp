@@ -8,9 +8,11 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "Footprint/FootprintManager.h"
-#include "Kismet/KismetMathLibrary.h"
 
-UBTTask_CatchFootprint::UBTTask_CatchFootprint() {
+const FName UBTTask_CatchFootprint::TargetLocationKeyName(TEXT("TargetLocation"));
+
+UBTTask_CatchFootprint::UBTTask_CatchFootprint()
+{
     NodeName = "Check Ground Material";
 }
 
@@ -24,14 +26,13 @@ EBTNodeResult::Type UBTTask_CatchFootprint::ExecuteTask(UBehaviorTreeComponent& 
 
     if (IsFootprintInSight(AIPawn, OwnerComp))
     {
-        UE_LOG(LogTemp, Warning, TEXT("Footprint!"));
+        UE_LOG(LogTemp, Warning, TEXT("Footprint detected and TargetLocation set."));
         return EBTNodeResult::Succeeded;
     }
 
-    UE_LOG(LogTemp, Warning, TEXT("No footprint"));
+    UE_LOG(LogTemp, Warning, TEXT("No footprint found."));
     return EBTNodeResult::Failed;
 }
-
 
 bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComponent& OwnerComp)
 {
@@ -40,7 +41,6 @@ bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComp
 
     const float ScanDistance = 500.f;
     const float AngleRange = 30.f;
-    const float XYThreshold = 50.f;
 
     UWorld* World = Actor->GetWorld();
     if (!World) return false;
@@ -48,7 +48,15 @@ bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComp
     const float CurrentTime = World->GetTimeSeconds();
     const float MaxLifetime = 5.f;
 
-    TArray<FVector> Footprints = UFootprintManager::Get(World)->GetActiveFootprintLocations(CurrentTime, MaxLifetime);
+    UFootprintManager* FootprintManager = UFootprintManager::Get(World);
+    if (!FootprintManager)
+    {
+        UE_LOG(LogTemp, Error, TEXT("FootprintManager is NULL!"));
+        return false;
+    }
+
+    TArray<FVector> Footprints = FootprintManager->GetActiveFootprintLocations(CurrentTime, MaxLifetime);
+    UE_LOG(LogTemp, Warning, TEXT("Found %d footprints."), Footprints.Num());
 
     for (const FVector& Footprint : Footprints)
     {
@@ -58,20 +66,24 @@ bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComp
 
         float Distance = FVector::Dist2D(StartLocation, Footprint);
 
+        UE_LOG(LogTemp, Warning, TEXT("Footprint at %s: Angle=%.2f, Distance=%.2f"),
+            *Footprint.ToString(), AngleDeg, Distance);
+
         if (AngleDeg <= AngleRange && Distance <= ScanDistance)
         {
-            if (FMath::Abs(Footprint.X - StartLocation.X) <= ScanDistance &&
-                FMath::Abs(Footprint.Y - StartLocation.Y) <= ScanDistance)
+            UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+            if (Blackboard)
             {
-                UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-                if (Blackboard)
-                {
-                    Blackboard->SetValueAsVector(TEXT("TargetLocation"), Footprint);
-                    DrawDebugSphere(World, Footprint, 20.f, 12, FColor::Red, false, 1.0f);
-                }
-
-                return true;
+                Blackboard->SetValueAsVector(TargetLocationKeyName, Footprint);
+                DrawDebugSphere(World, Footprint, 20.f, 12, FColor::Red, false, 1.0f);
+                UE_LOG(LogTemp, Warning, TEXT("Set TargetLocation to: %s"), *Footprint.ToString());
             }
+            else
+            {
+                UE_LOG(LogTemp, Error, TEXT("Blackboard component is NULL!"));
+            }
+
+            return true;
         }
     }
 

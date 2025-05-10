@@ -13,7 +13,7 @@ struct FFootprintInfo {
     FVector Location;
     float SpawnTime;
 
-    FFootprintInfo() {}
+   FFootprintInfo() {}
     FFootprintInfo(const FVector& InLocation, float InSpawnTime)
         : Location(InLocation), SpawnTime(InSpawnTime) {}
 };
