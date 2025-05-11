@@ -82,7 +82,7 @@ bool UBTTask_CatchFootprint::IsFootprintInSight(AActor* Actor, UBehaviorTreeComp
         if (Blackboard)
         {
             Blackboard->SetValueAsVector(TEXT("TargetLocation"), BestTarget);
-            DrawDebugSphere(World, BestTarget, 20.f, 12, FColor::Blue, false, 1.0f);
+            //DrawDebugSphere(World, BestTarget, 20.f, 12, FColor::Blue, false, 1.0f);
         }
         return true;
     }
