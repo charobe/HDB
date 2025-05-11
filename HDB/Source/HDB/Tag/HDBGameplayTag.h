@@ -13,6 +13,9 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LightAttack_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_HeavyAttack_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Dash);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld_Block);
+
 
 	// Player Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Claw);
@@ -23,6 +26,8 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ChangeForm_Wolf);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ChangeForm_Normal);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Dash);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Block);
+
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Claw);
@@ -37,6 +42,8 @@ namespace HDBGameplayTags
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);	
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Dash);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Block);
+
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Heavy);

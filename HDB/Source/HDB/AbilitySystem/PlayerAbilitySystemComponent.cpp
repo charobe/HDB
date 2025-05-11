@@ -2,7 +2,7 @@
 
 #include "AbilitySystem/PlayerAbilitySystemComponent.h"
 #include "AbilitySystem/Ability/HDBPlayerGameplayAbility.h"
-
+#include "Tag/HDBGameplayTag.h"
 
 void UPlayerAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
@@ -22,6 +22,19 @@ void UPlayerAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& In
 
 void UPlayerAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
+	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(HDBGameplayTags::InputTag_MustBeHeld))
+	{
+		return;
+	}
+
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
+		{
+			CancelAbilityHandle(AbilitySpec.Handle);
+		}
+	}
+
 }
 
 void UPlayerAbilitySystemComponent::GrantPlayerWeaponAbilities(const TArray<FHDBPlayerAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
