@@ -82,7 +82,7 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			TEXT("기존 체력: %f, 데미지: %f, 최종 체력: %f"),
 			OldHealth, DamageDone, NewCurrentHealth
 		);
-		Debug::Print(DebugString, FColor::Green);
+		//Debug::Print(DebugString, FColor::Green);
 
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 
