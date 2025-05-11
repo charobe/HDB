@@ -14,8 +14,6 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_HeavyAttack_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Dash);
 
-
-
 	// Player Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Unequip_Claw);
@@ -32,7 +30,6 @@ namespace HDBGameplayTags
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawL);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawR);
-
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Form_Wolf);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Form_Normal);
@@ -65,7 +62,10 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_Death);
-
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Front);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Left);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Right);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Back);
 
 
 }

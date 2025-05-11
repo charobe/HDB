@@ -42,6 +42,6 @@ public:
 	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
 
 	UFUNCTION(BlueprintPure, Category = "HDB|FunctionLibrary")
-	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifferecnce);
+	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
 
 };
