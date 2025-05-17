@@ -8,6 +8,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Tag/HDBGameplayTag.h"
 
+#include "HDBDebugHelper.h"
 
 UPlayerAbilitySystemComponent* UHDBFunctionLibrary::NativeGetASCFromActor(AActor* InActor)
 {
@@ -120,6 +121,27 @@ FGameplayTag UHDBFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttacker
 	}
 	return HDBGameplayTags::Shared_Status_HitReact_Front;
 
+}
+
+bool UHDBFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
+{
+	check(InAttacker && InDefender);
+
+	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
+
+	FString DotString;
+	if (DotResult < 0.f)
+	{
+		DotString= FString::Printf(TEXT("유효함"));
+	}
+	else
+	{
+		DotString = FString::Printf(TEXT("유효하지 않음"));
+	}
+
+	Debug::Print(DotString, FColor::Green);
+
+	return DotResult < 0.f ? true : false;
 }
 
  

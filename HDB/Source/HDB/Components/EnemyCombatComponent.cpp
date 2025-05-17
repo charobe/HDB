@@ -5,6 +5,8 @@
 #include "Character/HDBEnemyCharacter.h"
 #include "Components/BoxComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "HDBFunctionLibrary.h"
+
 #include "Tag/HDBGameplayTag.h"
 
 
@@ -21,12 +23,12 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	bool bIsValidBlock = false;
 
-	const bool bIsPlayerBlocking = false;
+	const bool bIsTargetBlocking = UHDBFunctionLibrary::NativeDoesActorHaveTag(HitActor, HDBGameplayTags::Player_Status_Block);
 	const bool bIsMyAttackUnblockable = false;
 
-	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
+	if (bIsTargetBlocking && !bIsMyAttackUnblockable)
 	{
-
+		UHDBFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 
 	FGameplayEventData EventData;
