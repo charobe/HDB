@@ -29,7 +29,7 @@ void UHDBFunctionLibrary::AddGameplayTagToActor(AActor* InActor, FGameplayTag Ta
 
 }
 
-void UHDBFunctionLibrary::RemoveGameplayFromActor(AActor* InActor, FGameplayTag TagToRemove)
+void UHDBFunctionLibrary::RemoveGameplayTagFromActor(AActor* InActor, FGameplayTag TagToRemove)
 {
 	UPlayerAbilitySystemComponent* ASC = NativeGetASCFromActor(InActor);
 
@@ -129,7 +129,6 @@ bool UHDBFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 
 	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
 
-	return DotResult < -0.1f ? true : false;
-}
+	return DotResult < -0.1f;
 
- 
+}

@@ -26,7 +26,7 @@ public:
 	static void AddGameplayTagToActor(AActor* InActor, FGameplayTag TagToAdd);
 
 	UFUNCTION(BlueprintCallable, Category = "HDB|FunctionLibrary")
-	static void RemoveGameplayFromActor(AActor* InActor, FGameplayTag TagToRemove);
+	static void RemoveGameplayTagFromActor(AActor* InActor, FGameplayTag TagToRemove);
 
 	static bool NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck);
 	
