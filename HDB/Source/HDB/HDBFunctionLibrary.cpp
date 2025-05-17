@@ -129,19 +129,7 @@ bool UHDBFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 
 	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
 
-	FString DotString;
-	if (DotResult < 0.f)
-	{
-		DotString= FString::Printf(TEXT("유효함"));
-	}
-	else
-	{
-		DotString = FString::Printf(TEXT("유효하지 않음"));
-	}
-
-	Debug::Print(DotString, FColor::Green);
-
-	return DotResult < 0.f ? true : false;
+	return DotResult < -0.1f ? true : false;
 }
 
  

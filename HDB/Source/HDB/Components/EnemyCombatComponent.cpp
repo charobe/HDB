@@ -6,9 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "HDBFunctionLibrary.h"
-
 #include "Tag/HDBGameplayTag.h"
-
 
 #include "HDBDebugHelper.h"
 
@@ -28,16 +26,20 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	if (bIsTargetBlocking && !bIsMyAttackUnblockable)
 	{
-		UHDBFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
+		bIsValidBlock = UHDBFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 
 	FGameplayEventData EventData;
 	EventData.Instigator = GetOwningPawn();
 	EventData.Target = HitActor;
 
-
 	if (bIsValidBlock)
 	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitActor,
+			HDBGameplayTags::Player_Event_SuccessfulBlock,
+			EventData
+		);
 
 	}
 	else
