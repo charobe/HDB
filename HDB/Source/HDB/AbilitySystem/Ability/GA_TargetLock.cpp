@@ -5,6 +5,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Character/HDBCharacterPlayer.h"
 #include "Kismet/GameplayStatics.h"
+#include "Widget/HDBWidgetBase.h"
+#include "Player/HDBPlayerController.h"
 
 #include "HDBDebugHelper.h"
 
@@ -34,7 +36,7 @@ void UGA_TargetLock::LockOnTarget()
 
 	if (CurrentLockedActor)
 	{
-		Debug::Print(CurrentLockedActor->GetActorNameOrLabel());
+		DrawTargetLockWidget();
 	}
 	else
 	{
@@ -79,6 +81,21 @@ AActor* UGA_TargetLock::GetNearestTarget(const TArray<AActor*>& InActors)
 	return NearestActor;
 }
 
+void UGA_TargetLock::DrawTargetLockWidget()
+{
+	if (!TargetLockWidget)
+	{
+		checkf(TargetLockWidgetClass, TEXT("유효한 위젯 클래스가 없음."));
+
+		TargetLockWidget = CreateWidget<UHDBWidgetBase>(GetPlayerControllerFromActorInfo(), TargetLockWidgetClass);
+
+		check(TargetLockWidget);
+
+		TargetLockWidget->AddToViewport();
+	}
+	
+}
+
 void UGA_TargetLock::CancelTargetLock()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -88,5 +105,10 @@ void UGA_TargetLock::CleanArray()
 {
 	ActorsToLock.Empty();
 	CurrentLockedActor = nullptr;
+
+	if (TargetLockWidget)
+	{
+		TargetLockWidget->RemoveFromParent();
+	}
 	
 }

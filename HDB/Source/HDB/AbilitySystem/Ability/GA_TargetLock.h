@@ -6,6 +6,7 @@
 #include "AbilitySystem/Ability/HDBPlayerGameplayAbility.h"
 #include "GA_TargetLock.generated.h"
 
+class UHDBWidgetBase;
 /**
  * 
  */
@@ -24,6 +25,7 @@ private:
 	void GetActorsToLock();
 
 	AActor* GetNearestTarget(const TArray<AActor*>& InActors);
+	void DrawTargetLockWidget();
 
 	void CancelTargetLock();
 	void CleanArray();
@@ -40,9 +42,15 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	bool bShowDebugShape = false;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	TSubclassOf<UHDBWidgetBase> TargetLockWidgetClass;
+
 	UPROPERTY()
 	TArray<AActor*> ActorsToLock;
 
 	UPROPERTY()
 	AActor* CurrentLockedActor;
+
+	UPROPERTY()
+	UHDBWidgetBase* TargetLockWidget;
 };
