@@ -16,7 +16,21 @@ void UPlayerAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& In
 		{
 			continue;
 		}
-		TryActivateAbility(AbilitySpec.Handle);
+
+		if (InInputTag.MatchesTag(HDBGameplayTags::InputTag_Toggle))
+		{
+			if (AbilitySpec.IsActive())
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
+			else
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}
+		else {
+			TryActivateAbility(AbilitySpec.Handle);
+		}
 	}
 }
 
