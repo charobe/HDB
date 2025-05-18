@@ -15,7 +15,8 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Dash);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld_Block);
-
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggle);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggle_TargetLock);
 
 	// Player Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Claw);
@@ -27,6 +28,7 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ChangeForm_Normal);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Dash);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Block);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_TargetLock);
 
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Claw);
@@ -45,6 +47,7 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);	
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Dash);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Block);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_TargetLock);
 
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
