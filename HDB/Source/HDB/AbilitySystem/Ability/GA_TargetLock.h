@@ -19,10 +19,14 @@ protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//
-
 private:
 	void LockOnTarget();
 	void GetActorsToLock();
+
+	AActor* GetNearestTarget(const TArray<AActor*>& InActors);
+
+	void CancelTargetLock();
+	void CleanArray();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	float TraceDistance = 5000.f;
@@ -38,4 +42,7 @@ private:
 
 	UPROPERTY()
 	TArray<AActor*> ActorsToLock;
+
+	UPROPERTY()
+	AActor* CurrentLockedActor;
 };
