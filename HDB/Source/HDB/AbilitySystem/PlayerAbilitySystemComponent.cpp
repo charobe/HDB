@@ -28,7 +28,8 @@ void UPlayerAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& In
 				TryActivateAbility(AbilitySpec.Handle);
 			}
 		}
-		else {
+		else
+		{
 			TryActivateAbility(AbilitySpec.Handle);
 		}
 	}

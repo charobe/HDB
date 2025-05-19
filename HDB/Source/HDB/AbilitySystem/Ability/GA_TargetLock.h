@@ -26,6 +26,7 @@ private:
 
 	AActor* GetNearestTarget(const TArray<AActor*>& InActors);
 	void DrawTargetLockWidget();
+	void SetTargetLockWidgetPosition();
 
 	void CancelTargetLock();
 	void CleanArray();
@@ -53,4 +54,8 @@ private:
 
 	UPROPERTY()
 	UHDBWidgetBase* TargetLockWidget;
+
+	UPROPERTY()
+	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
+
 };

@@ -7,6 +7,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Widget/HDBWidgetBase.h"
 #include "Player/HDBPlayerController.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/SizeBox.h"
 
 #include "HDBDebugHelper.h"
 
@@ -27,6 +30,7 @@ void UGA_TargetLock::EndAbility(const FGameplayAbilitySpecHandle Handle, const F
 void UGA_TargetLock::LockOnTarget()
 {
 	GetActorsToLock();
+
 	if (ActorsToLock.IsEmpty())
 	{
 		CancelTargetLock();
@@ -37,6 +41,8 @@ void UGA_TargetLock::LockOnTarget()
 	if (CurrentLockedActor)
 	{
 		DrawTargetLockWidget();
+
+		SetTargetLockWidgetPosition();
 	}
 	else
 	{
@@ -94,6 +100,43 @@ void UGA_TargetLock::DrawTargetLockWidget()
 		TargetLockWidget->AddToViewport();
 	}
 	
+}
+
+void UGA_TargetLock::SetTargetLockWidgetPosition()
+{
+	if (!TargetLockWidget || !CurrentLockedActor)
+	{
+		CancelTargetLock();
+		return;
+	}
+
+	FVector2D ScreenPosition;
+
+	UWidgetLayoutLibrary::ProjectWorldLocationToWidgetPosition(
+		GetPlayerControllerFromActorInfo(),
+		CurrentLockedActor->GetActorLocation(),
+		ScreenPosition,
+		true
+	);
+
+	if (TargetLockWidgetSize == FVector2D::ZeroVector)
+	{
+		TargetLockWidget->WidgetTree->ForEachWidget(
+			[this](UWidget* Widget)
+			{
+				if (USizeBox* SizeBox = Cast<USizeBox>(Widget))
+				{
+					TargetLockWidgetSize.X = SizeBox->GetWidthOverride();
+					TargetLockWidgetSize.Y = SizeBox->GetHeightOverride();
+				}
+			}
+		);
+	}
+
+	ScreenPosition -= (TargetLockWidgetSize / 2.f);
+
+
+	TargetLockWidget->SetPositionInViewport(ScreenPosition, false);
 }
 
 void UGA_TargetLock::CancelTargetLock()
