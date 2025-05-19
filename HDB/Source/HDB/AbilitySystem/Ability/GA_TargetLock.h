@@ -10,6 +10,7 @@ class UHDBWidgetBase;
 /**
  * 
  */
+
 UCLASS()
 class HDB_API UGA_TargetLock : public UHDBPlayerGameplayAbility
 {
@@ -57,5 +58,4 @@ private:
 
 	UPROPERTY()
 	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
-
 };
