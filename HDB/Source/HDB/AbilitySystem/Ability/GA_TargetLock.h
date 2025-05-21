@@ -21,6 +21,11 @@ protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//
+
+	UFUNCTION(BlueprintCallable)
+	void OnTargetLockTick(float DeltaTime);
+
+	
 private:
 	void LockOnTarget();
 	void GetActorsToLock();
@@ -46,6 +51,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	TSubclassOf<UHDBWidgetBase> TargetLockWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	float RotationInterpSpeed = 10.f;
 
 	UPROPERTY()
 	TArray<AActor*> ActorsToLock;

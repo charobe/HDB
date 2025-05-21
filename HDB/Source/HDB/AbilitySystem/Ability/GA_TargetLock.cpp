@@ -10,6 +10,9 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/SizeBox.h"
+#include "HDBFunctionLibrary.h"
+#include "Tag/HDBGameplayTag.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #include "HDBDebugHelper.h"
 
@@ -25,6 +28,35 @@ void UGA_TargetLock::EndAbility(const FGameplayAbilitySpecHandle Handle, const F
 	CleanArray(); 
 
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+void UGA_TargetLock::OnTargetLockTick(float DeltaTime)
+{
+	if (!CurrentLockedActor 
+	|| 	UHDBFunctionLibrary::NativeDoesActorHaveTag(CurrentLockedActor,HDBGameplayTags::Shared_Status_Death) || UHDBFunctionLibrary::NativeDoesActorHaveTag(GetPlayerCharacterFromActorInfo(), HDBGameplayTags::Shared_Status_Death))
+	{
+		CancelTargetLock();
+		return;
+	}
+
+	SetTargetLockWidgetPosition();
+
+	const bool bOverrideRotation =
+		!UHDBFunctionLibrary::NativeDoesActorHaveTag(GetPlayerCharacterFromActorInfo(), HDBGameplayTags::Player_Status_Dash);
+	if (bOverrideRotation)
+	{
+		const FRotator LookAtRot =UKismetMathLibrary::FindLookAtRotation(
+			GetPlayerCharacterFromActorInfo()->GetActorLocation(),
+			CurrentLockedActor->GetActorLocation()
+		);
+
+		const FRotator CurrentRot = GetPlayerControllerFromActorInfo()->GetControlRotation();
+		const FRotator TargetRot = FMath::RInterpTo(CurrentRot, LookAtRot, DeltaTime, RotationInterpSpeed);
+		
+		GetPlayerControllerFromActorInfo()->SetControlRotation(FRotator(TargetRot.Pitch, TargetRot.Yaw, 0.f));
+		GetPlayerCharacterFromActorInfo()->SetActorRotation(FRotator(0.f, TargetRot.Yaw, 0.f));
+	
+	}
 }
 
 void UGA_TargetLock::LockOnTarget()
@@ -153,5 +185,7 @@ void UGA_TargetLock::CleanArray()
 	{
 		TargetLockWidget->RemoveFromParent();
 	}
-	
+	TargetLockWidget = nullptr;
+
+	TargetLockWidgetSize = FVector2D::ZeroVector;
 }
