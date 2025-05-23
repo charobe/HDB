@@ -29,5 +29,7 @@ void UHDBCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecon
 
 	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
 
-	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
+	float Direction = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
+	SmoothedDirection = FMath::FInterpTo(SmoothedDirection, Direction, DeltaSeconds, 6.0f);
+	LocomotionDirection = FMath::RoundToFloat(SmoothedDirection / 45.0f) * 45.0f;
 }
