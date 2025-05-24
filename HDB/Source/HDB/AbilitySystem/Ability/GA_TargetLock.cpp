@@ -14,6 +14,8 @@
 #include "Tag/HDBGameplayTag.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "EnhancedInputSubsystems.h"
+
 
 #include "HDBDebugHelper.h"
 
@@ -21,6 +23,7 @@ void UGA_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 {
 	LockOnTarget();
 	InitTargetLockMovement();
+	InitTargetLockMappingContext();
 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
@@ -28,7 +31,9 @@ void UGA_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 void UGA_TargetLock::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
 {
 	ResetTargetLockMovement();
+	ResetTargetLockMappingContext();
 	CleanArray();
+
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
@@ -180,6 +185,17 @@ void UGA_TargetLock::InitTargetLockMovement()
 
 }
 
+void UGA_TargetLock::InitTargetLockMappingContext()
+{
+	const ULocalPlayer* LocalPlayer = GetPlayerControllerFromActorInfo()->GetLocalPlayer();
+	
+	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+
+	check(SubSystem);
+
+	SubSystem->AddMappingContext(TargetLockMappingContext, 3);
+}
+
 void UGA_TargetLock::CancelTargetLock()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -206,4 +222,20 @@ void UGA_TargetLock::ResetTargetLockMovement()
 	{
 		GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed;
 	}
+}
+
+void UGA_TargetLock::ResetTargetLockMappingContext()
+{
+	if (GetPlayerControllerFromActorInfo)
+	{
+		return;
+	}
+
+	const ULocalPlayer* LocalPlayer = GetPlayerControllerFromActorInfo()->GetLocalPlayer();
+
+	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+
+	check(SubSystem);
+
+	SubSystem->RemoveMappingContext(TargetLockMappingContext);
 }
