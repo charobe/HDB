@@ -59,6 +59,8 @@ private:
 	void Input_SwtichTargetTriggered(const struct FInputActionValue& InputActionValue);
 	void Input_SwtichTargetCompleted(const struct FInputActionValue& InputActionValue);
 
+	FVector2D SwitchDirection = FVector2D::ZeroVector;
+
 	void Input_AbilityInputPressed(FGameplayTag InputTag);
 	void Input_AbilityReleasedPressed(FGameplayTag InputTag);
 

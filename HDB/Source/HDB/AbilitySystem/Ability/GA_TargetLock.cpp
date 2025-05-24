@@ -226,7 +226,7 @@ void UGA_TargetLock::ResetTargetLockMovement()
 
 void UGA_TargetLock::ResetTargetLockMappingContext()
 {
-	if (GetPlayerControllerFromActorInfo)
+	if (!GetPlayerControllerFromActorInfo())
 	{
 		return;
 	}

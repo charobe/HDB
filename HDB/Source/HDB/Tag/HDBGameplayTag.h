@@ -37,6 +37,8 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Claw);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_HitPause);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SuccessfulBlock);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SwitchTarget_Left);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SwitchTarget_Right);
 
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawL);

@@ -17,6 +17,7 @@
 #include "Footprint/FootprintManager.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 #include "HDB/HDBDebugHelper.h"
 
@@ -170,10 +171,20 @@ void AHDBCharacterPlayer::Input_Look(const FInputActionValue& InputActionValue)
 
 void AHDBCharacterPlayer::Input_SwtichTargetTriggered(const FInputActionValue& InputActionValue)
 {
+	SwitchDirection = InputActionValue.Get<FVector2D>();
 }
 
 void AHDBCharacterPlayer::Input_SwtichTargetCompleted(const FInputActionValue& InputActionValue)
 {
+	FGameplayEventData Data;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		this,
+		SwitchDirection.X > 0.f ? HDBGameplayTags::Player_Event_SwitchTarget_Right : HDBGameplayTags::Player_Event_SwitchTarget_Left,
+		Data
+	);
+
+	Debug::Print(TEXT("SwitchDirection: ") + SwitchDirection.ToString());
 }
 
 void AHDBCharacterPlayer::Input_AbilityInputPressed(FGameplayTag InputTag)
