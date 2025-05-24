@@ -33,9 +33,11 @@ private:
 	AActor* GetNearestTarget(const TArray<AActor*>& InActors);
 	void DrawTargetLockWidget();
 	void SetTargetLockWidgetPosition();
+	void InitTargetLockMovement();
 
 	void CancelTargetLock();
 	void CleanArray();
+	void ResetTargetLockMovement();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	float TraceDistance = 5000.f;
@@ -55,6 +57,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	float RotationInterpSpeed = 10.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
+	float TargetLockMaxWalkSpeed = 150.f;
+
 	UPROPERTY()
 	TArray<AActor*> ActorsToLock;
 
@@ -66,4 +71,7 @@ private:
 
 	UPROPERTY()
 	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
+
+	UPROPERTY()
+	float MaxWalkSpeed = 0.f;
 };

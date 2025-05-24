@@ -13,20 +13,22 @@
 #include "HDBFunctionLibrary.h"
 #include "Tag/HDBGameplayTag.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "HDBDebugHelper.h"
 
 void UGA_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	LockOnTarget();
+	InitTargetLockMovement();
 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
 void UGA_TargetLock::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
 {
-	CleanArray(); 
-
+	ResetTargetLockMovement();
+	CleanArray();
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
@@ -171,6 +173,13 @@ void UGA_TargetLock::SetTargetLockWidgetPosition()
 	TargetLockWidget->SetPositionInViewport(ScreenPosition, false);
 }
 
+void UGA_TargetLock::InitTargetLockMovement()
+{
+	MaxWalkSpeed = GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
+	GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockMaxWalkSpeed;
+
+}
+
 void UGA_TargetLock::CancelTargetLock()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -188,4 +197,13 @@ void UGA_TargetLock::CleanArray()
 	TargetLockWidget = nullptr;
 
 	TargetLockWidgetSize = FVector2D::ZeroVector;
+	MaxWalkSpeed = 0.f;
+}
+
+void UGA_TargetLock::ResetTargetLockMovement()
+{
+	if (MaxWalkSpeed > 0.f)
+	{
+		GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed;
+	}
 }
