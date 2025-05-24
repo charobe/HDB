@@ -51,10 +51,12 @@ void UGA_TargetLock::OnTargetLockTick(float DeltaTime)
 	const bool bOverrideRotation = !UHDBFunctionLibrary::NativeDoesActorHaveTag(GetPlayerCharacterFromActorInfo(), HDBGameplayTags::Player_Status_Dash);
 	if (bOverrideRotation)
 	{
-		const FRotator LookAtRot =UKismetMathLibrary::FindLookAtRotation(
+		FRotator LookAtRot =UKismetMathLibrary::FindLookAtRotation(
 			GetPlayerCharacterFromActorInfo()->GetActorLocation(),
 			CurrentLockedActor->GetActorLocation()
 		);
+
+		LookAtRot -= FRotator(CameraOffset, 0.f, 0.f);
 
 		const FRotator CurrentRot = GetPlayerControllerFromActorInfo()->GetControlRotation();
 		const FRotator TargetRot = FMath::RInterpTo(CurrentRot, LookAtRot, DeltaTime, RotationInterpSpeed);
