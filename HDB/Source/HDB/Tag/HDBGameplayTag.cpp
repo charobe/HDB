@@ -10,6 +10,8 @@ namespace HDBGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_LightAttack_Claw, "InputTag.LightAttack.Claw");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_HeavyAttack_Claw, "InputTag.HeavyAttack.Claw");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Dash, "InputTag.Dash");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_SwitchTarget, "InputTag.SwitchTarget");
+
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_MustBeHeld, "InputTag.MustBeHeld");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_MustBeHeld_Block, "InputTag.MustBeHeld.Block");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggle, "InputTag.Toggle");

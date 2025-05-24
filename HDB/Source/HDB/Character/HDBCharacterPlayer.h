@@ -56,6 +56,8 @@ private:
 
 	void Input_Move(const struct FInputActionValue& InputActionValue);
 	void Input_Look(const struct FInputActionValue& InputActionValue);
+	void Input_SwtichTargetTriggered(const struct FInputActionValue& InputActionValue);
+	void Input_SwtichTargetCompleted(const struct FInputActionValue& InputActionValue);
 
 	void Input_AbilityInputPressed(FGameplayTag InputTag);
 	void Input_AbilityReleasedPressed(FGameplayTag InputTag);

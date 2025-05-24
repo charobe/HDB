@@ -168,6 +168,14 @@ void AHDBCharacterPlayer::Input_Look(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AHDBCharacterPlayer::Input_SwtichTargetTriggered(const FInputActionValue& InputActionValue)
+{
+}
+
+void AHDBCharacterPlayer::Input_SwtichTargetCompleted(const FInputActionValue& InputActionValue)
+{
+}
+
 void AHDBCharacterPlayer::Input_AbilityInputPressed(FGameplayTag InputTag)
 {
 	PlayerAbilitySystemComponent->OnAbilityInputPressed(InputTag);
@@ -212,6 +220,8 @@ void AHDBCharacterPlayer::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
+	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Triggered, this, &ThisClass::Input_SwtichTargetTriggered);
+	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_SwitchTarget, ETriggerEvent::Completed, this, &ThisClass::Input_SwtichTargetCompleted);
 
 	HDBInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityReleasedPressed);
 }
