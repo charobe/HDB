@@ -26,12 +26,15 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnTargetLockTick(float DeltaTime);
 
-	
+	UFUNCTION(BlueprintCallable)
+	void SwitchTarget(const FGameplayTag& Tag);
+
 private:
 	void LockOnTarget();
 	void GetActorsToLock();
 
 	AActor* GetNearestTarget(const TArray<AActor*>& InActors);
+	void GetActorsAroundTarget(TArray<AActor*>& OnLeftActor, TArray<AActor*>& OnRightActor);
 	void DrawTargetLockWidget();
 	void SetTargetLockWidgetPosition();
 	void InitTargetLockMovement();

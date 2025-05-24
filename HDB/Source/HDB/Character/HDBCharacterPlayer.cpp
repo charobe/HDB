@@ -184,7 +184,6 @@ void AHDBCharacterPlayer::Input_SwtichTargetCompleted(const FInputActionValue& I
 		Data
 	);
 
-	Debug::Print(TEXT("SwitchDirection: ") + SwitchDirection.ToString());
 }
 
 void AHDBCharacterPlayer::Input_AbilityInputPressed(FGameplayTag InputTag)

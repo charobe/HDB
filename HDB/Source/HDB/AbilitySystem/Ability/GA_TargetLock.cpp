@@ -48,8 +48,7 @@ void UGA_TargetLock::OnTargetLockTick(float DeltaTime)
 
 	SetTargetLockWidgetPosition();
 
-	const bool bOverrideRotation =
-		!UHDBFunctionLibrary::NativeDoesActorHaveTag(GetPlayerCharacterFromActorInfo(), HDBGameplayTags::Player_Status_Dash);
+	const bool bOverrideRotation = !UHDBFunctionLibrary::NativeDoesActorHaveTag(GetPlayerCharacterFromActorInfo(), HDBGameplayTags::Player_Status_Dash);
 	if (bOverrideRotation)
 	{
 		const FRotator LookAtRot =UKismetMathLibrary::FindLookAtRotation(
@@ -63,6 +62,31 @@ void UGA_TargetLock::OnTargetLockTick(float DeltaTime)
 		GetPlayerControllerFromActorInfo()->SetControlRotation(FRotator(TargetRot.Pitch, TargetRot.Yaw, 0.f));
 		GetPlayerCharacterFromActorInfo()->SetActorRotation(FRotator(0.f, TargetRot.Yaw, 0.f));
 	
+	}
+}
+
+void UGA_TargetLock::SwitchTarget(const FGameplayTag& Tag)
+{
+	GetActorsToLock();
+	
+	TArray<AActor*> OnLeftActors;
+	TArray<AActor*> OnRightActors;
+	AActor* NewTarget = nullptr;
+
+	GetActorsAroundTarget(OnLeftActors,OnRightActors);
+
+	if (Tag == HDBGameplayTags::Player_Event_SwitchTarget_Left)
+	{
+		NewTarget = GetNearestTarget(OnLeftActors);
+	}
+	else 
+	{
+		NewTarget = GetNearestTarget(OnRightActors);
+	}
+
+	if (NewTarget)
+	{
+		CurrentLockedActor = NewTarget;
 	}
 }
 
@@ -91,6 +115,7 @@ void UGA_TargetLock::LockOnTarget()
 
 void UGA_TargetLock::GetActorsToLock()
 {
+	ActorsToLock.Empty();
 	TArray<FHitResult> BoxTraceHit;
 
 	UKismetSystemLibrary::BoxTraceMultiForObjects(
@@ -124,6 +149,37 @@ AActor* UGA_TargetLock::GetNearestTarget(const TArray<AActor*>& InActors)
 	float Distance = 0.f;
 	AActor* NearestActor = UGameplayStatics::FindNearestActor(GetPlayerCharacterFromActorInfo()->GetActorLocation(), InActors, Distance);	
 	return NearestActor;
+}
+
+void UGA_TargetLock::GetActorsAroundTarget(TArray<AActor*>& OnLeftActor, TArray<AActor*>& OnRightActor)
+{
+	if (!CurrentLockedActor || ActorsToLock.IsEmpty())
+	{
+		CancelTargetLock();
+		return;
+	}
+
+	const FVector PlayerLocation = GetPlayerCharacterFromActorInfo()->GetActorLocation();
+	const FVector NormalizedPlayerToCurrentTarget = (CurrentLockedActor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+
+	for (AActor* Actor : ActorsToLock)
+	{
+		if (!Actor || Actor == CurrentLockedActor)
+		{
+			continue;
+		}
+		const FVector NormalizedPlayerToAvailable = (Actor->GetActorLocation() - PlayerLocation).GetSafeNormal();
+		const FVector CrossResult = FVector::CrossProduct(NormalizedPlayerToCurrentTarget, NormalizedPlayerToAvailable);
+
+		if (CrossResult.Z > 0.f)
+		{
+			OnRightActor.AddUnique(Actor);
+		}
+		else
+		{
+			OnLeftActor.AddUnique(Actor);
+		}
+	}
 }
 
 void UGA_TargetLock::DrawTargetLockWidget()
