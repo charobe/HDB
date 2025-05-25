@@ -101,6 +101,7 @@ void UGA_TargetLock::LockOnTarget()
 		CancelTargetLock();
 		return;
 	}
+
 	CurrentLockedActor = GetNearestTarget(ActorsToLock);
 
 	if (CurrentLockedActor)
@@ -118,6 +119,7 @@ void UGA_TargetLock::LockOnTarget()
 void UGA_TargetLock::GetActorsToLock()
 {
 	ActorsToLock.Empty();
+
 	TArray<FHitResult> BoxTraceHit;
 
 	UKismetSystemLibrary::BoxTraceMultiForObjects(
@@ -262,6 +264,7 @@ void UGA_TargetLock::CancelTargetLock()
 void UGA_TargetLock::CleanArray()
 {
 	ActorsToLock.Empty();
+
 	CurrentLockedActor = nullptr;
 
 	if (TargetLockWidget)
@@ -297,3 +300,4 @@ void UGA_TargetLock::ResetTargetLockMappingContext()
 
 	SubSystem->RemoveMappingContext(TargetLockMappingContext);
 }
+
