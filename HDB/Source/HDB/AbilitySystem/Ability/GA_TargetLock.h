@@ -45,6 +45,7 @@ private:
 	void ResetTargetLockMovement();
 	void ResetTargetLockMappingContext();
 
+
 	UPROPERTY(EditDefaultsOnly, Category = "Target Lock")
 	float TraceDistance = 5000.f;
 
