@@ -15,6 +15,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/PlayerAbilitySystemComponent.h"
 
 
 #include "HDBDebugHelper.h"
@@ -240,9 +241,17 @@ void UGA_TargetLock::SetTargetLockWidgetPosition()
 
 void UGA_TargetLock::InitTargetLockMovement()
 {
-	MaxWalkSpeed = GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
-	GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockMaxWalkSpeed;
-
+	if (ACharacter* Character = GetPlayerCharacterFromActorInfo())
+	{
+		if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
+		{
+			if (PlayerMaxWalkSpeed <= 0.f) 
+			{
+				PlayerMaxWalkSpeed = MoveComp->MaxWalkSpeed;
+			}
+			MoveComp->MaxWalkSpeed = TargetLockMaxWalkSpeed;
+		}
+	}
 }
 
 void UGA_TargetLock::InitTargetLockMappingContext()
@@ -274,14 +283,18 @@ void UGA_TargetLock::CleanArray()
 	TargetLockWidget = nullptr;
 
 	TargetLockWidgetSize = FVector2D::ZeroVector;
-	MaxWalkSpeed = 0.f;
+	PlayerMaxWalkSpeed = 0.f;
 }
 
 void UGA_TargetLock::ResetTargetLockMovement()
 {
-	if (MaxWalkSpeed > 0.f)
+	if (ACharacter* Character = GetPlayerCharacterFromActorInfo())
 	{
-		GetPlayerCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeed;
+		if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
+		{
+			MoveComp->MaxWalkSpeed = PlayerMaxWalkSpeed > 0.f ? PlayerMaxWalkSpeed : 600.f;
+		}
+		PlayerMaxWalkSpeed = 0.f;
 	}
 }
 

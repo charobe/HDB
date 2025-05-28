@@ -85,5 +85,5 @@ private:
 	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
 
 	UPROPERTY()
-	float MaxWalkSpeed = 0.f;
+	float PlayerMaxWalkSpeed = 500.f;
 };
