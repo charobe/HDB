@@ -23,9 +23,11 @@
 void UGA_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	LockOnTarget();
-	InitTargetLockMovement();
-	InitTargetLockMappingContext();
-
+	if (CurrentLockedActor)
+	{
+		InitTargetLockMovement();
+		InitTargetLockMappingContext();
+	}
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
