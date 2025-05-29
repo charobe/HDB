@@ -289,7 +289,7 @@ void UGA_TargetLock::ResetTargetLockMovement()
 	{
 		if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
 		{
-			MoveComp->MaxWalkSpeed = PlayerMaxWalkSpeed > 0.f ? PlayerMaxWalkSpeed : 600.f;
+			MoveComp->MaxWalkSpeed = PlayerMaxWalkSpeed > 0.f ? PlayerMaxWalkSpeed :500.f;
 		}
 		PlayerMaxWalkSpeed = 0.f;
 	}

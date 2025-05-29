@@ -46,18 +46,6 @@ void UPlayerAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
 
-	if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
-	{
-		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
-
-		SetCurrentRage(NewCurrentRage);
-
-		if (UPlayerUIComponent* PlayerUIComponent = CachedPawnUIInterface->GetPlayerUIComponent())
-		{
-			PlayerUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
-		}
-	}
-
 	if (Data.EvaluatedData.Attribute == GetCurrentHazaAttribute())
 	{
 		const float NewCurrentHaza = FMath::Clamp(GetCurrentHaza(), 0.f, GetMaxHaza());
