@@ -2,4 +2,25 @@
 
 
 #include "Components/UI/EnemyUIComponent.h"
+#include "Widget/HDBWidgetBase.h"
 
+void UEnemyUIComponent::RegisterWidget(UHDBWidgetBase* InWidget)
+{
+	DrawnWidgets.Add(InWidget);
+}
+
+void UEnemyUIComponent::RemoveWidget()
+{
+	if (DrawnWidgets.IsEmpty()) 
+	{
+		return;
+	}
+
+	for (UHDBWidgetBase* Widget : DrawnWidgets)
+	{
+		if (Widget)
+		{
+			Widget->RemoveFromParent();
+		}
+	}
+}
