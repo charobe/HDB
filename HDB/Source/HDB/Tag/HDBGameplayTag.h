@@ -31,6 +31,7 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Dash);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Block);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_TargetLock);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Get_Potion);
 
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Claw);

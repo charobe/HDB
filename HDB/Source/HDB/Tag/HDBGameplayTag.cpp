@@ -27,7 +27,7 @@ namespace HDBGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Dash, "Player.Ability.Dash");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Block, "Player.Ability.Block");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_TargetLock, "Player.Ability.TargetLock");
-
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Get_Potion, "Player.Ability.Get.Potion");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Claw, "Player.Event.Equip.Claw");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_ClawL, "Player.Event.Unequip.Claw");
