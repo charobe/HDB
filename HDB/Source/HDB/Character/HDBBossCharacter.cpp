@@ -14,15 +14,45 @@ void AHDBBossCharacter::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (USkeletalMeshComponent* Mesh = GetMesh())
+    USkeletalMeshComponent* SkeletalMeshComp = GetMesh();
+    if (SkeletalMeshComp)
     {
-        UMaterialInterface* BaseMaterial = Mesh->GetMaterial(0);
-        DeformMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
-        Mesh->SetMaterial(0, DeformMaterial);
-
+        UMaterialInterface* BaseMaterial = SkeletalMeshComp->GetMaterial(0);
+        if (BaseMaterial)
+        {
+            DeformMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
+            SkeletalMeshComp->SetMaterial(0, DeformMaterial);
+        }
     }
 }
 
-void AHDBBossCharacter::Tick(float Deltatime) {
+void AHDBBossCharacter::ApplyImpactDeform(const FVector& HitLocation, float Strength)
+{
+    if (!DeformMaterial) return;
 
+    ImpactLocation = HitLocation;
+    ImpactStrength = Strength;
+    TimeSinceImpact = 0.f;
+    bDeforming = true;
+
+    DeformMaterial->SetVectorParameterValue("ImpactLocation", ImpactLocation);
+    DeformMaterial->SetScalarParameterValue("ImpactStrength", ImpactStrength);
+    DeformMaterial->SetScalarParameterValue("ImpactRadius", ImpactRadius);
+    DeformMaterial->SetScalarParameterValue("TimeSinceImpact", TimeSinceImpact);
+}
+
+void AHDBBossCharacter::Tick(float DeltaTime) {
+    Super::Tick(DeltaTime);
+
+    if (bDeforming && DeformMaterial)
+    {
+        TimeSinceImpact += DeltaTime;
+        DeformMaterial->SetScalarParameterValue("TimeSinceImpact", TimeSinceImpact);
+
+        if (TimeSinceImpact >= RecoveryDuration)
+        {
+            bDeforming = false;
+            DeformMaterial->SetScalarParameterValue("ImpactStrength", 0.f);
+        }
+    }
 }

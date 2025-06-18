@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/HDBEnemyCharacter.h"
+#include "GameFramework/Character.h"
 #include "HDBBossCharacter.generated.h"
 
 /**
@@ -21,6 +22,8 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	void ApplyImpactDeform(const FVector& HitLocation, float Strength);
 
 private:
 	UPROPERTY()
