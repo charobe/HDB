@@ -14,4 +14,7 @@ class HDB_API AHDBPotionBase : public AHDBDropItemBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void OnCollisionSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+
 };
