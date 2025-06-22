@@ -31,12 +31,13 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	FVector TraceBoxSize = FVector(100.f);
-
+	
+	UPROPERTY(EditDefaultsOnly)
 	TArray<TEnumAsByte<EObjectTypeQuery>> TraceChannel;
 
-	UPROPERTY(EditEditDefaultOnly)
+	UPROPERTY(EditDefaultsOnly)
 	bool bDrawDebugShape = false;
 
 	UPROPERTY()
-	TArray<AHDBPotionBase> TracedPotions;
+	TArray<AHDBPotionBase*> TracedPotions;
 };

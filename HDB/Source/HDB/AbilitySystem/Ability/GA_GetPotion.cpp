@@ -19,8 +19,9 @@ void UGA_GetPotion::EndAbility(const FGameplayAbilitySpecHandle Handle, const FG
 
 void UGA_GetPotion::GetPotion()
 {
-	TArray<FHitResult> TraceHits;
+	TracedPotions.Empty();
 
+	TArray<FHitResult> TraceHits;
 
 	UKismetSystemLibrary::BoxTraceMultiForObjects(
 		GetPlayerCharacterFromActorInfo(),
@@ -42,5 +43,10 @@ void UGA_GetPotion::GetPotion()
 		{
 			TracedPotions.AddUnique(DetectedActor);
 		}
+	}
+
+	if (TracedPotions.IsEmpty())
+	{
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 	}
 }
