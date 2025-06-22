@@ -6,6 +6,8 @@
 #include "AbilitySystem/Ability/HDBPlayerGameplayAbility.h"
 #include "GA_GetPotion.generated.h"
 
+class AHDBPotionBase;
+
 /**
  * 
  */
@@ -19,4 +21,22 @@ protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//
+
+	UFUNCTION(BlueprintCallable)
+	void GetPotion();
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	float TraceDistance = 50.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+	FVector TraceBoxSize = FVector(100.f);
+
+	TArray<TEnumAsByte<EObjectTypeQuery>> TraceChannel;
+
+	UPROPERTY(EditEditDefaultOnly)
+	bool bDrawDebugShape = false;
+
+	UPROPERTY()
+	TArray<AHDBPotionBase> TracedPotions;
 };
