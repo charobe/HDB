@@ -32,7 +32,7 @@ void UGA_GetPotion::GetPotion()
 		TraceChannel,
 		false,
 		TArray<AActor*>(),
-		bDrawDebugShape? EDrawDebugTrace::Persistent : EDrawDebugTrace::None,
+		bDrawDebugShape? EDrawDebugTrace::ForOneFrame : EDrawDebugTrace::None,
 		TraceHits,
 		true
 	);

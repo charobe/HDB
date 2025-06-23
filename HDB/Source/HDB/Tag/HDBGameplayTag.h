@@ -19,6 +19,8 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MustBeHeld_Block);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggle);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggle_TargetLock);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Get_Item);
+
 
 	// Player Tag 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Claw);
@@ -40,6 +42,7 @@ namespace HDBGameplayTags
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SuccessfulBlock);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SwitchTarget_Left);
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SwitchTarget_Right);
+	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_UseItem);
 
 
 	HDB_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_ClawL);

@@ -16,6 +16,8 @@ namespace HDBGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_MustBeHeld_Block, "InputTag.MustBeHeld.Block");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggle, "InputTag.Toggle");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggle_TargetLock, "InputTag.Toggle.TargetLock");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Get_Item, "InputTag.Get.Item");
+
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Claw, "Player.Ability.Equip.Claw");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Unequip_Claw, "Player.Ability.Unequip.Claw");
@@ -35,6 +37,7 @@ namespace HDBGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SuccessfulBlock, "Player.Event.SuccessfulBlock");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SwitchTarget_Left, "Player.Event.SwitchTarget.Left");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_SwitchTarget_Right, "Player.Event.SwitchTarget.Right");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Event_UseItem, "Player.Event.UseItem");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_ClawL, "Player.Weapon.ClawL");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_ClawR, "Player.Weapon.ClawR");

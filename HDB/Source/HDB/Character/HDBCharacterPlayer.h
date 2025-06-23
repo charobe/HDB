@@ -54,12 +54,17 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UDataAsset_InputConfig> InputConfigDataAsset;
 
+	UPROPERTY()
+	FVector2D SwitchDirection = FVector2D::ZeroVector;
+
+
 	void Input_Move(const struct FInputActionValue& InputActionValue);
 	void Input_Look(const struct FInputActionValue& InputActionValue);
+	
 	void Input_SwtichTargetTriggered(const struct FInputActionValue& InputActionValue);
 	void Input_SwtichTargetCompleted(const struct FInputActionValue& InputActionValue);
 
-	FVector2D SwitchDirection = FVector2D::ZeroVector;
+	void Input_GetItem(const struct FInputActionValue& InputActionValue);
 
 	void Input_AbilityInputPressed(FGameplayTag InputTag);
 	void Input_AbilityReleasedPressed(FGameplayTag InputTag);
