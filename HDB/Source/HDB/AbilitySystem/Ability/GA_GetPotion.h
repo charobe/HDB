@@ -25,6 +25,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void GetPotion();
 
+	UFUNCTION(BlueprintCallable)
+	void UsePotion();
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float TraceDistance = 50.0f;

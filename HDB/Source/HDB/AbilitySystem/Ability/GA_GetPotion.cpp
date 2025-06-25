@@ -50,3 +50,21 @@ void UGA_GetPotion::GetPotion()
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 	}
 }
+
+void UGA_GetPotion::UsePotion()
+{
+
+	if (TracedPotions.IsEmpty())
+	{
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+		return;
+	}
+
+	for (AHDBPotionBase* Potion : TracedPotions)
+	{
+		if (Potion)
+		{
+			Potion->Use(GetHDBAbilitySystemComponentFromActorInfo(), GetAbilityLevel());
+		}
+	}
+}
