@@ -23,7 +23,7 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	void ApplyImpactDeform(const FVector& HitLocation, float Strength);
+	void ApplyImpactDeform(const FVector& HitLocation, float Strength, FName HitBoneName = NAME_None);
 
 private:
 	UPROPERTY()

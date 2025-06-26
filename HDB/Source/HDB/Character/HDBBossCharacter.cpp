@@ -26,11 +26,17 @@ void AHDBBossCharacter::BeginPlay()
     }
 }
 
-void AHDBBossCharacter::ApplyImpactDeform(const FVector& HitLocation, float Strength)
+void AHDBBossCharacter::ApplyImpactDeform(const FVector& HitLocation, float Strength, FName HitBoneName)
 {
     if (!DeformMaterial) return;
 
-    ImpactLocation = HitLocation;
+    FVector FinalImpactLocation = HitLocation;
+    if (!HitBoneName.IsNone() && GetMesh())
+    {
+        FinalImpactLocation = GetMesh()->GetBoneLocation(HitBoneName);
+    }
+
+    ImpactLocation = FinalImpactLocation;
     ImpactStrength = Strength;
     TimeSinceImpact = 0.f;
     bDeforming = true;
