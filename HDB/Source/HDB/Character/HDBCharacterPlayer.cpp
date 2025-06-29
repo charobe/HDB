@@ -165,7 +165,13 @@ void AHDBCharacterPlayer::Input_Look(const FInputActionValue& InputActionValue)
 	}
 	if (LookAxisVector.Y != 0.f)
 	{
-		AddControllerPitchInput(LookAxisVector.Y);
+		float NewPitch = GetControlRotation().Pitch + LookAxisVector.Y;
+
+		NewPitch = FMath::ClampAngle(NewPitch, -30.0f, 0.0f);
+
+		FRotator NewRotation = GetControlRotation();
+		NewRotation.Pitch = NewPitch;
+		GetController()->SetControlRotation(NewRotation);
 	}
 }
 

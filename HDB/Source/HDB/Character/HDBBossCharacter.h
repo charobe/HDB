@@ -17,8 +17,15 @@ class HDB_API AHDBBossCharacter : public AHDBEnemyCharacter
 public:
 	AHDBBossCharacter();
 
-protected:
+public:
 	virtual void BeginPlay() override;
+
+protected:
+	UPROPERTY()
+	UMaterialInstanceDynamic* DynamicMaterial;
+
+	UPROPERTY(EditAnywhere, Category = "Material")
+	FName TargetBoneName = TEXT("GHand_R");
 
 public:
 	virtual void Tick(float DeltaTime) override;
