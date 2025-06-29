@@ -14,15 +14,17 @@ void AHDBBossCharacter::BeginPlay()
 {
     Super::BeginPlay();
 
-    USkeletalMeshComponent* SkeletalMeshComp = GetMesh();
-    if (SkeletalMeshComp)
+    UMaterialInterface* BaseMaterial = GetMesh()->GetMaterial(0);
+
+    DynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
+
+    if (DynamicMaterial)
     {
-        UMaterialInterface* BaseMaterial = SkeletalMeshComp->GetMaterial(0);
-        if (BaseMaterial)
-        {
-            DeformMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
-            SkeletalMeshComp->SetMaterial(0, DeformMaterial);
-        }
+        GetMesh()->SetMaterial(0, DynamicMaterial);
+
+        FVector BoneLocation = GetMesh()->GetBoneLocation(TargetBoneName, EBoneSpaces::WorldSpace);
+        DynamicMaterial->SetVectorParameterValue(TEXT("BonePositionWS"), FLinearColor(BoneLocation));
+        DynamicMaterial->SetScalarParameterValue(TEXT("MetallicRadius"), 20.0f);
     }
 }
 
@@ -61,4 +63,11 @@ void AHDBBossCharacter::Tick(float DeltaTime) {
             DeformMaterial->SetScalarParameterValue("ImpactStrength", 0.f);
         }
     }
+
+    if (DynamicMaterial && GetMesh())
+    {
+        FVector BoneLocation = GetMesh()->GetBoneLocation(TargetBoneName, EBoneSpaces::WorldSpace);
+        DynamicMaterial->SetVectorParameterValue(TEXT("BonePositionWS"), FLinearColor(BoneLocation));
+    }
+
 }

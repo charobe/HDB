@@ -59,6 +59,8 @@ void UGA_TargetLock::OnTargetLockTick(float DeltaTime)
 			CurrentLockedActor->GetActorLocation()
 		);
 
+		//FVector PlayerLocation = GetPlayerCharacterFromActor
+
 		LookAtRot -= FRotator(CameraOffset, 0.f, 0.f);
 
 		const FRotator CurrentRot = GetPlayerControllerFromActorInfo()->GetControlRotation();
