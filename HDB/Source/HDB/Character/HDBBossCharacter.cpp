@@ -14,6 +14,19 @@ void AHDBBossCharacter::BeginPlay()
 {
     Super::BeginPlay();
 
+    USkeletalMeshComponent* GMesh = GetMesh();
+
+    int32 HeadMaterialIndex = 3;
+
+    UMaterialInstanceDynamic* DynMat = GMesh->CreateAndSetMaterialInstanceDynamic(HeadMaterialIndex);
+
+    if (DynMat)
+    {
+        // 색상 설정 (예: 붉은색)
+        DynMat->SetVectorParameterValue("HeadColor", FLinearColor::Red);
+    }
+
+
     UMaterialInterface* BaseMaterial = GetMesh()->GetMaterial(0);
 
     DynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
