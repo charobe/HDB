@@ -17,13 +17,22 @@ void AHDBBossCharacter::BeginPlay()
     USkeletalMeshComponent* GMesh = GetMesh();
 
     int32 HeadMaterialIndex = 3;
+    int32 GolemMaterialIndex = 2;
+    int32 BrickMaterialIndex = 0;
 
-    UMaterialInstanceDynamic* DynMat = GMesh->CreateAndSetMaterialInstanceDynamic(HeadMaterialIndex);
+    UMaterialInstanceDynamic* DynMatHead = GMesh->CreateAndSetMaterialInstanceDynamic(HeadMaterialIndex);
+    UMaterialInstanceDynamic* DynMatGolem = GMesh->CreateAndSetMaterialInstanceDynamic(GolemMaterialIndex);
+    UMaterialInstanceDynamic* DynMatBrick = GMesh->CreateAndSetMaterialInstanceDynamic(BrickMaterialIndex);
 
-    if (DynMat)
-    {
-        // 색상 설정 (예: 붉은색)
-        DynMat->SetVectorParameterValue("HeadColor", FLinearColor::Red);
+
+    if (DynMatHead) {
+        DynMatHead->SetVectorParameterValue("HeadColor", FLinearColor::Red);
+    }
+    if (DynMatGolem) {
+        DynMatGolem->SetVectorParameterValue("HeadColor", FLinearColor::Red);
+    }
+    if (DynMatBrick) {
+        DynMatBrick->SetVectorParameterValue("HeadColor", FLinearColor::Red);
     }
 
 
