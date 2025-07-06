@@ -42,5 +42,11 @@ private:
 	float TimeSinceImpact = 0.f;
 	float RecoveryDuration = 1.5f;
 	bool bDeforming = false;
+
+	UPROPERTY(EditAnywhere, Category = "Decal")
+	UMaterialInterface* ClawMarkDecalMaterial;
+
+	UPROPERTY(EditAnywhere, Category = "Decal")
+	FVector DecalOffset = FVector(0, 0, 100);
 	
 };

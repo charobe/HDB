@@ -4,6 +4,8 @@
 #include "Character/HDBBossCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/DecalComponent.h"
 
 AHDBBossCharacter::AHDBBossCharacter() {
     PrimaryActorTick.bCanEverTick = true;
@@ -36,17 +38,30 @@ void AHDBBossCharacter::BeginPlay()
     }
 
 
-    UMaterialInterface* BaseMaterial = GetMesh()->GetMaterial(0);
-
-    DynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
-
-    if (DynamicMaterial)
+    if (ClawMarkDecalMaterial)
     {
-        GetMesh()->SetMaterial(0, DynamicMaterial);
+        FVector Location = GetActorLocation() + DecalOffset;
+        FRotator Rotation = FRotator(0, 0, 0);
+        FVector DecalSize = FVector(60.0f, 60.0f, 60.0f);
 
-        FVector BoneLocation = GetMesh()->GetBoneLocation(TargetBoneName, EBoneSpaces::WorldSpace);
-        DynamicMaterial->SetVectorParameterValue(TEXT("BonePositionWS"), FLinearColor(BoneLocation));
-        DynamicMaterial->SetScalarParameterValue(TEXT("MetallicRadius"), 20.0f);
+        UDecalComponent* Decal = UGameplayStatics::SpawnDecalAtLocation(
+            GetWorld(),
+            ClawMarkDecalMaterial,
+            DecalSize,
+            Location,
+            Rotation,
+            5.0f
+        );
+
+        if (Decal)
+        {
+            Decal->SetFadeScreenSize(0.01f);
+        }
+
+        FVector DecLocation = GetActorLocation() + FVector(0, 0, 100);
+
+        DrawDebugSphere(GetWorld(), Location, 10.0f, 12, FColor::Red, false, 5.0f);
+
     }
 }
 
