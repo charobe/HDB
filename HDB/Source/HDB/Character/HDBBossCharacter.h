@@ -47,6 +47,9 @@ private:
 	UMaterialInterface* ClawMarkDecalMaterial;
 
 	UPROPERTY(EditAnywhere, Category = "Decal")
-	FVector DecalOffset = FVector(0, 0, 100);
+	FVector DecalLocationOffset = FVector(0, 0, 100);
+
+	UPROPERTY(EditAnywhere, Category = "Decal")
+	FRotator DecalRotationOffset = FRotator(0, 0, 0);
 	
 };

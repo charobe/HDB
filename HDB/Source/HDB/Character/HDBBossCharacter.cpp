@@ -40,8 +40,8 @@ void AHDBBossCharacter::BeginPlay()
 
     if (ClawMarkDecalMaterial)
     {
-        FVector Location = GetActorLocation() + DecalOffset;
-        FRotator Rotation = FRotator(0, 0, 0);
+        FVector Location = GetActorLocation() + DecalLocationOffset;
+        FRotator Rotation = DecalRotationOffset;
         FVector DecalSize = FVector(60.0f, 60.0f, 60.0f);
 
         UDecalComponent* Decal = UGameplayStatics::SpawnDecalAtLocation(
