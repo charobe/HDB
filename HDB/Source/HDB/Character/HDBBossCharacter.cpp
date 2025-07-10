@@ -44,16 +44,23 @@ void AHDBBossCharacter::BeginPlay()
         FRotator Rotation = DecalRotationOffset;
         FVector DecalSize = FVector(60.0f, 60.0f, 60.0f);
 
+        // FVector ScratchLocation = Hit.ImpactPoint;
+        FVector BossCenter = GetActorLocation();
+        FVector DirectionToCenter = BossCenter - Location;
+        FRotator DecalRotation = DirectionToCenter.Rotation();
+
+        //ScratchMesh->SetWorldRotation((BossCenter - Hit.ImpactPoint).Rotation());
+
         UDecalComponent* Decal = UGameplayStatics::SpawnDecalAtLocation(
             GetWorld(),
             ClawMarkDecalMaterial,
             DecalSize,
             Location,
-            Rotation,
+            DecalRotation,
             5.0f
         );
 
-        if (Decal)
+        if (Decal)  
         {
             Decal->SetFadeScreenSize(0.01f);
         }
