@@ -32,6 +32,8 @@ public:
 
 	void ApplyImpactDeform(const FVector& HitLocation, float Strength, FName HitBoneName = NAME_None);
 
+	void SpawnDecalAtPlayer();
+
 private:
 	UPROPERTY()
 	UMaterialInstanceDynamic* DeformMaterial;

@@ -6,6 +6,8 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/DecalComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Character.h"
 
 AHDBBossCharacter::AHDBBossCharacter() {
     PrimaryActorTick.bCanEverTick = true;
@@ -31,6 +33,14 @@ void AHDBBossCharacter::BeginPlay()
 
         //ScratchMesh->SetWorldRotation((BossCenter - Hit.ImpactPoint).Rotation());
         /*
+        UStaticMeshComponent* ScratchMesh = NewObject<UStaticMeshComponent>(this);
+        ScratchMesh->RegisterComponent();
+        ScratchMesh->SetStaticMesh(ClawScratchMesh); // UStaticMesh*
+        ScratchMesh->SetWorldLocation(Hit.ImpactPoint);
+        ScratchMesh->SetWorldRotation(Hit.ImpactNormal.Rotation());
+        ScratchMesh->SetWorldScale3D(FVector(0.3f));
+        ScratchMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform);
+
         FVector ImpactLocation = Hit.ImpactPoint;
         FVector Normal = Hit.ImpactNormal;
         FVector SpawnOffset = Normal * 0.2f;
@@ -100,5 +110,40 @@ void AHDBBossCharacter::Tick(float DeltaTime) {
         FVector BoneLocation = GetMesh()->GetBoneLocation(TargetBoneName, EBoneSpaces::WorldSpace);
         DynamicMaterial->SetVectorParameterValue(TEXT("BonePositionWS"), FLinearColor(BoneLocation));
     }
+
+}
+
+void AHDBBossCharacter::SpawnDecalAtPlayer()
+{
+    ACharacter* PlayerChar = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+    if (!PlayerChar || !ClawMarkDecalMaterial) return;
+
+    FVector Location = GetActorLocation() + DecalLocationOffset;
+    FRotator Rotation = DecalRotationOffset;
+    FVector DecalSize = FVector(60.0f, 60.0f, 60.0f);
+
+    // FVector ScratchLocation = Hit.ImpactPoint;
+    FVector BossCenter = GetActorLocation();
+    FVector DirectionToCenter = BossCenter - Location;
+    FRotator DecalRotation = DirectionToCenter.Rotation();
+
+    UDecalComponent* Decal = UGameplayStatics::SpawnDecalAtLocation(
+        GetWorld(),
+        ClawMarkDecalMaterial,
+        DecalSize,
+        Location,
+        DecalRotation,
+        5.0f
+    );
+
+    if (Decal)
+    {
+        Decal->SetFadeScreenSize(0.01f);
+    }
+
+    FVector DecLocation = GetActorLocation() + FVector(0, 0, 100);
+
+    DrawDebugSphere(GetWorld(), Location, 10.0f, 12, FColor::Red, false, 5.0f);
+
 
 }
