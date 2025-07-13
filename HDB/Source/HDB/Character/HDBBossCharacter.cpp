@@ -30,6 +30,13 @@ void AHDBBossCharacter::BeginPlay()
         FRotator DecalRotation = DirectionToCenter.Rotation();
 
         //ScratchMesh->SetWorldRotation((BossCenter - Hit.ImpactPoint).Rotation());
+        /*
+        FVector ImpactLocation = Hit.ImpactPoint;
+        FVector Normal = Hit.ImpactNormal;
+        FVector SpawnOffset = Normal * 0.2f;
+
+        ScratchMesh->SetWorldLocation(ImpactLocation + SpawnOffset);
+        */
 
         UDecalComponent* Decal = UGameplayStatics::SpawnDecalAtLocation(
             GetWorld(),
