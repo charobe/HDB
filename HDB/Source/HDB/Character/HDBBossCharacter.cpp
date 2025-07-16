@@ -8,6 +8,8 @@
 #include "Components/DecalComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Character.h"
+//#include "Components/DecalComponent.h"
+//#include "Components/PrimitiveComponent.h"
 
 AHDBBossCharacter::AHDBBossCharacter() {
     PrimaryActorTick.bCanEverTick = true;
@@ -57,9 +59,13 @@ void AHDBBossCharacter::BeginPlay()
             5.0f
         );
 
-        if (Decal)  
+        if (Decal)
         {
             Decal->SetFadeScreenSize(0.01f);
+            Decal->SetFadeOut(3.0f, 2.0f); // fade out
+
+            //Decal->SetRenderCustomDepth(true);
+            //Decal->MarkRenderStateDirty();
         }
 
         FVector DecLocation = GetActorLocation() + FVector(0, 0, 100);
@@ -122,7 +128,6 @@ void AHDBBossCharacter::SpawnDecalAtPlayer()
     FRotator Rotation = DecalRotationOffset;
     FVector DecalSize = FVector(60.0f, 60.0f, 60.0f);
 
-    // FVector ScratchLocation = Hit.ImpactPoint;
     FVector BossCenter = GetActorLocation();
     FVector DirectionToCenter = BossCenter - Location;
     FRotator DecalRotation = DirectionToCenter.Rotation();
@@ -139,6 +144,7 @@ void AHDBBossCharacter::SpawnDecalAtPlayer()
     if (Decal)
     {
         Decal->SetFadeScreenSize(0.01f);
+        Decal->SetFadeOut(3.0f, 2.0f); // fade out
     }
 
     FVector DecLocation = GetActorLocation() + FVector(0, 0, 100);
