@@ -4,6 +4,7 @@
 #include "Item/HDBProjectileBase.h"
 #include "Components/BoxComponent.h"
 #include "NiagaraComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 AHDBProjectileBase::AHDBProjectileBase()
 {
@@ -15,7 +16,17 @@ AHDBProjectileBase::AHDBProjectileBase()
 	CollisionBox->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block);
 	CollisionBox->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
 	CollisionBox->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	
+	NiagaraComponent=CreateDefaultSubobject<UNiagaraComponent>(TEXT("NiagaraComponent"));
+	NiagaraComponent->SetupAttachment(GetRootComponent());
 
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
+	ProjectileMovementComponent->InitialSpeed = 700.f;
+	ProjectileMovementComponent->MaxSpeed = 900.f;
+	ProjectileMovementComponent->Velocity = FVector(1.f, 0.f, 0.f);
+	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
+
+	InitialLifeSpan = 4.f;
 }
 
 void AHDBProjectileBase::BeginPlay()
