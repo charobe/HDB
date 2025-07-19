@@ -66,6 +66,10 @@ void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
 }
 
+void UPawnCombatComponent::OnHitTargetActorWithHit(AActor* HitActor, const FHitResult& HitResult)
+{
+}
+
 void UPawnCombatComponent::OnWeaponPulledTargetActor(AActor* InteractedActor)
 {
 }

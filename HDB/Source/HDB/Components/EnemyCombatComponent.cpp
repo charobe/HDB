@@ -10,7 +10,7 @@
 
 #include "HDBDebugHelper.h"
 
-void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
+void UEnemyCombatComponent::OnHitTargetActorWithHit(AActor* HitActor, const FHitResult& HitResult)
 {
 	if (OverlappedActors.Contains(HitActor))
 	{
@@ -32,6 +32,7 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	FGameplayEventData EventData;
 	EventData.Instigator = GetOwningPawn();
 	EventData.Target = HitActor;
+	EventData.TargetData = UAbilitySystemBlueprintLibrary::AbilityTargetDataFromHitResult(HitResult);
 
 	if (bIsValidBlock)
 	{

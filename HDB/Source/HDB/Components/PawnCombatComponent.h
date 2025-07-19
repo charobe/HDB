@@ -45,6 +45,8 @@ public:
 
 	virtual void OnWeaponPulledTargetActor(AActor* InteractedActor);
 
+	virtual void OnHitTargetActorWithHit(AActor* HitActor, const FHitResult& HitResult);
+
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	AHDBWeaponBase* GetRegisteredWeaponByTag(FGameplayTag WeaponTag) const;
 
