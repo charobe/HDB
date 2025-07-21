@@ -6,6 +6,8 @@
 #include "NiagaraComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
+#include "HDBDebugHelper.h"
+
 AHDBProjectileBase::AHDBProjectileBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -16,7 +18,9 @@ AHDBProjectileBase::AHDBProjectileBase()
 	CollisionBox->SetCollisionResponseToChannel(ECC_Pawn,ECR_Block);
 	CollisionBox->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
 	CollisionBox->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
-	
+	CollisionBox->OnComponentHit.AddUniqueDynamic(this, &ThisClass::OnProjectileHit);
+	CollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnProjectileBeginOverlap);
+
 	NiagaraComponent=CreateDefaultSubobject<UNiagaraComponent>(TEXT("NiagaraComponent"));
 	NiagaraComponent->SetupAttachment(GetRootComponent());
 
@@ -32,6 +36,23 @@ AHDBProjectileBase::AHDBProjectileBase()
 void AHDBProjectileBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (DamagePolicy == EProjectileDamagePolicy::OnBeginOverlap)
+	{
+		CollisionBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	}
+}
+
+void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor)
+	{
+		Debug::Print(OtherActor->GetActorNameOrLabel());
+		Destroy();
+	}
+}
+
+void AHDBProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 }
 
