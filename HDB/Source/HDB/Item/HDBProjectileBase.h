@@ -45,4 +45,8 @@ protected:
 
 	UFUNCTION()
 	virtual void OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "SpawnHitFX"))
+	void BP_SpawnHitFX(const FVector& HitLocation);
+
 };
