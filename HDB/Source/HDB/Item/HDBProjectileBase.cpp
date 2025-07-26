@@ -5,6 +5,9 @@
 #include "Components/BoxComponent.h"
 #include "NiagaraComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "HDBFunctionLibrary.h"
+#include "Tag/HDBGameplayTag.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 #include "HDBDebugHelper.h"
 
@@ -45,11 +48,40 @@ void AHDBProjectileBase::BeginPlay()
 
 void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor)
+	APawn* HitPawn = Cast<APawn>(OtherActor);
+
+	if (!HitPawn || UHDBFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
 	{
-		Debug::Print(OtherActor->GetActorNameOrLabel());
 		Destroy();
+		return;
 	}
+
+	bool bIsValidBlock = false;
+
+	const bool bIsPlayerBlocking = UHDBFunctionLibrary::NativeDoesActorHaveTag(HitPawn, HDBGameplayTags::Player_Status_Block);
+
+	if (bIsPlayerBlocking)
+	{
+		bIsValidBlock= UHDBFunctionLibrary::IsValidBlock(this, HitPawn);
+	}
+
+	FGameplayEventData Data;
+	Data.Instigator = this;
+	Data.Target = HitPawn;
+
+	if (bIsValidBlock)
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor)
+		HitPawn,
+		HDBGameplayTags::Player_Event_SuccessfulBlock,
+		Data
+		);
+	}
+	else
+	{
+		//
+	}
+
 }
 
 void AHDBProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
