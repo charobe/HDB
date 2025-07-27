@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "HDBProjectileBase.generated.h"
 
 class UBoxComponent;
@@ -40,6 +41,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile")
 	EProjectileDamagePolicy DamagePolicy = EProjectileDamagePolicy::OnHit;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Projectile", meta = (ExposeOnSpawn = "true"))
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
+
 	UFUNCTION()
 	virtual void OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -49,4 +53,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "SpawnHitFX"))
 	void BP_SpawnHitFX(const FVector& HitLocation);
 
+
+private:
+	void HandleApplyDamage(APawn* HitPawn);
 };
