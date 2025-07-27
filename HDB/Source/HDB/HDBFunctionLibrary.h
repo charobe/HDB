@@ -46,4 +46,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "HDB|FunctionLibrary")
 	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
+
+	UFUNCTION(BlueprintCallable,Category = "HDB|FunctionLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* Instigator, AActor* TargetActor, const FGameplayEffectSpecHandle& SpecHandle);
+
 };

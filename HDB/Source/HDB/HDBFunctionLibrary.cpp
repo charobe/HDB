@@ -132,3 +132,11 @@ bool UHDBFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 	return DotResult < -0.1f;
 
 }
+
+bool UHDBFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* Instigator, AActor* TargetActor, const FGameplayEffectSpecHandle& SpecHandle)
+{
+	UPlayerAbilitySystemComponent* ASC = NativeGetASCFromActor(Instigator);
+	UPlayerAbilitySystemComponent* TargetASC = NativeGetASCFromActor(TargetActor);
+
+	ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data, TargetASC);
+}

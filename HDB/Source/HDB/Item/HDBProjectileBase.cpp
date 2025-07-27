@@ -81,12 +81,17 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 	}
 	else
 	{
-		//
+		HandleApplyDamage(HitPawn);
 	}
 	Destroy();
 }
 
 void AHDBProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+}
+
+void AHDBProjectileBase::HandleApplyDamage(APawn* HitPawn)
+{
+
 }
 
