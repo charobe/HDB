@@ -63,6 +63,8 @@ protected:
 private:
 	void SetCurrentSurvivalGameModeState(EHDBSurvivalGameModeState State);
 
+	bool HasFinishedAllWave() const;
+
 	UPROPERTY()
 	EHDBSurvivalGameModeState CurrentSurvivalGameModeState;
 
@@ -71,4 +73,22 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	UDataTable* EnemyWaveSpawnerDataTable;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	int32 TotalWave;
+
+	UPROPERTY()
+	int32 CurrentWaveCount = 1;
+
+	UPROPERTY()
+	float elapsedTime = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	float SpawnWaitTime = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	float SpawnDelayTime = 2.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	float WaveCompletedWaitTime = 5.f;
 };
