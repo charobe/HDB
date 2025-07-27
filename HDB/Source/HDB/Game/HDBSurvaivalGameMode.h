@@ -62,9 +62,10 @@ protected:
 
 private:
 	void SetCurrentSurvivalGameModeState(EHDBSurvivalGameModeState State);
-
 	bool HasFinishedAllWave() const;
-
+	void PreLoadNextWave();
+	FHDBEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
+	
 	UPROPERTY()
 	EHDBSurvivalGameModeState CurrentSurvivalGameModeState;
 
@@ -77,7 +78,7 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	int32 TotalWave;
 
-	UPROPERTY()
+	UPROPERTY(VisibleDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	int32 CurrentWaveCount = 1;
 
 	UPROPERTY()
@@ -91,4 +92,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+
+	UPROPERTY()
+	TMap<TSoftClassPtr<AHDBEnemyCharacter>, UClass*> PreLoadedEnemyClass;
 };

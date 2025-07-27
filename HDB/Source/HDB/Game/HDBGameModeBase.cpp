@@ -6,6 +6,9 @@
 
 AHDBGameModeBase::AHDBGameModeBase()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+
 	static ConstructorHelpers::FClassFinder<APawn> DefaultPawnClassRef(TEXT("/Script/Engine.Blueprint'/Game/HDB/Character/Player/BP_HDBCharacterPlayer.BP_HDBCharacterPlayer_C'"));
 	if (DefaultPawnClassRef.Class)
 	{
