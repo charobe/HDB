@@ -138,5 +138,8 @@ bool UHDBFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* Ins
 	UPlayerAbilitySystemComponent* ASC = NativeGetASCFromActor(Instigator);
 	UPlayerAbilitySystemComponent* TargetASC = NativeGetASCFromActor(TargetActor);
 
-	ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data, TargetASC);
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data, TargetASC);
+
+	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
+

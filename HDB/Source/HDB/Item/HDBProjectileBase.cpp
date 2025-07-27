@@ -81,7 +81,7 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 	}
 	else
 	{
-		HandleApplyDamage(HitPawn);
+		HandleApplyDamage(HitPawn,Data);
 	}
 	Destroy();
 }
@@ -90,8 +90,19 @@ void AHDBProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* Overlappe
 {
 }
 
-void AHDBProjectileBase::HandleApplyDamage(APawn* HitPawn)
+void AHDBProjectileBase::HandleApplyDamage(APawn* HitPawn, const FGameplayEventData& Payload)
 {
+	checkf(DamageEffectSpecHandle.IsValid(), TEXT("투사체 스펙 핸들은 지정하지 않았음"));
+	
+	const bool bWasApplied = UHDBFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(GetInstigator(), HitPawn, DamageEffectSpecHandle);
 
+	if (bWasApplied)
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitPawn,
+			HDBGameplayTags::Shared_Event_HitReact,
+			Payload
+		);
+	}
 }
 

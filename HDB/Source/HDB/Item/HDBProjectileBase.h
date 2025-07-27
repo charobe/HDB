@@ -10,6 +10,7 @@
 class UBoxComponent;
 class UNiagaraComponent;
 class UProjectileMovementComponent;
+struct FGameplayEventData;
 
 UENUM(BlueprintType)
 enum class EProjectileDamagePolicy : uint8
@@ -55,5 +56,5 @@ protected:
 
 
 private:
-	void HandleApplyDamage(APawn* HitPawn);
+	void HandleApplyDamage(APawn* HitPawn, const FGameplayEventData& PayLoad );
 };
