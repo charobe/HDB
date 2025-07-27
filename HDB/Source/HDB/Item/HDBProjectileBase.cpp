@@ -52,7 +52,7 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 
 	APawn* HitPawn = Cast<APawn>(OtherActor);
 
-	if (!HitPawn || UHDBFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
+	if (!HitPawn || !UHDBFunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
 	{
 		Destroy();
 		return;
@@ -83,6 +83,7 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 	{
 		HandleApplyDamage(HitPawn,Data);
 	}
+
 	Destroy();
 }
 
