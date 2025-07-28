@@ -65,7 +65,9 @@ private:
 	bool HasFinishedAllWave() const;
 	void PreLoadNextWave();
 	FHDBEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
-	
+	int32 TrySpawnWaveEnemy();
+	bool ShouldKeepSpawnEnemy() const;
+
 	UPROPERTY()
 	EHDBSurvivalGameModeState CurrentSurvivalGameModeState;
 
@@ -80,6 +82,15 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	int32 CurrentWaveCount = 1;
+
+	UPROPERTY()
+	int32 CurrentSpawnedEnemyCount = 0;
+
+	UPROPERTY()
+	int32 TotalSpawnedEnemyConut = 0;
+
+	UPROPERTY()
+	TArray<AActor*> TargetPointArray;
 
 	UPROPERTY()
 	float elapsedTime = 0.f;
