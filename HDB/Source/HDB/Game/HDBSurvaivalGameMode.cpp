@@ -92,6 +92,7 @@ void AHDBSurvaivalGameMode::PreLoadNextWave()
 	{
 		return;
 	}
+	PreLoadedEnemyClass.Empty();
 
 	for (const FHDBEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
 	{
@@ -105,9 +106,7 @@ void AHDBSurvaivalGameMode::PreLoadNextWave()
 				{
 					if (UClass* EnemyClass = SpawnerInfo.EnemyClassToSpawn.Get())
 					{
-						PreLoadedEnemyClass.Emplace(SpawnerInfo.EnemyClassToSpawn, EnemyClass);
-						Debug::Print(EnemyClass->GetName());
-					
+						PreLoadedEnemyClass.Emplace(SpawnerInfo.EnemyClassToSpawn, EnemyClass);					
 					}
 				}
 			)
@@ -159,6 +158,7 @@ int32 AHDBSurvaivalGameMode::TrySpawnWaveEnemy()
 		
 			if (SpawnedEnemy)
 			{
+				SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &ThisClass::OnEnemyDestroyed);
 				ElapsedTimefromEnemySpawn++;
 				TotalSpawnedEnemyConut++;
 			}
@@ -176,4 +176,21 @@ int32 AHDBSurvaivalGameMode::TrySpawnWaveEnemy()
 bool AHDBSurvaivalGameMode::ShouldKeepSpawnEnemy() const
 {
 	return TotalSpawnedEnemyConut < GetCurrentWaveSpawnerTableRow()->TotalEnemyToSpawnThisWave;
+}
+
+void AHDBSurvaivalGameMode::OnEnemyDestroyed(AActor* Actor)
+{
+	CurrentSpawnedEnemyCount--;
+
+	if (ShouldKeepSpawnEnemy())
+	{
+		CurrentSpawnedEnemyCount += TrySpawnWaveEnemy();
+	}
+	else if (ShouldKeepSpawnEnemy() == 0)
+	{
+		TotalSpawnedEnemyConut = 0;
+		CurrentSpawnedEnemyCount = 0;
+
+		SetCurrentSurvivalGameModeState(EHDBSurvivalGameModeState::WaveCompleted);
+	}
 }
