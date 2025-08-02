@@ -186,7 +186,7 @@ void AHDBSurvaivalGameMode::OnEnemyDestroyed(AActor* Actor)
 	{
 		CurrentSpawnedEnemyCount += TrySpawnWaveEnemy();
 	}
-	else if (ShouldKeepSpawnEnemy() == 0)
+	else if (CurrentSpawnedEnemyCount == 0)
 	{
 		TotalSpawnedEnemyConut = 0;
 		CurrentSpawnedEnemyCount = 0;
