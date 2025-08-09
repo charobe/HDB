@@ -77,15 +77,6 @@ private:
 	UPROPERTY(BlueprintAssignable,BlueprintCallable)
 	FOnSurvivalGameModeStateChangedDelegate OnSurvivalGameModeStateChanged;
 
-	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
-	UDataTable* EnemyWaveSpawnerDataTable;
-
-	UPROPERTY(VisibleDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
-	int32 TotalWave;
-
-	UPROPERTY(VisibleDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
-	int32 CurrentWaveCount = 1;
-
 	UPROPERTY()
 	int32 CurrentSpawnedEnemyCount = 0;
 
@@ -98,14 +89,25 @@ private:
 	UPROPERTY()
 	float elapsedTime = 0.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+
+protected:
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	float SpawnWaitTime = 5.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	float SpawnDelayTime = 2.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	UDataTable* EnemyWaveSpawnerDataTable;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly,Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	int32 TotalWave;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPriovateAccess = "true"))
+	int32 CurrentWaveCount = 1;
 
 	UPROPERTY()
 	TMap<TSoftClassPtr<AHDBEnemyCharacter>, UClass*> PreLoadedEnemyClass;
