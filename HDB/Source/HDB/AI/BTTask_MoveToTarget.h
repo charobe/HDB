@@ -7,6 +7,9 @@
 #include "Navigation/PathFollowingComponent.h" 
 #include "BTTask_MoveToTarget.generated.h"
 
+class UBehaviorTreeComponent;
+class AAIController;
+
 UCLASS()
 class HDB_API UBTTask_MoveToTarget : public UBTTaskNode
 {
@@ -18,15 +21,18 @@ public:
 protected:
     virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
+    virtual void OnTaskFinished(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, EBTNodeResult::Type TaskResult) override;
+
 private:
     UBehaviorTreeComponent* CachedOwnerComp = nullptr;
     AAIController* CachedAIController = nullptr;
+
     FDelegateHandle MoveCompleteDelegateHandle;
 
     void HandleMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result);
 
 public:
     UPROPERTY(EditAnywhere, Category = "Blackboard")
-    struct FBlackboardKeySelector TargetLocationKey;
+    FBlackboardKeySelector TargetLocationKey;
 };
 
