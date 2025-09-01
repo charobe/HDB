@@ -34,6 +34,8 @@ AHDBProjectileBase::AHDBProjectileBase()
 	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
 
 	InitialLifeSpan = 4.f;
+
+	bReplicates = true;
 }
 
 void AHDBProjectileBase::BeginPlay()
