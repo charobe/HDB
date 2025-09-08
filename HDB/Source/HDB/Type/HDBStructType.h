@@ -4,6 +4,7 @@
 
 #include "GameplayTagContainer.h"
 #include "ScalableFloat.h"
+#include "Abilities/GameplayAbility.h"
 #include "HDBStructType.generated.h"
 
 class UHDBPlayerLinkedAnimLayer;
@@ -18,7 +19,7 @@ struct FHDBPlayerAbilitySet
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UHDBPlayerGameplayAbility> AbilityToGrant;
+	TSubclassOf<UGameplayAbility> AbilityToGrant;
 
 	bool IsValid() const;
 };

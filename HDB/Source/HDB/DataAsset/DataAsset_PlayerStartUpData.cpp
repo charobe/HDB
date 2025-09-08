@@ -11,15 +11,22 @@ void UDataAsset_PlayerStartUpData::GiveToAbilitySystemComponent(UPlayerAbilitySy
 {
 	Super::GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
 
+	if (!InASCToGive || !InASCToGive->GetOwner() || !InASCToGive->GetOwner()->HasAuthority())
+	{
+		return;
+	}
+
 	for (const FHDBPlayerAbilitySet& AbilitySet : PlayerStartUpAbilitySet)
 	{
 		if (!AbilitySet.IsValid())
 		{
 			continue;
 		}
-		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
-		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
-		AbilitySpec.Level = ApplyLevel;
+		TSubclassOf<UGameplayAbility> AbilityClass = AbilitySet.AbilityToGrant;
+		FGameplayAbilitySpec AbilitySpec(AbilityClass, ApplyLevel, static_cast<int32>(INDEX_NONE), InASCToGive->GetAvatarActor());
+
+		//AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
+		//AbilitySpec.Level = ApplyLevel;
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
 
 		InASCToGive->GiveAbility(AbilitySpec);
