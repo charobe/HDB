@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\source\\hdb_multi\\hdb_multi.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\intermediate\\build\\win64\\x64\\hdb_multieditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\hdb_multi\\definitions.hdb_multi.h",
+            "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\source\\hdb_multi\\hdb_multi.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

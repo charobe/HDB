@@ -1,0 +1,19 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\intermediate\\build\\win64\\unrealeditor\\inc\\hdb_multi\\uht\\hdb_multigamemode.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\intermediate\\build\\win64\\x64\\hdb_multieditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\hdb_multi\\definitions.hdb_multi.h",
+            "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\source\\hdb_multi\\hdb_multigamemode.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\gameframework\\gamemodebase.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\engine\\serverstatreplicator.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\serverstatreplicator.generated.h",
+            "c:\\program files\\epic games\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\gamemodebase.generated.h",
+            "c:\\users\\jbong\\documents\\github\\hdb\\hdb_multi\\intermediate\\build\\win64\\unrealeditor\\inc\\hdb_multi\\uht\\hdb_multigamemode.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
