@@ -178,5 +178,5 @@ DerivedDataCache/
 *.VC.DB
 *.sln
 
-HDB.sln
-HDB.uproject
+HDB_Multi.sln
+HDB_Multi.uproject
