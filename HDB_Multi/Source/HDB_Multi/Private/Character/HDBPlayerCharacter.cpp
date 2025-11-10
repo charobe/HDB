@@ -9,6 +9,11 @@
 
 AHDBPlayerCharacter::AHDBPlayerCharacter()
 {
+	bReplicates = true;
+	NetUpdateFrequency = 100.f;
+
+	GetMesh()->SetIsReplicated(true);
+
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 68.0f);
 
 	bUseControllerRotationPitch = false;
@@ -32,4 +37,5 @@ AHDBPlayerCharacter::AHDBPlayerCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+
 }
