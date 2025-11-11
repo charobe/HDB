@@ -2,4 +2,5 @@
 
 
 #include "Controller/HDBPlayerController.h"
+#include "Component/Input/HDBInputComponent.h"
 

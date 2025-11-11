@@ -13,5 +13,5 @@ UCLASS()
 class HDB_MULTI_API AHDBPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
 };
