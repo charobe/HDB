@@ -117,3 +117,22 @@ void AHDBPlayerCharacter::Input_Look(const FInputActionValue& InputActionValue)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+/*
+void AHDBPlayerCharacter::AddFootprintTick()
+{
+	UWorld* World = GetWorld();
+	if (!World) return;
+
+	float CurrentTime = World->GetTimeSeconds();
+	FVector FootprintLocation = GetActorLocation();
+
+	//UE_LOG(LogTemp, Warning, TEXT("Footprint Location: %s"), *FootprintLocation.ToString());
+
+	UFootprintManager::Get(World)->AddFootprint(FootprintLocation, CurrentTime); //get pos
+
+	UFootprintManager::Get(World)->Update(CurrentTime, 7.0f);
+
+}
+
+*/
