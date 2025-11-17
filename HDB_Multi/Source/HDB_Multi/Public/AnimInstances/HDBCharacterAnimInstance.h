@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "AnimInstances/HDBBaseAnimInstance.h"
+#include "Character/HDBCharacterBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "HDBCharacterAnimInstance.generated.h"
 
-class AHDBCharacterBase;
-class UCharacterMovementComponent;
+
 /**
  * 
  */
@@ -18,18 +19,19 @@ class HDB_MULTI_API UHDBCharacterAnimInstance : public UHDBBaseAnimInstance
 	
 public:
 	virtual void NativeInitializeAnimation() override;
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;           
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 	UPROPERTY()
-	AHDBCharacterBase* OwningCharacter;
+	TObjectPtr<AHDBCharacterBase> OwningCharacter;
 
 	UPROPERTY()
-	UCharacterMovementComponent* OwningMovementComponent;
+	TObjectPtr<UCharacterMovementComponent> OwningMovementComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
-	float GroundSpeed;
+	float GroundSpeed = 0.f;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
-	bool bAcceleration;
+	bool bAcceleration = false;
 
 };
