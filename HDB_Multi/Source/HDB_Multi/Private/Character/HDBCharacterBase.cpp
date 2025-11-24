@@ -2,6 +2,8 @@
 
 
 #include "Character/HDBCharacterBase.h"
+#include "AbilitySystem/HDBAbilitySystemComponent.h"
+#include "AbilitySystem/HDBAttributeSet.h"
 
 // Sets default values
 AHDBCharacterBase::AHDBCharacterBase()
@@ -12,6 +14,25 @@ AHDBCharacterBase::AHDBCharacterBase()
 
 	GetMesh()->bReceivesDecals = false;
 
+	AbilitySystemComponent = CreateDefaultSubobject<UHDBAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AttributeSet = CreateDefaultSubobject<UHDBAttributeSet>(TEXT("AttributeSet"));
+
+}
+
+UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
+{
+	return GetHDBAbilitySystemComponent();
+}
+
+
+void AHDBCharacterBase::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
 }
 
 

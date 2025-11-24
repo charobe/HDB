@@ -10,6 +10,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "HDBGameplayTag.h"
 #include "Component/Input/HDBInputComponent.h"
+#include "AbilitySystem/HDBAbilitySystemComponent.h"
+
+#include "HDBDebugHelper.h"
 
 AHDBPlayerCharacter::AHDBPlayerCharacter()
 {
@@ -80,6 +83,19 @@ void AHDBPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
 
+}
+
+void AHDBPlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (AbilitySystemComponent && AttributeSet)
+	{
+		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"), *WarriorAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *WarriorAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+
+		Debug::Print(TEXT("Ability system component valid. ") + ASCText, FColor::Green);
+		Debug::Print(TEXT("AttributeSet valid. ") + ASCText, FColor::Green);
+	}
 }
 
 void AHDBPlayerCharacter::Input_Move(const FInputActionValue& InputActionValue)
