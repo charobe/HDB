@@ -11,6 +11,8 @@
 #include "HDBGameplayTag.h"
 #include "Component/Input/HDBInputComponent.h"
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
+#include "DataAsset/StartUpData/DataAsset_PlayerStartUpData.h"
+
 
 #include "HDBDebugHelper.h"
 
@@ -89,12 +91,22 @@ void AHDBPlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (AbilitySystemComponent && AttributeSet)
+	if (!CharacterStartUpData.IsNull())
 	{
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"), *AbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		if (UDataAsset_StartUpData* Data = CharacterStartUpData.LoadSynchronous())
+		{
+			Data->GiveToAbilitySystemComponent(AbilitySystemComponent);
+		}
+	}
+}
 
-		Debug::Print(TEXT("Ability system component valid. ") + ASCText, FColor::Green);
-		Debug::Print(TEXT("AttributeSet valid. ") + ASCText, FColor::Green);
+void AHDBPlayerCharacter::OnRep_Controller()
+{
+	Super::OnRep_Controller();
+
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
 }
 
@@ -152,3 +164,4 @@ void AHDBPlayerCharacter::AddFootprintTick()
 }
 
 */
+

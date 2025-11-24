@@ -26,6 +26,8 @@ protected:
 
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void OnRep_Controller() override;
+
 private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
