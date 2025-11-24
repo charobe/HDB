@@ -2,7 +2,6 @@
 
 
 #include "AnimInstances/HDBPlayerAnimInstance.h"
-#include "HDBPlayerAnimInstance.h"
 
 void UHDBPlayerAnimInstance::NativeInitializeAnimation()
 {
@@ -11,6 +10,6 @@ void UHDBPlayerAnimInstance::NativeInitializeAnimation()
 
 void UHDBPlayerAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
-	Super::NativeThreadSafeUpdateAnimation(float DeltaSeconds);
+	Super::NativeThreadSafeUpdateAnimation(DeltaSeconds);
 
 }

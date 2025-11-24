@@ -14,6 +14,7 @@ public class HDB_Multi : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput",
-			"GameplayTags"});
+			"GameplayTags",
+			"GameplayTasks"});
 	}
 }
