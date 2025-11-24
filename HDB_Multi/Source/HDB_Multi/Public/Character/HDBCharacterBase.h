@@ -9,6 +9,7 @@
 
 class UHDBAbilitySystemComponent;
 class UHDBAttributeSet;
+class UBoxComponent;
 
 UCLASS()
 class HDB_MULTI_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -27,6 +28,12 @@ protected:
 
 	virtual void OnRep_Controller() override;
 
+	UPROPERTY(VisibleAnyWhere,BlueprintReadOnly, Category = "Collision")
+	TObjectPtr <UBoxComponent> LeftHandCollisionBox;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Collision")
+	TObjectPtr <UBoxComponent> RightHandCollisionBox;
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<UHDBAbilitySystemComponent> AbilitySystemComponent;
 
@@ -37,4 +44,8 @@ public:
 	FORCEINLINE UHDBAbilitySystemComponent* GetHDBAbilitySystemComponent() const { return AbilitySystemComponent; }
 
 	FORCEINLINE UHDBAttributeSet* GetHDBAttributeSet() const { return AttributeSet; }
+
+	FORCEINLINE UBoxComponent* GetLeftHandCollisionBox() const { return LeftHandCollisionBox; }
+	FORCEINLINE UBoxComponent* GetRightHandCollisionBox() const { return RightHandCollisionBox; }
+
 };
