@@ -91,7 +91,7 @@ void AHDBPlayerCharacter::PossessedBy(AController* NewController)
 
 	if (AbilitySystemComponent && AttributeSet)
 	{
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"), *WarriorAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *WarriorAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"), *AbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
 
 		Debug::Print(TEXT("Ability system component valid. ") + ASCText, FColor::Green);
 		Debug::Print(TEXT("AttributeSet valid. ") + ASCText, FColor::Green);

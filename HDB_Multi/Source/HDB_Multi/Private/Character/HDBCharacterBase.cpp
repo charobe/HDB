@@ -15,6 +15,10 @@ AHDBCharacterBase::AHDBCharacterBase()
 	GetMesh()->bReceivesDecals = false;
 
 	AbilitySystemComponent = CreateDefaultSubobject<UHDBAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed); 
+
+	
 	AttributeSet = CreateDefaultSubobject<UHDBAttributeSet>(TEXT("AttributeSet"));
 
 }
@@ -36,3 +40,11 @@ void AHDBCharacterBase::PossessedBy(AController* NewController)
 }
 
 
+void AHDBCharacterBase::OnRep_Controller()
+{
+	Super::OnRep_Controller();
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, this); // 소유 클라 측 재초기화
+	}
+}

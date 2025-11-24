@@ -25,6 +25,8 @@ protected:
 
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void OnRep_Controller() override;
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<UHDBAbilitySystemComponent> AbilitySystemComponent;
 
