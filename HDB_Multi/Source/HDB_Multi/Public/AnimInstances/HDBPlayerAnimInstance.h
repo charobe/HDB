@@ -14,7 +14,4 @@ class HDB_MULTI_API UHDBPlayerAnimInstance : public UHDBCharacterAnimInstance
 {
 	GENERATED_BODY()
 	
-public:
-	virtual void NativeInitializeAnimation() override;
-	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 };

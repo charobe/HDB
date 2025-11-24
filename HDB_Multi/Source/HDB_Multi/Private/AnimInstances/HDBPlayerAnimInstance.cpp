@@ -2,15 +2,4 @@
 
 
 #include "AnimInstances/HDBPlayerAnimInstance.h"
-#include "HDBPlayerAnimInstance.h"
 
-void UHDBPlayerAnimInstance::NativeInitializeAnimation()
-{
-	Super::NativeInitializeAnimation();
-}
-
-void UHDBPlayerAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
-{
-	Super::NativeThreadSafeUpdateAnimation(float DeltaSeconds);
-
-}
