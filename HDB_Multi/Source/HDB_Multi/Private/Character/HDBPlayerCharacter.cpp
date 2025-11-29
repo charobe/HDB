@@ -11,6 +11,7 @@
 #include "HDBGameplayTag.h"
 #include "Component/Input/HDBInputComponent.h"
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
+#include "Component/PlayerCombatComponent.h"
 #include "DataAsset/StartUpData/DataAsset_PlayerStartUpData.h"
 
 
@@ -47,6 +48,7 @@ AHDBPlayerCharacter::AHDBPlayerCharacter()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
+	CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("CombatComponent"));
 }
 
 void AHDBPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

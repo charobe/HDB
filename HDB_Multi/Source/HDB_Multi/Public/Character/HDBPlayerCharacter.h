@@ -10,6 +10,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UDA_InputConfig;
 struct FInputActionValue;
+class UPlayerCombatComponent;
 /**
  * 
  */
@@ -39,7 +40,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
 	UDA_InputConfig* InputConfigDataAsset;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPlayerCombatComponent* CombatComponent;
+
 	void Input_Move(const FInputActionValue& InputActionValue);
 	void Input_Look(const FInputActionValue& InputActionValue);
 
+public:
+	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return CombatComponent; }
 };
