@@ -36,7 +36,7 @@ AHDBCharacterBase::AHDBCharacterBase()
 
 UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
 {
-	return GetHDBAbilitySystemComponent();
+	return GetHDBAbilitySystemComponent(); 
 }
 
 

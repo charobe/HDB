@@ -48,3 +48,8 @@ UPawnCombatComponent* UHDBGameplayAbility::GetPawnCombatComponent() const
 
     return GetAvatarActorFromActorInfo()->FindComponentByClass<UPawnCombatComponent>();
 }
+
+UHDBAbilitySystemComponent* UHDBGameplayAbility::GetHDBAbilitySystemComponentFromActor() const
+{
+    return Cast<UHDBAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}

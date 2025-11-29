@@ -8,6 +8,7 @@
 
 
 class UPawnCombatComponent;
+class UHDBAbilitySystemComponent;
 
 UENUM(BlueprintType)
 enum class EHDBAbilityActivationPolicy : uint8
@@ -30,6 +31,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "HDBAbility")
 	EHDBAbilityActivationPolicy AbilityActivationPolicy = EHDBAbilityActivationPolicy::OnTriggered;
 
-	UPROPERTY(BlueprintPure, Category = "HDB | Ability")
+	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
 	UPawnCombatComponent* GetPawnCombatComponent() const;
+
+	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
+	UHDBAbilitySystemComponent* GetHDBAbilitySystemComponentFromActor() const;
 };
