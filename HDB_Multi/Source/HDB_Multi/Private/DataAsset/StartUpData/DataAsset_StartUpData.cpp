@@ -4,10 +4,6 @@
 #include "DataAsset/StartUpData/DataAsset_StartUpData.h"
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
-
-#include "DataAsset/StartUpData/DataAsset_StartUpData.h"
-#include "AbilitySystem/HDBAbilitySystemComponent.h"
-#include "AbilitySystem/Ability/HDBGameplayAbility.h"
 #include "AbilitySystemComponent.h"
 
 static bool HasAbilityClass(UAbilitySystemComponent* ASC, TSubclassOf<UGameplayAbility> AbilityClass)
@@ -16,7 +12,7 @@ static bool HasAbilityClass(UAbilitySystemComponent* ASC, TSubclassOf<UGameplayA
     return ASC->FindAbilitySpecFromClass(AbilityClass) != nullptr;
 }
 
-void UDataAsset_StartUpData::GiveToAbilitySystemComponent(UHDBAbilitySystemComponent* ASCToGive, int32 ApplyLevel) const
+void UDataAsset_StartUpData::GiveToAbilitySystemComponent(UHDBAbilitySystemComponent* ASCToGive, int32 ApplyLevel)
 {
     check(ASCToGive);
 
