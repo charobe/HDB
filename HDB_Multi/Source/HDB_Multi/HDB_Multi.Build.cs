@@ -15,6 +15,8 @@ public class HDB_Multi : ModuleRules
 			"InputCore", 
 			"EnhancedInput",
 			"GameplayTags",
-			"GameplayTasks"});
+            "GameplayTasks",
+            "NavigationSystem",
+            "AIModule"   });
 	}
 }
