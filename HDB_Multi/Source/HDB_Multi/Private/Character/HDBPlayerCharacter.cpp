@@ -86,7 +86,8 @@ void AHDBPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
 	HDBInputComponent->BindNativeInputAction(InputConfigDataAsset, HDBGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
-
+	
+	HDBInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityInputReleased);
 }
 
 void AHDBPlayerCharacter::PossessedBy(AController* NewController)
@@ -148,6 +149,12 @@ void AHDBPlayerCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AHDBPlayerCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	AbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+
 /*
 void AHDBPlayerCharacter::AddFootprintTick()
 {
@@ -166,4 +173,9 @@ void AHDBPlayerCharacter::AddFootprintTick()
 }
 
 */
+
+void AHDBPlayerCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	AbilitySystemComponent->OnAbilityInputReleased(InInputTag);
+}
 
