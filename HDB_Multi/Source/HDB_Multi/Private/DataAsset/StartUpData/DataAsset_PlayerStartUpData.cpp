@@ -5,10 +5,6 @@
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 
-bool FHDBPlayerAbilitySet::IsValid() const
-{
-	return InputTag.IsValid() && AbilityToGrant;
-}
 
 void UDataAsset_PlayerStartUpData::GiveToAbilitySystemComponent(UHDBAbilitySystemComponent* ASCToGive, int32 ApplyLevel)
 {
