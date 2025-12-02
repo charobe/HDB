@@ -6,6 +6,7 @@
 #include "HDBStructType.generated.h"
 
 class UHDBGameplayAbility;
+class UPlayerGameplayAbility;
 
 USTRUCT(BlueprintType)
 struct FHDBPlayerAbilitySet
@@ -16,7 +17,7 @@ struct FHDBPlayerAbilitySet
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UHDBGameplayAbility> AbilityToGrant;
+	TSubclassOf<UPlayerGameplayAbility> AbilityToGrant;
 
 	bool IsValid() const;
 };
