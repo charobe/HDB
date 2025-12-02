@@ -6,6 +6,9 @@
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
 #include "EnemyGameplayAbility.generated.h"
 
+class AHDBEnemyCharacter;
+class UEnemyCombatComponent;
+
 /**
  * 
  */
@@ -14,4 +17,14 @@ class HDB_MULTI_API UEnemyGameplayAbility : public UHDBGameplayAbility
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
+	AHDBEnemyCharacter* GetEnemyCharacterFromActorInfo();
+	
+	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
+	UEnemyCombatComponent* GetEnemyCombatComponentFromActorInfo();
+
+private:
+	TWeakObjectPtr<AHDBEnemyCharacter> CachedEnemyCharacter;
+
 };

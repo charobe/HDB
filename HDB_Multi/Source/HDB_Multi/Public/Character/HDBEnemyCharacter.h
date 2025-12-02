@@ -6,6 +6,8 @@
 #include "Character/HDBCharacterBase.h"
 #include "HDBEnemyCharacter.generated.h"
 
+class UEnemyCombatComponent;
+
 /**
  * 
  */
@@ -14,4 +16,13 @@ class HDB_MULTI_API AHDBEnemyCharacter : public AHDBCharacterBase
 {
 	GENERATED_BODY()
 	
+public:
+	AHDBEnemyCharacter();
+
+protected:
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Combat")
+	TObjectPtr<UEnemyCombatComponent> EnemyCombatComponent;
+
+public:
+	FORCEINLINE TObjectPtr<UEnemyCombatComponent> GetEnemyCombatComponent() const { return EnemyCombatComponent; }
 };
