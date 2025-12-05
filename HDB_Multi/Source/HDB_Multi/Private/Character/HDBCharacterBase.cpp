@@ -39,6 +39,11 @@ UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
 	return GetHDBAbilitySystemComponent(); 
 }
 
+UPawnCombatComponent* AHDBCharacterBase::GetPawnCombatComponent() const
+{
+	return nullptr;
+}
+
 
 void AHDBCharacterBase::PossessedBy(AController* NewController)
 {

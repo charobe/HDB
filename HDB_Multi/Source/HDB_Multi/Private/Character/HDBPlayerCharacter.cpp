@@ -51,6 +51,11 @@ AHDBPlayerCharacter::AHDBPlayerCharacter()
 	CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("CombatComponent"));
 }
 
+UPawnCombatComponent* AHDBPlayerCharacter::GetPawnCombatComponent() const
+{
+	return CombatComponent;
+}
+
 void AHDBPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

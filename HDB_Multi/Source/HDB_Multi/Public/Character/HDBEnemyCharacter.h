@@ -19,6 +19,9 @@ class HDB_MULTI_API AHDBEnemyCharacter : public AHDBCharacterBase
 public:
 	AHDBEnemyCharacter();
 
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+
+
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Combat")
 	TObjectPtr<UEnemyCombatComponent> EnemyCombatComponent;

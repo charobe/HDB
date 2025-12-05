@@ -27,6 +27,11 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 	GetMesh()->SetIsReplicated(true);
 }
 
+UPawnCombatComponent* AHDBEnemyCharacter::GetPawnCombatComponent() const
+{
+	return EnemyCombatComponent;
+}
+
 void AHDBEnemyCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

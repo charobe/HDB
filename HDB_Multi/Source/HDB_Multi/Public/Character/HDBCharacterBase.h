@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "Interface/PawnCombatInterface.h"
 #include "HDBCharacterBase.generated.h"
 
 class UHDBAbilitySystemComponent;
@@ -13,7 +14,7 @@ class UBoxComponent;
 class UDataAsset_StartUpData;
 
 UCLASS()
-class HDB_MULTI_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface
+class HDB_MULTI_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface
 {
 	GENERATED_BODY()
 
@@ -22,6 +23,9 @@ public:
 	AHDBCharacterBase();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+
 
 protected:
 

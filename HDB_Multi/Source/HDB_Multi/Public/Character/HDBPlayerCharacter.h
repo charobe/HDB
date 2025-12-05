@@ -23,6 +23,8 @@ class HDB_MULTI_API AHDBPlayerCharacter : public AHDBCharacterBase
 public:
 	AHDBPlayerCharacter();
 
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
