@@ -4,6 +4,8 @@
 #include "Character/HDBEnemyCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Component/EnemyCombatComponent.h"
+#include "Engine/AssetManager.h"
+#include "DataAsset/StartUpData/DataAsset_EnemyStartUpData.h"
 
 AHDBEnemyCharacter::AHDBEnemyCharacter()
 {
@@ -23,4 +25,32 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 
 	bReplicates = true;
 	GetMesh()->SetIsReplicated(true);
+}
+
+void AHDBEnemyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	InitEnemyStartUpData();
+}
+
+void AHDBEnemyCharacter::InitEnemyStartUpData()
+{
+	if (CharacterStartUpData.IsNull())
+	{
+		return;
+	}
+
+	UAssetManager::GetStreamableManager().RequestAsyncLoad(
+		CharacterStartUpData.ToSoftObjectPath(),
+		FStreamableDelegate::CreateLambda(
+			[this]()
+			{
+				if (UDataAsset_StartUpData* LoadedData = CharacterStartUpData.Get())
+				{
+					LoadedData->GiveToAbilitySystemComponent(AbilitySystemComponent);
+				}
+			}
+		)
+	);
 }

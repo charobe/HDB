@@ -23,6 +23,11 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Combat")
 	TObjectPtr<UEnemyCombatComponent> EnemyCombatComponent;
 
+	virtual void PossessedBy(AController* NewController) override;
+
+private:
+	void InitEnemyStartUpData();
+
 public:
 	FORCEINLINE TObjectPtr<UEnemyCombatComponent> GetEnemyCombatComponent() const { return EnemyCombatComponent; }
 };
