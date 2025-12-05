@@ -26,19 +26,25 @@ void UDataAsset_StartUpData::GiveToAbilitySystemComponent(UHDBAbilitySystemCompo
         return;
     }
 
-    for (const TSubclassOf<UHDBGameplayAbility>& Ability : ActivateOnGivenAbility)
-    {
-        if (!Ability) continue;
-        if (HasAbilityClass(ASCToGive, Ability)) continue;
-
-        
-        FGameplayAbilitySpec Spec(Ability, ApplyLevel, INDEX_NONE, ASCToGive->GetAvatarActor());
-        Spec.RemoveAfterActivation = true;
-        ASCToGive->GiveAbility(Spec);
-        ASCToGive->TryActivateAbility(Spec.Handle);
-    }
-
+    GrantAbility(ActivateOnGivenAbility, ASCToGive, ApplyLevel);
     GrantAbility(ReactiveAbility, ASCToGive, ApplyLevel);
+
+
+    if (!StartUpGameplayEffects.IsEmpty())
+    {
+        for (const TSubclassOf < UGameplayEffect >& EffectClass : StartUpGameplayEffects)
+        {
+            if (!EffectClass) continue;
+
+            UGameplayEffect* EffectCDO = EffectClass->GetDefaultObject<UGameplayEffect>();
+
+            ASCToGive->ApplyGameplayEffectToSelf(
+                EffectCDO,
+                ApplyLevel,
+                ASCToGive->MakeEffectContext()
+            );
+        }
+    }
 }
 
 void UDataAsset_StartUpData::GrantAbility(const TArray<TSubclassOf<UHDBGameplayAbility>>& AbilitiesToGive,

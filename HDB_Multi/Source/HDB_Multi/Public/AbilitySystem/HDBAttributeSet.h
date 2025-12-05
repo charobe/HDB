@@ -24,27 +24,48 @@ class HDB_MULTI_API UHDBAttributeSet : public UAttributeSet
 public:
 	UHDBAttributeSet();
 
-	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_CurrentHealth)
 	FGameplayAttributeData CurrentHealth;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, CurrentHealth)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, MaxHealth)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Haza")
+	UPROPERTY(BlueprintReadOnly, Category = "Haza", ReplicatedUsing = OnRep_CurrentHaza)
 	FGameplayAttributeData CurrentHaza;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, CurrentHaza)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Haza")
+	UPROPERTY(BlueprintReadOnly, Category = "Haza", ReplicatedUsing = OnRep_MaxHaza)
 	FGameplayAttributeData MaxHaza;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, MaxHaza)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_AttackPower)
 	FGameplayAttributeData AttackPower;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, AttackPower)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_DefensePower)
 	FGameplayAttributeData DefensePower;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, DefensePower)
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION() 
+	void OnRep_CurrentHealth(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION() 
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION() 
+	void OnRep_CurrentHaza(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION() 
+	void OnRep_MaxHaza(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION() 
+	void OnRep_AttackPower(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION() 
+	void OnRep_DefensePower(const FGameplayAttributeData& OldValue);
+
 };
