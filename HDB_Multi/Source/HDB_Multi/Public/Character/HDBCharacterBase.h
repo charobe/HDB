@@ -36,8 +36,14 @@ protected:
 	UPROPERTY(VisibleAnyWhere,BlueprintReadOnly, Category = "Collision")
 	TObjectPtr <UBoxComponent> LeftHandCollisionBox;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision")
+	FName LeftHandCollisionBoxAttachBoneName;
+
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Collision")
 	TObjectPtr <UBoxComponent> RightHandCollisionBox;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision")
+	FName RightHandCollisionBoxAttachBoneName;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<UHDBAbilitySystemComponent> AbilitySystemComponent;
@@ -48,8 +54,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartUpData> CharacterStartUpData;
 
-	UFUNCTION()
 	virtual void OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+
 public:
 	FORCEINLINE UHDBAbilitySystemComponent* GetHDBAbilitySystemComponent() const { return AbilitySystemComponent; }
 

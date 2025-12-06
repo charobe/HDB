@@ -118,6 +118,36 @@ void AHDBPlayerCharacter::OnRep_Controller()
 	}
 }
 
+void AHDBPlayerCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	//{
+	//	CombatComponent->OnHitTargetActor(HitPawn);
+	//}
+
+	if (!OtherActor || OtherActor == this)
+	{
+		return;
+	}
+
+	if (!HasAuthority())
+	{
+		return;
+	}
+
+	APawn* OwningPawn = GetInstigator<APawn>();
+
+	checkf(OwningPawn, TEXT("Forgot to assign an instiagtor as the owning pawn of the weapon: %s"), *GetName());
+
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (OwningPawn != HitPawn)
+		{
+			Debug::Print(GetName() + TEXT(" begin overlap with ") + HitPawn->GetName(), FColor::Green);
+		}
+	}
+}
+
 void AHDBPlayerCharacter::Input_Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();

@@ -59,3 +59,11 @@ void UPawnCombatComponent::ToggleCollision(bool bShouldEnable, EToggleDamageType
 //	}
 
 }
+
+void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UPawnCombatComponent::OnPulledFromTargetActor(AActor* InteractedActor)
+{
+}

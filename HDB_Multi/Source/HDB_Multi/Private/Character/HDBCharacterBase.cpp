@@ -5,7 +5,10 @@
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "AbilitySystem/HDBAttributeSet.h"
 #include "Components/BoxComponent.h"
+#include "Component/PawnCombatComponent.h"
 #include "HDBFunctionLibrary.h"
+
+#include "HDBDebugHelper.h"
 
 // Sets default values
 AHDBCharacterBase::AHDBCharacterBase()
@@ -68,9 +71,34 @@ void AHDBCharacterBase::OnRep_Controller()
 
 void AHDBCharacterBase::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	APawn* OwningPawn = GetInstigator<APawn>();
+
+	checkf(OwningPawn, TEXT("Forgot to assign an instiagtor as the owning pawn of the weapon: %s"), *GetName());
+
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		//CombatComponent->
-		//if(UHDBFunctionLibrary::)
+		if (OwningPawn != HitPawn)
+		{
+			Debug::Print(GetName() + TEXT(" begin overlap with ") + HitPawn->GetName(), FColor::Green);
+		}
+
 	}
 }
+
+#if WITH_EDITOR
+void AHDBCharacterBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	if (PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, LeftHandCollisionBoxAttachBoneName))
+	{
+		LeftHandCollisionBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, LeftHandCollisionBoxAttachBoneName);
+	}
+
+	if (PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, RightHandCollisionBoxAttachBoneName))
+	{
+		RightHandCollisionBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, RightHandCollisionBoxAttachBoneName);
+	}
+
+}
+#endif

@@ -25,4 +25,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
 	void ToggleCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType);
 
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnPulledFromTargetActor(AActor* InteractedActor);
+
 };
