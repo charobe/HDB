@@ -5,6 +5,7 @@
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "AbilitySystem/HDBAttributeSet.h"
 #include "Components/BoxComponent.h"
+#include "HDBFunctionLibrary.h"
 
 // Sets default values
 AHDBCharacterBase::AHDBCharacterBase()
@@ -67,4 +68,9 @@ void AHDBCharacterBase::OnRep_Controller()
 
 void AHDBCharacterBase::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		//CombatComponent->
+		//if(UHDBFunctionLibrary::)
+	}
 }

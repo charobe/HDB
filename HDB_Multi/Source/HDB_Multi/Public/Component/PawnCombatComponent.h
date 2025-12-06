@@ -6,6 +6,13 @@
 #include "Component/PawnComponentBase.h"
 #include "PawnCombatComponent.generated.h"
 
+UENUM(BlueprintType)
+enum class EToggleDamageType : uint8
+{
+	LeftHand,
+	RightHand
+};
+
 /**
  * 
  */
@@ -14,4 +21,8 @@ class HDB_MULTI_API UPawnCombatComponent : public UPawnComponentBase
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintCallable, Category = "HDB|Combat")
+	void ToggleCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType);
+
 };
