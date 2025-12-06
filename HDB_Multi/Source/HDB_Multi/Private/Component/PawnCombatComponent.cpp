@@ -28,36 +28,30 @@ void UPawnCombatComponent::ToggleCollision(bool bShouldEnable, EToggleDamageType
 	case EToggleDamageType::LeftHand:
 		if (bShouldEnable)
 		{
+			OverlappedActor.Reset();		
 			LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			}
+		}
 		else
 		{
 			LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
-		//LeftHandCollisionBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
 		break;
 
 	case EToggleDamageType::RightHand:
 		if (bShouldEnable)
 		{
+			OverlappedActor.Reset();
 			RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		}
 		else
 		{
 			RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
-		//RightHandCollisionBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
 		break;
 
 	default:
 		break;
 	}
-
-	//if (!bShouldEnable)
-	//{
-//		OverlappedActors.Empty();
-//	}
-
 }
 
 void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)

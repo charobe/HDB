@@ -2,12 +2,34 @@
 
 
 #include "Component/PlayerCombatComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "HDBGameplayTag.h"
 
 #include "HDBDebugHelper.h"
 
 void UPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
-	Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT(" hit ") + HitActor->GetActorNameOrLabel(), FColor::Green);
+	APawn* OwnerPawn = GetOwningPawn();
+	if (!OwnerPawn || !OwnerPawn->HasAuthority())
+	{
+		return;
+	}
+
+	if (OverlappedActor.Contains(HitActor))
+	{
+		return;
+	}
+
+	OverlappedActor.AddUnique(HitActor);
+
+	FGameplayEventData Data;
+	Data.Instigator = GetOwningPawn();
+	Data.Target = HitActor;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		HDBGameplayTags::Shared_Event_MeleeAttack,
+		Data);
 }
 
 void UPlayerCombatComponent::OnPulledFromTargetActor(AActor* InteractedActor)

@@ -28,4 +28,7 @@ public:
 	virtual void OnHitTargetActor(AActor* HitActor);
 	virtual void OnPulledFromTargetActor(AActor* InteractedActor);
 
+
+protected:
+	TArray<AActor*> OverlappedActor;
 };
