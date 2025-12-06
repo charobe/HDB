@@ -48,7 +48,10 @@ void UHDBFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagT
 
 UPawnCombatComponent* UHDBFunctionLibrary::NativeGetPawnCombatComponentFromActor(AActor* Actor)
 {
-	check(Actor);
+	if (!IsValid(Actor))
+	{
+		return nullptr;
+	}
 
 	if (IPawnCombatInterface* PawnCombatInterface = Cast<IPawnCombatInterface>(Actor))
 	{
