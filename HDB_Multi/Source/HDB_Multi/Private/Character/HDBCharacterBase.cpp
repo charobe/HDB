@@ -65,24 +65,16 @@ void AHDBCharacterBase::OnRep_Controller()
 	Super::OnRep_Controller();
 	if (AbilitySystemComponent)
 	{
-		AbilitySystemComponent->InitAbilityActorInfo(this, this); // 소유 클라 측 재초기화
+		AbilitySystemComponent->InitAbilityActorInfo(this, this); 
 	}
 }
 
 void AHDBCharacterBase::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	APawn* OwningPawn = GetInstigator<APawn>();
+}
 
-	checkf(OwningPawn, TEXT("Forgot to assign an instiagtor as the owning pawn of the weapon: %s"), *GetName());
-
-	if (APawn* HitPawn = Cast<APawn>(OtherActor))
-	{
-		if (OwningPawn != HitPawn)
-		{
-			Debug::Print(GetName() + TEXT(" begin overlap with ") + HitPawn->GetName(), FColor::Green);
-		}
-
-	}
+void AHDBCharacterBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
 }
 
 #if WITH_EDITOR

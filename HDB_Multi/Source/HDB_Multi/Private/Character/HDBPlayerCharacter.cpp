@@ -49,6 +49,9 @@ AHDBPlayerCharacter::AHDBPlayerCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("CombatComponent"));
+
+	OnHitTarget.BindUObject(CombatComponent, &UPlayerCombatComponent::OnHitTargetActor);
+	OnPulledFromTarget.BindUObject(CombatComponent, &UPlayerCombatComponent::OnPulledFromTargetActor);
 }
 
 UPawnCombatComponent* AHDBPlayerCharacter::GetPawnCombatComponent() const
@@ -120,11 +123,6 @@ void AHDBPlayerCharacter::OnRep_Controller()
 
 void AHDBPlayerCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//if (APawn* HitPawn = Cast<APawn>(OtherActor))
-	//{
-	//	CombatComponent->OnHitTargetActor(HitPawn);
-	//}
-
 	if (!OtherActor || OtherActor == this)
 	{
 		return;
@@ -137,13 +135,38 @@ void AHDBPlayerCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* Ov
 
 	APawn* OwningPawn = GetInstigator<APawn>();
 
-	checkf(OwningPawn, TEXT("Forgot to assign an instiagtor as the owning pawn of the weapon: %s"), *GetName());
+	checkf(OwningPawn, TEXT("instigator 설정 오류: %s"), *GetName());
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
 		if (OwningPawn != HitPawn)
 		{
-			Debug::Print(GetName() + TEXT(" begin overlap with ") + HitPawn->GetName(), FColor::Green);
+			OnHitTarget.ExecuteIfBound(OtherActor);
+		}
+	}
+}
+
+void AHDBPlayerCharacter::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (!OtherActor || OtherActor == this)
+	{
+		return;
+	}
+
+	if (!HasAuthority())
+	{
+		return;
+	}
+
+	APawn* OwningPawn = GetInstigator<APawn>();
+
+	checkf(OwningPawn, TEXT("instigator 설정 오류: %s"), *GetName());
+
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (OwningPawn != HitPawn)
+		{
+			OnPulledFromTarget.ExecuteIfBound(OtherActor);
 		}
 	}
 }

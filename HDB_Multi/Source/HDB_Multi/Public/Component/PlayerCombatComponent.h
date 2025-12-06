@@ -14,4 +14,8 @@ class HDB_MULTI_API UPlayerCombatComponent : public UPawnCombatComponent
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+	virtual void OnPulledFromTargetActor(AActor* InteractedActor) override;
+
 };

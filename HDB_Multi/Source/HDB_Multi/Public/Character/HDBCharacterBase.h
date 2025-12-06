@@ -13,6 +13,8 @@ class UHDBAttributeSet;
 class UBoxComponent;
 class UDataAsset_StartUpData;
 
+DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor*);
+
 UCLASS()
 class HDB_MULTI_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface
 {
@@ -26,6 +28,8 @@ public:
 
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 
+	FOnTargetInteractedDelegate OnHitTarget;
+	FOnTargetInteractedDelegate OnPulledFromTarget;
 
 protected:
 
@@ -55,7 +59,7 @@ protected:
 	TSoftObjectPtr<UDataAsset_StartUpData> CharacterStartUpData;
 
 	virtual void OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
+	virtual void OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
