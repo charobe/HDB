@@ -28,6 +28,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
 	UPlayerCombatComponent* GetPlayerCombatComponentFromActor();
 
+	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
+	FGameplayEffectSpecHandle MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InCurrentComboCount);
 private:
 	TWeakObjectPtr<AHDBPlayerCharacter> CachedPlayerCharacter;
 	TWeakObjectPtr<AHDBPlayerController> CachedPlayerController;
