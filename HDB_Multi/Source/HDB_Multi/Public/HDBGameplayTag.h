@@ -12,6 +12,7 @@ namespace HDBGameplayTags
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LightAttack);
 
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Light);
+	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
 
 
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeAttack);
