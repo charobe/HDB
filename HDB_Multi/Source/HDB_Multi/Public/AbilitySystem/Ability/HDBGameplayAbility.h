@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "HDBFunctionLibrary.h"
+#include "Type/HDBEnumType.h"
 #include "HDBGameplayAbility.generated.h"
 
 
@@ -36,4 +38,9 @@ protected:
 
 	UFUNCTION(BlueprintPure, Category = "HDB|Ability")
 	UHDBAbilitySystemComponent* GetHDBAbilitySystemComponentFromActor() const;
+
+	FActiveGameplayEffectHandle NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
+
+	UFUNCTION(BlueprintCallable, Category = "HDB|Ability", meta = (DisplayName = "Apply Gameplay Effect Spec Handle To Target Actor", ExpandEnumAsExecs = "OutSuccessType"))
+	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EHDBSuccessType& OutSuccessType);
 };

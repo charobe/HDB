@@ -4,6 +4,7 @@
 #include "AbilitySystem/Ability/HDBGameplayAbility.h"
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "Component/PawnCombatComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 void UHDBGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo,
     const FGameplayAbilitySpec& Spec)
@@ -37,7 +38,6 @@ void UHDBGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
     {
         if (ActorInfo && ActorInfo->IsNetAuthority())
         {
-            // 가능하면 bRemoveAfterActivation 사용 권장
             ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
         }
     }
@@ -52,4 +52,25 @@ UPawnCombatComponent* UHDBGameplayAbility::GetPawnCombatComponent() const
 UHDBAbilitySystemComponent* UHDBGameplayAbility::GetHDBAbilitySystemComponentFromActor() const
 {
     return Cast<UHDBAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
+
+FActiveGameplayEffectHandle UHDBGameplayAbility::NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle)
+{
+    UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+
+    check(TargetASC && InSpecHandle.IsValid());
+
+    return GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(
+        *InSpecHandle.Data,
+        TargetASC
+    );
+}
+
+FActiveGameplayEffectHandle UHDBGameplayAbility::BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EHDBSuccessType& OutSuccessType)
+{
+    FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
+
+    OutSuccessType = ActiveGameplayEffectHandle.WasSuccessfullyApplied() ? EHDBSuccessType::Success : EHDBSuccessType::Failed;
+
+    return ActiveGameplayEffectHandle;
 }
