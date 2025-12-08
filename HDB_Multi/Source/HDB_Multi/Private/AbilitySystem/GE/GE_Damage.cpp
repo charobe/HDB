@@ -74,21 +74,22 @@ void UGE_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionPara
 
 	if (UsedLightAttckComboCount != 0)
 	{
-		const float DamageIncreasePercentLight = (UsedLightAttckComboCount - 1) * 0.05 + 1.f;
+		const float DamageIncreasePercentLight = (UsedLightAttckComboCount - 1) * 0.05f + 1.f;
 
 		BaseDamage *= DamageIncreasePercentLight;
-		Debug::Print(TEXT("ScaledBaseDamageLight"), BaseDamage);
+		//Debug::Print(TEXT("ScaledBaseDamageLight"), BaseDamage);
 	}
 
-	const float FinalDamageDone = BaseDamage * SourceAttackPower / TargetDefensePower;
-	Debug::Print(TEXT("FinalDamageDone"), FinalDamageDone);
+	float FinalDamageDone = (BaseDamage + SourceAttackPower) - TargetDefensePower;
+	FinalDamageDone = FMath::Max(0.f, FinalDamageDone);
+	//Debug::Print(TEXT("FinalDamageDone"), FinalDamageDone);
 
-	if (FinalDamageDone > 0.f)
+	if(FinalDamageDone > 0.f)
 	{
 		OutExecutionOutput.AddOutputModifier(
 			FGameplayModifierEvaluatedData(
-				GetHDBDamageCapture().DamageTakenProperty,
-				EGameplayModOp::Override,
+				UHDBAttributeSet::GetDamageTakenAttribute(),
+				EGameplayModOp::Additive,
 				FinalDamageDone
 			)
 		);
