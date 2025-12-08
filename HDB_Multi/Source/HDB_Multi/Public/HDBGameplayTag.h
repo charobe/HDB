@@ -14,6 +14,12 @@ namespace HDBGameplayTags
 
 	//Player Tag
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Light);
+	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_HitPause);
+
+	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_HitPause);
+
+
+
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
 
 	//Enemy Tag

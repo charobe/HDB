@@ -30,9 +30,18 @@ void UPlayerCombatComponent::OnHitTargetActor(AActor* HitActor)
 		GetOwningPawn(),
 		HDBGameplayTags::Shared_Event_MeleeAttack,
 		Data);
+
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		HDBGameplayTags::Player_Event_HitPause,
+		FGameplayEventData());
 }
 
 void UPlayerCombatComponent::OnPulledFromTargetActor(AActor* InteractedActor)
 {
-	Debug::Print(GetOwningPawn()->GetActorNameOrLabel() + TEXT("'s weapon pulled from ") + InteractedActor->GetActorNameOrLabel(), FColor::Red);
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		GetOwningPawn(),
+		HDBGameplayTags::Player_Event_HitPause,
+		FGameplayEventData());
 }
