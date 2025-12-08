@@ -48,6 +48,10 @@ public:
 	FGameplayAttributeData DefensePower;
 	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, DefensePower)
 
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_DamageTaken)
+	FGameplayAttributeData DamageTaken;
+	ATTRIBUTE_ACCESSORS(UHDBAttributeSet, DamageTaken)
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION() 
@@ -67,5 +71,8 @@ public:
 
 	UFUNCTION() 
 	void OnRep_DefensePower(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	void OnRep_DamageTaken(const FGameplayAttributeData& OldValue);
 
 };

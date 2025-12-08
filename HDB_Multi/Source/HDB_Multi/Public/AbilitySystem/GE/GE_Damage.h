@@ -17,4 +17,6 @@ class HDB_MULTI_API UGE_Damage : public UGameplayEffectExecutionCalculation
 
 public:
 	UGE_Damage();
+
+	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 };

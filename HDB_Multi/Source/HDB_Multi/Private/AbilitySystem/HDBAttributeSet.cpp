@@ -57,3 +57,9 @@ void UHDBAttributeSet::OnRep_DefensePower(const FGameplayAttributeData& OldValue
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, DefensePower, OldValue);
 }
+
+void UHDBAttributeSet::OnRep_DamageTaken(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, DamageTaken, OldValue);
+
+}
