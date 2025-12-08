@@ -14,4 +14,7 @@ class HDB_MULTI_API UGE_Damage : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 	
+
+public:
+	UGE_Damage();
 };
