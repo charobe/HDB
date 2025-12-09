@@ -26,35 +26,17 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 {
     Super::PostGameplayEffectExecute(Data);
 
-	AActor* Avatar = Data.Target.GetAvatarActor();
-	if (!Avatar)
-	{
-		return;
-	}
-
-	if (!CachedPawnUIInterface.IsValid())
-	{
-		CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
-	}
-
-	UPawnUIComponent* PawnUIComponent = CachedPawnUIInterface->GetPawnUIComponent();
+    AActor* Avatar = Data.Target.GetAvatarActor();
+    if (!Avatar) return;
 
     if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
     {
         SetCurrentHealth(FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth()));
-		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
-
-	}
+    }
     else if (Data.EvaluatedData.Attribute == GetCurrentHazaAttribute())
     {
         SetCurrentHaza(FMath::Clamp(GetCurrentHaza(), 0.f, GetMaxHaza()));
-   
-		if (UPlayerUIComponent* PlayerUIComponent = CachedPawnUIInterface->GetPlayerUIComponent())
-		{
-			
-			PlayerUIComponent->OnCurrentHazaChanged.Broadcast(GetCurrentHaza() / GetMaxHaza());
-		}
-	}
+    }
     else if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
     {
         const float OldHealth = GetCurrentHealth();
@@ -62,19 +44,17 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
         if (DamageDone > 0.f)
         {
-            const float NewCurrentHealth =
-                FMath::Clamp(OldHealth - DamageDone, 0.f, GetMaxHealth());
+            const float NewHealth = FMath::Clamp(OldHealth - DamageDone, 0.f, GetMaxHealth());
+            SetCurrentHealth(NewHealth);
 
-            SetCurrentHealth(NewCurrentHealth);
-
-            if (GetCurrentHealth() <= 0.f && Avatar->HasAuthority())
+            if (NewHealth <= 0.f && Avatar->HasAuthority())
             {
-                UHDBFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), HDBGameplayTags::Shared_Status_Death);
-
+                UHDBFunctionLibrary::AddGameplayTagToActorIfNone(
+                    Avatar,
+                    HDBGameplayTags::Shared_Status_Death
+                );
             }
         }
-
-		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 
         SetDamageTaken(0.f);
     }
@@ -98,21 +78,26 @@ void UHDBAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 void UHDBAttributeSet::OnRep_CurrentHealth(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, CurrentHealth, OldValue);
+    BroadcastCurrentHealthRatio();
 }
 
 void UHDBAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, MaxHealth, OldValue);
+    BroadcastCurrentHealthRatio();
+
 }
 
 void UHDBAttributeSet::OnRep_CurrentHaza(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, CurrentHaza, OldValue);
+    BroadcastCurrentHazaRatio();
 }
 
 void UHDBAttributeSet::OnRep_MaxHaza(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, MaxHaza, OldValue);
+    BroadcastCurrentHazaRatio();
 }
 
 void UHDBAttributeSet::OnRep_AttackPower(const FGameplayAttributeData& OldValue)
@@ -129,4 +114,44 @@ void UHDBAttributeSet::OnRep_DamageTaken(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHDBAttributeSet, DamageTaken, OldValue);
 
+}
+
+void UHDBAttributeSet::BroadcastCurrentHealthRatio() const
+{
+    UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent();
+    if (!ASC) return;
+
+    AActor* Avatar = ASC->GetAvatarActor();
+    if (!Avatar) return;
+
+    IPawnUIInterface* UIInterface = Cast<IPawnUIInterface>(Avatar);
+    if (!UIInterface) return;
+
+    UPawnUIComponent* PawnUI = UIInterface->GetPawnUIComponent();
+    if (!PawnUI) return;
+
+    const float Max = GetMaxHealth();
+    const float Ratio = FMath::IsNearlyZero(Max) ? 0.f : (GetCurrentHealth() / Max);
+
+    PawnUI->OnCurrentHealthChanged.Broadcast(Ratio);
+}
+
+void UHDBAttributeSet::BroadcastCurrentHazaRatio() const
+{
+    UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent();
+    if (!ASC) return;
+
+    AActor* Avatar = ASC->GetAvatarActor();
+    if (!Avatar) return;
+
+    IPawnUIInterface* UIInterface = Cast<IPawnUIInterface>(Avatar);
+    if (!UIInterface) return;
+
+    UPlayerUIComponent* PlayerUI = UIInterface->GetPlayerUIComponent();
+    if (!PlayerUI) return;
+
+    const float Max = GetMaxHaza();
+    const float Ratio = FMath::IsNearlyZero(Max) ? 0.f : (GetCurrentHaza() / Max);
+
+    PlayerUI->OnCurrentHazaChanged.Broadcast(Ratio);
 }
