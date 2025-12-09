@@ -17,6 +17,8 @@ public class HDB_Multi : ModuleRules
 			"GameplayTags",
             "GameplayTasks",
             "NavigationSystem",
-            "AIModule"   });
+            "AIModule",
+			"UMG"
+		});
 	}
 }

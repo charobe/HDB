@@ -67,7 +67,7 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
             SetCurrentHealth(NewCurrentHealth);
 
-            if (NewCurrentHealth <= 0.f && Avatar->HasAuthority())
+            if (GetCurrentHealth() <= 0.f && Avatar->HasAuthority())
             {
                 UHDBFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), HDBGameplayTags::Shared_Status_Death);
 
@@ -90,6 +90,8 @@ void UHDBAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION_NOTIFY(UHDBAttributeSet, MaxHaza, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UHDBAttributeSet, AttackPower, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UHDBAttributeSet, DefensePower, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHDBAttributeSet, DamageTaken, COND_None, REPNOTIFY_Always);
+
 }
 
 
