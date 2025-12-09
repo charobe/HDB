@@ -4,6 +4,8 @@
 #include "AbilitySystem/HDBAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
+#include "HDBFunctionLibrary.h"
+#include "HDBGameplayTag.h"
 
 #include "HDBDebugHelper.h"
 
@@ -41,15 +43,10 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
             SetCurrentHealth(NewCurrentHealth);
 
-            const FString DebugString = FString::Printf(
-                TEXT("Old Health: %f, Damage Done: %f, NewCurrentHealth: %f"),
-                OldHealth, DamageDone, NewCurrentHealth
-            );
-
-            Debug::Print(DebugString, FColor::Green);
-
             if (NewCurrentHealth <= 0.f)
             {
+                UHDBFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), HDBGameplayTags::Shared_Status_Death);
+
             }
         }
         SetDamageTaken(0.f);
