@@ -6,6 +6,9 @@
 #include "GameplayEffectExtension.h"
 #include "HDBFunctionLibrary.h"
 #include "HDBGameplayTag.h"
+#include "Interface/PawnUIInterface.h"
+#include "Component/PawnUIComponent.h"
+#include "Component/PlayerUIComponent.h"
 
 #include "HDBDebugHelper.h"
 
@@ -23,14 +26,35 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 {
     Super::PostGameplayEffectExecute(Data);
 
+	AActor* Avatar = Data.Target.GetAvatarActor();
+	if (!Avatar)
+	{
+		return;
+	}
+
+	if (!CachedPawnUIInterface.IsValid())
+	{
+		CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
+	}
+
+	UPawnUIComponent* PawnUIComponent = CachedPawnUIInterface->GetPawnUIComponent();
+
     if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
     {
         SetCurrentHealth(FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth()));
-    }
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+
+	}
     else if (Data.EvaluatedData.Attribute == GetCurrentHazaAttribute())
     {
         SetCurrentHaza(FMath::Clamp(GetCurrentHaza(), 0.f, GetMaxHaza()));
-    }
+   
+		if (UPlayerUIComponent* PlayerUIComponent = CachedPawnUIInterface->GetPlayerUIComponent())
+		{
+			
+			PlayerUIComponent->OnCurrentHazaChanged.Broadcast(GetCurrentHaza() / GetMaxHaza());
+		}
+	}
     else if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
     {
         const float OldHealth = GetCurrentHealth();
@@ -43,12 +67,15 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
             SetCurrentHealth(NewCurrentHealth);
 
-            if (NewCurrentHealth <= 0.f)
+            if (NewCurrentHealth <= 0.f && Avatar->HasAuthority())
             {
                 UHDBFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), HDBGameplayTags::Shared_Status_Death);
 
             }
         }
+
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+
         SetDamageTaken(0.f);
     }
 }

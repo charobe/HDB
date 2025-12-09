@@ -12,7 +12,9 @@ class UCameraComponent;
 class UDA_InputConfig;
 struct FInputActionValue;
 class UPlayerCombatComponent;
+class UPawnUIComponent;
 class UPlayerUIComponent;
+
 /**
  * 
  */
@@ -27,6 +29,7 @@ public:
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 
 	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UPlayerUIComponent* GetPlayerUIComponent() const override;
 
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

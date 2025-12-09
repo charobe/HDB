@@ -6,6 +6,8 @@
 #include "Component/PawnComponentBase.h"
 #include "PawnUIComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPercentChangedDelegate, float, NewPercent);
+
 /**
  * 
  */
@@ -14,4 +16,7 @@ class HDB_MULTI_API UPawnUIComponent : public UPawnComponentBase
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnPercentChangedDelegate OnCurrentHealthChanged;
 };

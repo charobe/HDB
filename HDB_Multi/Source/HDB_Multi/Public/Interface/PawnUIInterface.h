@@ -7,6 +7,7 @@
 #include "PawnUIInterface.generated.h"
 
 class UPawnUIComponent;
+class UPlayerUIComponent;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
@@ -25,4 +26,7 @@ class HDB_MULTI_API IPawnUIInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual UPawnUIComponent* GetPawnUIComponent() const = 0;
+
+	virtual UPlayerUIComponent* GetPlayerUIComponent() const;
+
 };
