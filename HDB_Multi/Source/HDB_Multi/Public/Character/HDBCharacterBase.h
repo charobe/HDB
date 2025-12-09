@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interface/PawnCombatInterface.h"
+#include "Interface/PawnUIInterface.h"
 #include "HDBCharacterBase.generated.h"
 
 class UHDBAbilitySystemComponent;
@@ -16,7 +17,7 @@ class UDataAsset_StartUpData;
 DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor*);
 
 UCLASS()
-class HDB_MULTI_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface
+class HDB_MULTI_API AHDBCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface, public IPawnUIInterface
 {
 	GENERATED_BODY()
 
@@ -27,6 +28,9 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+
 
 	FOnTargetInteractedDelegate OnHitTarget;
 	FOnTargetInteractedDelegate OnPulledFromTarget;

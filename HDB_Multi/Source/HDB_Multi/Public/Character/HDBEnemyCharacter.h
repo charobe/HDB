@@ -7,6 +7,7 @@
 #include "HDBEnemyCharacter.generated.h"
 
 class UEnemyCombatComponent;
+class UEnemyUIComponent;
 
 /**
  * 
@@ -20,11 +21,15 @@ public:
 	AHDBEnemyCharacter();
 
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
 
 
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Combat")
 	TObjectPtr<UEnemyCombatComponent> EnemyCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	UEnemyUIComponent* EnemyUIComponent;
 
 	virtual void PossessedBy(AController* NewController) override;
 

@@ -48,6 +48,11 @@ UPawnCombatComponent* AHDBCharacterBase::GetPawnCombatComponent() const
 	return nullptr;
 }
 
+UPawnUIComponent* AHDBCharacterBase::GetPawnUIComponent() const
+{
+	return nullptr;
+}
+
 
 void AHDBCharacterBase::PossessedBy(AController* NewController)
 {

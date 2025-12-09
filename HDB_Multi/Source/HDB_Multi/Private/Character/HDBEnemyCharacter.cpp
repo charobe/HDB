@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Component/EnemyCombatComponent.h"
 #include "Engine/AssetManager.h"
+#include "Component/EnemyUIComponent.h"
 #include "DataAsset/StartUpData/DataAsset_EnemyStartUpData.h"
 
 AHDBEnemyCharacter::AHDBEnemyCharacter()
@@ -22,6 +23,7 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
+	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>("EnemyUIComponent");
 
 	bReplicates = true;
 	GetMesh()->SetIsReplicated(true);
@@ -30,6 +32,11 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 UPawnCombatComponent* AHDBEnemyCharacter::GetPawnCombatComponent() const
 {
 	return EnemyCombatComponent;
+}
+
+UPawnUIComponent* AHDBEnemyCharacter::GetPawnUIComponent() const
+{
+	return EnemyUIComponent;
 }
 
 void AHDBEnemyCharacter::PossessedBy(AController* NewController)

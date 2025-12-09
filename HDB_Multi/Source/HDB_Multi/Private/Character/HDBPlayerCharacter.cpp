@@ -13,7 +13,7 @@
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "Component/PlayerCombatComponent.h"
 #include "DataAsset/StartUpData/DataAsset_PlayerStartUpData.h"
-
+#include "Component/PlayerUIComponent.h"
 
 #include "HDBDebugHelper.h"
 
@@ -49,6 +49,7 @@ AHDBPlayerCharacter::AHDBPlayerCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("CombatComponent"));
+	PlayerUIComponent = CreateDefaultSubobject<UPlayerUIComponent>(TEXT("PlayerUIComponent"));
 
 	OnHitTarget.BindUObject(CombatComponent, &UPlayerCombatComponent::OnHitTargetActor);
 	OnPulledFromTarget.BindUObject(CombatComponent, &UPlayerCombatComponent::OnPulledFromTargetActor);
@@ -57,6 +58,11 @@ AHDBPlayerCharacter::AHDBPlayerCharacter()
 UPawnCombatComponent* AHDBPlayerCharacter::GetPawnCombatComponent() const
 {
 	return CombatComponent;
+}
+
+UPawnUIComponent* AHDBPlayerCharacter::GetPawnUIComponent() const
+{
+	return PlayerUIComponent;
 }
 
 void AHDBPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
