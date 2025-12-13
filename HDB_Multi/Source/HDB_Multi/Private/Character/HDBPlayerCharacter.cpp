@@ -67,7 +67,7 @@ UPawnUIComponent* AHDBPlayerCharacter::GetPawnUIComponent() const
 
 UPlayerUIComponent* AHDBPlayerCharacter::GetPlayerUIComponent() const
 {
-	return nullptr;
+	return PlayerUIComponent;
 }
 
 void AHDBPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

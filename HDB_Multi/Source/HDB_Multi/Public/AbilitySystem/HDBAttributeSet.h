@@ -82,7 +82,6 @@ public:
 
 
 private:
-	TWeakInterfacePtr<IPawnUIInterface> CachedPawnUIInterface;
 	void BroadcastCurrentHealthRatio() const;
 	void BroadcastCurrentHazaRatio() const;
 };

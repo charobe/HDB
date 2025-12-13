@@ -32,10 +32,14 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
     if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
     {
         SetCurrentHealth(FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth()));
+        BroadcastCurrentHealthRatio();
     }
     else if (Data.EvaluatedData.Attribute == GetCurrentHazaAttribute())
     {
         SetCurrentHaza(FMath::Clamp(GetCurrentHaza(), 0.f, GetMaxHaza()));
+  
+        BroadcastCurrentHazaRatio();
+    
     }
     else if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
     {
@@ -54,6 +58,8 @@ void UHDBAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
                     HDBGameplayTags::Shared_Status_Death
                 );
             }
+            BroadcastCurrentHealthRatio();
+          
         }
 
         SetDamageTaken(0.f);

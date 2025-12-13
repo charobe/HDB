@@ -8,6 +8,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPercentChangedDelegate, float, NewPercent);
 
+class UHDBAbilitySystemComponent;
+
 /**
  * 
  */
@@ -19,4 +21,11 @@ class HDB_MULTI_API UPawnUIComponent : public UPawnComponentBase
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnPercentChangedDelegate OnCurrentHealthChanged;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UI")
+	float GetCurrentHealthRatio() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UI")
+	UHDBAbilitySystemComponent* GetHDBASC() const;
+
 };
