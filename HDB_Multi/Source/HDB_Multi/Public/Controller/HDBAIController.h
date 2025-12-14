@@ -44,4 +44,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Detour Crowd Avoidance Config", meta = (EditCondition = "bEnableDetourCrowdAvoidance"))
 	float CollisionQueryRange = 600.f;
+
+	void SelectNearestPerceivedEnemy();
+
 };

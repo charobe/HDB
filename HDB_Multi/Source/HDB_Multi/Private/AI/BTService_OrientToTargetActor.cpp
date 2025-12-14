@@ -13,7 +13,7 @@ UBTService_OrientToTargetActor::UBTService_OrientToTargetActor()
 	INIT_SERVICE_NODE_NOTIFY_FLAGS();
 
 	RotationInterpSpeed = 5.f;
-	Interval = 0.05f;
+	Interval = 0.f;
 	RandomDeviation = 0.f;
 
 	InTargetActorKey.AddObjectFilter(this, GET_MEMBER_NAME_CHECKED(ThisClass, InTargetActorKey), AActor::StaticClass());

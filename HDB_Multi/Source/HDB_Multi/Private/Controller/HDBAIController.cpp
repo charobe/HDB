@@ -32,20 +32,29 @@ AHDBAIController::AHDBAIController(const FObjectInitializer& ObjectInitializer)
 
 void AHDBAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
-	if (Stimulus.WasSuccessfullySensed() && Actor)
+	UBlackboardComponent* BB = GetBlackboardComponent();
+	if (!BB || !Actor)
 	{
-		if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		return;
+	}
+
+	const FName TargetKey(TEXT("TargetActor"));
+
+	if (Stimulus.WasSuccessfullySensed())
+	{
+		if (!BB->GetValueAsObject(TargetKey))
 		{
-			BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
+			BB->SetValueAsObject(TargetKey, Actor);
 		}
 	}
 	else
 	{
-		 if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
-		 {
-		     BlackboardComponent->ClearValue(TEXT("TargetActor"));
-		 }
+		if (BB->GetValueAsObject(TargetKey) == Actor)
+		{
+			BB->ClearValue(TargetKey);
+		}
 	}
+
 }
 
 
@@ -62,14 +71,24 @@ ETeamAttitude::Type AHDBAIController::GetTeamAttitudeTowards(const AActor& Other
 	{
 		return Super::GetTeamAttitudeTowards(Other);
 	}
-	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<IGenericTeamAgentInterface>(PawnToCheck->GetController());
 
-	if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId())
+	const IGenericTeamAgentInterface* OtherTeamAgent =
+		Cast<IGenericTeamAgentInterface>(OtherController);
+
+	if (!OtherTeamAgent)
 	{
-		return ETeamAttitude::Hostile;
+		return ETeamAttitude::Neutral;
 	}
 
-	return ETeamAttitude::Friendly;
+	const FGenericTeamId OtherId = OtherTeamAgent->GetGenericTeamId();
+	const FGenericTeamId MyId = GetGenericTeamId();
+
+	if (OtherId == MyId)
+	{
+		return ETeamAttitude::Friendly;
+	}
+
+	return ETeamAttitude::Hostile;
 }
 
 void AHDBAIController::BeginPlay()
