@@ -48,7 +48,7 @@ public:
 	EHDBSurvialGameModeState GetCurrentState() const { return CurrentState; }
 
 	UFUNCTION(BlueprintPure)
-	int32 GetCurrentWaveIndex() const { return CurrentWaveIndex; }
+	int32 GetCurrentWaveCount() const { return CurrentWaveCount; }
 
 	UFUNCTION(BlueprintPure)
 	int32 GetTotalWaves() const { return TotalWaves; }
@@ -66,8 +66,8 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentState)
 	EHDBSurvialGameModeState CurrentState = EHDBSurvialGameModeState::WaitSpawnNewWave;
 
-	UPROPERTY(ReplicatedUsing = OnRep_WaveInfo)
-	int32 CurrentWaveIndex = 0;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"), ReplicatedUsing = OnRep_WaveInfo)
+	int32 CurrentWaveCount = 1;
 
 	UPROPERTY(Replicated)
 	int32 TotalWaves = 0;

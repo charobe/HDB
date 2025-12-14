@@ -56,6 +56,8 @@ private:
 	void SetCurrentSurvialGameModeState(EHDBSurvialGameModeState InState);
 
 	bool HasFinishedAllWaves() const;
+	void PreLoadNextWaveEnemies();
+	FHDBEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
 
 	UPROPERTY()
 	EHDBSurvialGameModeState CurrentSurvialGameModeState;
@@ -80,4 +82,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+
+	UPROPERTY()
+	TMap< TSoftClassPtr < AHDBEnemyCharacter >, UClass* > PreLoadedEnemyClassMap;
 };

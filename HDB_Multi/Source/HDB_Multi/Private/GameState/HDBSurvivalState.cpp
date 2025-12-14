@@ -26,10 +26,10 @@ void AHDBSurvivalState::ServerSetWaveInfo(int32 NewCurrentWaveIndex, int32 NewTo
 {
 	if (!HasAuthority()) return;
 
-	CurrentWaveIndex = NewCurrentWaveIndex;
+	CurrentWaveCount = NewCurrentWaveIndex;
 	TotalWaves = NewTotalWaves;
 
-	OnSurvivalWaveChanged.Broadcast(CurrentWaveIndex, TotalWaves);
+	OnSurvivalWaveChanged.Broadcast(CurrentWaveCount, TotalWaves);
 }
 
 void AHDBSurvivalState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -37,7 +37,7 @@ void AHDBSurvivalState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AHDBSurvivalState, CurrentState);
-	DOREPLIFETIME(AHDBSurvivalState, CurrentWaveIndex);
+	DOREPLIFETIME(AHDBSurvivalState, CurrentWaveCount);
 	DOREPLIFETIME(AHDBSurvivalState, TotalWaves);
 }
 
@@ -49,5 +49,5 @@ void AHDBSurvivalState::OnRep_CurrentState()
 
 void AHDBSurvivalState::OnRep_WaveInfo()
 {
-	OnSurvivalWaveChanged.Broadcast(CurrentWaveIndex, TotalWaves);
+	OnSurvivalWaveChanged.Broadcast(CurrentWaveCount, TotalWaves);
 }
