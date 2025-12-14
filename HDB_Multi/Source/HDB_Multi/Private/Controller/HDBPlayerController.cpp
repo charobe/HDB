@@ -4,3 +4,12 @@
 #include "Controller/HDBPlayerController.h"
 #include "Component/Input/HDBInputComponent.h"
 
+AHDBPlayerController::AHDBPlayerController()
+{
+	PlayerTeamID = FGenericTeamId(0);
+}
+
+FGenericTeamId AHDBPlayerController::GetGenericTeamId() const
+{
+	return PlayerTeamID;
+}

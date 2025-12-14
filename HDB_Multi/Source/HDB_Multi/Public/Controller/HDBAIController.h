@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "GenericTeamAgentInterface.h"
 #include "HDBAIController.generated.h"
 
 class UAIPerceptionComponent;
@@ -20,6 +21,8 @@ class HDB_MULTI_API AHDBAIController : public AAIController
 public:
 	AHDBAIController(const FObjectInitializer& ObjectInitializer);
 
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAIPerceptionComponent* EnemyPerceptionComponent;
@@ -28,5 +31,5 @@ protected:
 	UAISenseConfig_Sight* AISenseConfig_Sight;
 
 	UFUNCTION()
-	virtual void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+	void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 };
