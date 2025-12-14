@@ -18,7 +18,7 @@ public:
 
 	AHDBPlayerController();
 
-	virtual FGenericTeamId GetGenericTeamId() const;
+	virtual FGenericTeamId GetGenericTeamId() const override;
 
 private:
 	FGenericTeamId PlayerTeamID;
