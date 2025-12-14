@@ -17,4 +17,7 @@ class HDB_MULTI_API UHDBAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	void OnAbilityInputPressed(const FGameplayTag& InInputTag);
 	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
+
+	UFUNCTION(BlueprintCallable, Category = "HDB|Ability")
+	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);
 };
