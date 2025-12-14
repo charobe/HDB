@@ -18,7 +18,8 @@ public class HDB_Multi : ModuleRules
             "GameplayTasks",
             "NavigationSystem",
             "AIModule",
-			"UMG"
+			"UMG",
+			"AnimGraphRuntime"
 		});
 	}
 }

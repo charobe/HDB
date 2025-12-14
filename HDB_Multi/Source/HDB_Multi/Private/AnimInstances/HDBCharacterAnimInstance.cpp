@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
+#include "KismetAnimationLibrary.h"
 
 void UHDBCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -59,4 +60,5 @@ void UHDBCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecon
 	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
 
 	bAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
+	LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 }
