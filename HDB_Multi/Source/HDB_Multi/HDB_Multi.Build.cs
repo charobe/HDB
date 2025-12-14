@@ -19,7 +19,8 @@ public class HDB_Multi : ModuleRules
             "NavigationSystem",
             "AIModule",
 			"UMG",
-			"AnimGraphRuntime"
-		});
+			"AnimGraphRuntime",
+            "MotionWarping"
+        });
 	}
 }

@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Component/PawnCombatComponent.h"
 #include "HDBFunctionLibrary.h"
+#include "MotionWarpingComponent.h"
 
 #include "HDBDebugHelper.h"
 
@@ -35,7 +36,7 @@ AHDBCharacterBase::AHDBCharacterBase()
 	RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	RightHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
 
-
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }
 
 UAbilitySystemComponent* AHDBCharacterBase::GetAbilitySystemComponent() const
