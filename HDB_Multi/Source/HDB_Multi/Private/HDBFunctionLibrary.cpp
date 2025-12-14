@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "Interface/PawnCombatInterface.h"
+#include "Type/HDBCountDownAction.h"
 #include "GenericTeamAgentInterface.h"
 
 UHDBAbilitySystemComponent* UHDBFunctionLibrary::NativeGetHDBASCFromActor(AActor* InActor)
@@ -84,4 +85,44 @@ bool UHDBFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPaw
 	}
 
 	return false;
+}
+
+void UHDBFunctionLibrary::CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval, float& OutRemainingTime, EHDBCountDownActionInput CountDownInput, UPARAM(DisplayName = "Output") EHDBCountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo)
+{
+	UWorld* World = nullptr;
+
+	if (GEngine)
+	{
+		World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	}
+
+	if (!World)
+	{
+		return;
+	}
+
+	FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+
+	FHDBCountDownAction* FoundAction = LatentActionManager.FindExistingAction<FHDBCountDownAction>(LatentInfo.CallbackTarget, LatentInfo.UUID);
+
+	if (CountDownInput == EHDBCountDownActionInput::Start)
+	{
+		if (!FoundAction)
+		{
+			LatentActionManager.AddNewAction(
+				LatentInfo.CallbackTarget,
+				LatentInfo.UUID,
+				new FHDBCountDownAction(TotalTime, UpdateInterval, OutRemainingTime, CountDownOutput, LatentInfo)
+			);
+		}
+	}
+
+	if (CountDownInput == EHDBCountDownActionInput::Cancel)
+	{
+		if (FoundAction)
+		{
+			FoundAction->CancelAction();
+		}
+	}
+
 }

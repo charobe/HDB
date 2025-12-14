@@ -22,3 +22,18 @@ enum class EHDBSuccessType : uint8
 	Success,
 	Failed
 };
+
+UENUM()
+enum class EHDBCountDownActionInput : uint8
+{
+	Start,
+	Cancel
+};
+
+UENUM()
+enum class EHDBCountDownActionOutput : uint8
+{
+	Updated,
+	Completed,
+	Cancelled
+};

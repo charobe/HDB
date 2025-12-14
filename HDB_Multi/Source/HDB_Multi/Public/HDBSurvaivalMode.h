@@ -4,20 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "HDBGameModeBase.h"
+#include "GameState/HDBSurvivalState.h" 
 #include "HDBSurvaivalMode.generated.h"
 
 class AHDBEnemyCharacter;
-
-UENUM(BlueprintType)
-enum class EHDBSurvialGameModeState : uint8
-{
-	WaitSpawnNewWave,
-	SpawningNewWave,
-	InProgress,
-	WaveCompleted,
-	AllWavesDone,
-	PlayerDied
-};
 
 USTRUCT(BlueprintType)
 struct FHDBEnemyWaveSpawnerInfo
@@ -46,7 +36,6 @@ struct FHDBEnemyWaveSpawnerTableRow : public FTableRowBase
 	int32 TotalEnemyToSpawnThisWave = 1;
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSurvialGameModeStateChangedDelegate, EHDBSurvialGameModeState, CurrentState);
 /**
  * 
  */
@@ -54,6 +43,10 @@ UCLASS()
 class HDB_MULTI_API AHDBSurvaivalMode : public AHDBGameModeBase
 {
 	GENERATED_BODY()
+
+
+public:
+	AHDBSurvaivalMode();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -62,12 +55,29 @@ protected:
 private:
 	void SetCurrentSurvialGameModeState(EHDBSurvialGameModeState InState);
 
+	bool HasFinishedAllWaves() const;
+
 	UPROPERTY()
 	EHDBSurvialGameModeState CurrentSurvialGameModeState;
 
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FOnSurvialGameModeStateChangedDelegate OnSurvialGameModeStateChanged;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	UDataTable* EnemyWaveSpawnerDataTable;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	int32 TotalWavesToSpawn;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	int32 CurrentWaveCount = 1;
+
+	UPROPERTY()
+	float TimePassedSinceStart = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float SpawnNewWaveWaitTime = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float SpawnEnemiesDelayTime = 2.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float WaveCompletedWaitTime = 5.f;
 };

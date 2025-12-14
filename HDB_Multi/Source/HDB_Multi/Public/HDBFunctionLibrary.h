@@ -41,4 +41,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "HDB|FunctionLibrary")
 	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
 
+	UFUNCTION(BlueprintCallable, Category = "HDB|FunctionLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", ExpandEnumAsExecs = "CountDownInput|CountDownOutput", TotalTime = "1.0", UpdateInterval = "0.1"))
+	static void CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval,
+		float& OutRemainingTime, EHDBCountDownActionInput CountDownInput,
+		UPARAM(DisplayName = "Output") EHDBCountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo);
+
 };
