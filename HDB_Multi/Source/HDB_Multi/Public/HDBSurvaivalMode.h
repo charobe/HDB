@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "HDBGameModeBase.h"
 #include "GameState/HDBSurvivalState.h" 
+#include "Kismet/GameplayStatics.h"
+#include "Engine/TargetPoint.h"
+#include "NavigationSystem.h"
 #include "HDBSurvaivalMode.generated.h"
 
 class AHDBEnemyCharacter;
@@ -58,6 +61,9 @@ private:
 	bool HasFinishedAllWaves() const;
 	void PreLoadNextWaveEnemies();
 	FHDBEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
+	int32 TrySpawnWaveEnemies();
+	bool ShouldKeepSpawnEnemies() const;
+
 
 	UPROPERTY()
 	EHDBSurvialGameModeState CurrentSurvialGameModeState;
@@ -85,4 +91,14 @@ private:
 
 	UPROPERTY()
 	TMap< TSoftClassPtr < AHDBEnemyCharacter >, UClass* > PreLoadedEnemyClassMap;
+
+	UPROPERTY()
+	int32 CurrentSpawnedEnemiesCounter = 0;
+
+	UPROPERTY()
+	int32 TotalSpawnedEnemiesThisWaveCounter = 0;
+
+	UPROPERTY()
+	TArray<AActor*> TargetPointsArray;
+
 };
