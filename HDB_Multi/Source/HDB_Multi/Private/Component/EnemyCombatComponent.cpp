@@ -4,6 +4,7 @@
 #include "Component/EnemyCombatComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "HDBGameplayTag.h"
+#include "HDBFunctionLibrary.h"
 
 #include "HDBDebugHelper.h"
 
@@ -20,11 +21,11 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	bool bIsValidBlock = false;
 
-	const bool bIsPlayerBlocking = false;
+	const bool bIsPlayerBlocking = UHDBFunctionLibrary::NativeDoesActorHaveTag(HitActor, HDBGameplayTags::Player_Status_Blocking);	
 	const bool bIsMyAttackUnblockable = false;
-
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
+		bIsValidBlock = UHDBFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 
 	FGameplayEventData EventData;

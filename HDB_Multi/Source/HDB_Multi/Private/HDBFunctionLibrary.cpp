@@ -8,6 +8,8 @@
 #include "Type/HDBCountDownAction.h"
 #include "GenericTeamAgentInterface.h"
 
+#include "HDBDebugHelper.h"
+
 UHDBAbilitySystemComponent* UHDBFunctionLibrary::NativeGetHDBASCFromActor(AActor* InActor)
 {
 	check(InActor);
@@ -125,4 +127,17 @@ void UHDBFunctionLibrary::CountDown(const UObject* WorldContextObject, float Tot
 		}
 	}
 
+}
+
+bool UHDBFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
+{
+	check(InAttacker && InDefender);
+
+	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
+
+	const FString DebugString = FString::Printf(TEXT("Dot Result: %f %s"), DotResult, DotResult < -0.1f ? TEXT("Valid Block") : TEXT("InvalidBlock"));
+
+	Debug::Print(DebugString, DotResult < -0.1f ? FColor::Green : FColor::Red);
+
+	return DotResult < -0.1f ? true : false;
 }

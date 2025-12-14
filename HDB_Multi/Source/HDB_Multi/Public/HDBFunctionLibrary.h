@@ -46,4 +46,7 @@ public:
 		float& OutRemainingTime, EHDBCountDownActionInput CountDownInput,
 		UPARAM(DisplayName = "Output") EHDBCountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo);
 
+	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
+	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
+
 };

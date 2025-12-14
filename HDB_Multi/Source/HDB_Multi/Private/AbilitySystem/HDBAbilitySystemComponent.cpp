@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/HDBAbilitySystemComponent.h"
 #include "AbilitySystem/Ability/PlayerGameplayAbility.h"
+#include "HDBGameplayTag.h"
 
 void UHDBAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
@@ -21,6 +22,18 @@ void UHDBAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInp
 
 void UHDBAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
+	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(HDBGameplayTags::InputTag_MustBeHeld))
+	{
+		return;
+	}
+
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
+		{
+			CancelAbilityHandle(AbilitySpec.Handle);
+		}
+	}
 }
 
 bool UHDBAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
