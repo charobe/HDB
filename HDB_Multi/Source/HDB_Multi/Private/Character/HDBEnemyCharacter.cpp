@@ -6,6 +6,8 @@
 #include "Component/EnemyCombatComponent.h"
 #include "Engine/AssetManager.h"
 #include "Component/EnemyUIComponent.h"
+#include "Components/WidgetComponent.h"
+#include "Widget/HDBWidgetBase.h"
 #include "DataAsset/StartUpData/DataAsset_EnemyStartUpData.h"
 
 AHDBEnemyCharacter::AHDBEnemyCharacter()
@@ -24,7 +26,8 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
 	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>("EnemyUIComponent");
-
+	EnemyWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("EnemyWidgetComponent");
+	EnemyWidgetComponent->SetupAttachment(GetMesh());
 	bReplicates = true;
 	GetMesh()->SetIsReplicated(true);
 }
@@ -42,6 +45,16 @@ UPawnUIComponent* AHDBEnemyCharacter::GetPawnUIComponent() const
 UEnemyUIComponent* AHDBEnemyCharacter::GetEnemyUIComponent() const
 {
 	return EnemyUIComponent;
+}
+
+void AHDBEnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UHDBWidgetBase* Widget = Cast<UHDBWidgetBase>(EnemyWidgetComponent->GetUserWidgetObject()))
+	{
+		Widget->InitEnemyCreatedWidget(this);
+	}
 }
 
 void AHDBEnemyCharacter::PossessedBy(AController* NewController)
