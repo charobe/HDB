@@ -14,6 +14,7 @@
 #include "Component/PlayerCombatComponent.h"
 #include "DataAsset/StartUpData/DataAsset_PlayerStartUpData.h"
 #include "Component/PlayerUIComponent.h"
+#include "HDBFunctionLibrary.h"
 
 #include "HDBDebugHelper.h"
 
@@ -150,7 +151,7 @@ void AHDBPlayerCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* Ov
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (OwningPawn != HitPawn)
+		if (UHDBFunctionLibrary::IsTargetPawnHostile(OwningPawn,HitPawn))
 		{
 			OnHitTarget.ExecuteIfBound(OtherActor);
 		}
@@ -175,7 +176,7 @@ void AHDBPlayerCharacter::OnCollisionBoxEndOverlap(UPrimitiveComponent* Overlapp
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (OwningPawn != HitPawn)
+		if (UHDBFunctionLibrary::IsTargetPawnHostile(OwningPawn, HitPawn))
 		{
 			OnPulledFromTarget.ExecuteIfBound(OtherActor);
 		}

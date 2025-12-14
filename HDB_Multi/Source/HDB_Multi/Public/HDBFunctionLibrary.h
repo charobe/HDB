@@ -37,4 +37,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "HDB|FunctionLibrary", meta = (DisplayName = "Get Pawn Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
 	static UPawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* Actor, EHDBValidType& OutValidType);
+	
+	UFUNCTION(BlueprintPure, Category = "HDB|FunctionLibrary")
+	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
+
 };

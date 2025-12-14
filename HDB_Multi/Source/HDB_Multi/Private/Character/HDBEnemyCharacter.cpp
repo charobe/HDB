@@ -9,6 +9,8 @@
 #include "Components/WidgetComponent.h"
 #include "Widget/HDBWidgetBase.h"
 #include "DataAsset/StartUpData/DataAsset_EnemyStartUpData.h"
+#include "HDBFunctionLibrary.h"
+
 
 AHDBEnemyCharacter::AHDBEnemyCharacter()
 {
@@ -30,6 +32,9 @@ AHDBEnemyCharacter::AHDBEnemyCharacter()
 	EnemyWidgetComponent->SetupAttachment(GetMesh());
 	bReplicates = true;
 	GetMesh()->SetIsReplicated(true);
+
+	OnHitTarget.BindUObject(EnemyCombatComponent, &UEnemyCombatComponent::OnHitTargetActor);
+
 }
 
 UPawnCombatComponent* AHDBEnemyCharacter::GetPawnCombatComponent() const
@@ -62,6 +67,32 @@ void AHDBEnemyCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	InitEnemyStartUpData();
+}
+
+void AHDBEnemyCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (!OtherActor || OtherActor == this)
+	{
+		return;
+	}
+
+	if (!HasAuthority())
+	{
+		return; 
+	}
+
+	APawn* QueryPawn = this;                     
+	APawn* HitPawn = Cast<APawn>(OtherActor);
+
+	if (!HitPawn)
+	{
+		return;
+	}
+
+	if (UHDBFunctionLibrary::IsTargetPawnHostile(QueryPawn, HitPawn))
+	{
+		OnHitTarget.ExecuteIfBound(HitPawn);
+	}
 }
 
 void AHDBEnemyCharacter::InitEnemyStartUpData()
