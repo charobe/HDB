@@ -20,7 +20,8 @@ public class HDB_Multi : ModuleRules
             "AIModule",
 			"UMG",
 			"AnimGraphRuntime",
-            "MotionWarping"
+            "MotionWarping",
+			"Niagara"
         });
 	}
 }
