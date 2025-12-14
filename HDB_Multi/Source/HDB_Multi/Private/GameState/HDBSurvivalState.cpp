@@ -7,6 +7,8 @@
 
 AHDBSurvivalState::AHDBSurvivalState()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
 	bReplicates = true;
 
 }
