@@ -9,6 +9,8 @@
 
 void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
+	APawn* OwnerPawn = GetOwningPawn<APawn>();
+	if (!OwnerPawn || !OwnerPawn->HasAuthority()) return;
 	if (OverlappedActor.Contains(HitActor))
 	{
 		return;
