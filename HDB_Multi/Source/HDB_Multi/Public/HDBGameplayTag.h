@@ -26,7 +26,7 @@ namespace HDBGameplayTags
 
 
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_HitPause);
-
+	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_SuccessfulBlock);
 
 
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);

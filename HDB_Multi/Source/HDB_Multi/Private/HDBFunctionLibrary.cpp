@@ -137,7 +137,5 @@ bool UHDBFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 
 	const FString DebugString = FString::Printf(TEXT("Dot Result: %f %s"), DotResult, DotResult < -0.1f ? TEXT("Valid Block") : TEXT("InvalidBlock"));
 
-	Debug::Print(DebugString, DotResult < -0.1f ? FColor::Green : FColor::Red);
-
-	return DotResult < -0.1f ? true : false;
+	return DotResult < -0.1f;
 }

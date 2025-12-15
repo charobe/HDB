@@ -34,6 +34,11 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 	if (bIsValidBlock)
 	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitActor,
+			HDBGameplayTags::Player_Event_SuccessfulBlock,
+			EventData
+		);
 	}
 	else
 	{
