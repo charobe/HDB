@@ -46,7 +46,9 @@ public:
 		float& OutRemainingTime, EHDBCountDownActionInput CountDownInput,
 		UPARAM(DisplayName = "Output") EHDBCountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo);
 
-	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary")
+	UFUNCTION(BlueprintPure, Category = "HDB|FunctionLibrary")
 	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
 
+	UFUNCTION(BlueprintCallable, Category = "HDB|FunctionLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
 };

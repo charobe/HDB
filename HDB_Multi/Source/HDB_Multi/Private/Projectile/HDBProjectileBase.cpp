@@ -66,12 +66,12 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 
 	bool bIsValidBlock = false;
 
-	//const bool bIsPlayerBlocking = UHDBFunctionLibrary::NativeDoesActorHaveTag(HitPawn, HDBGameplayTags::Player_Status_Blocking);
+	const bool bIsPlayerBlocking = UHDBFunctionLibrary::NativeDoesActorHaveTag(HitPawn, HDBGameplayTags::Player_Status_Blocking);
 
-	//if (bIsPlayerBlocking)
-//	{
-	//	bIsValidBlock = UHDBFunctionLibrary::IsValidBlock(this, HitPawn);
-	//}
+	if (bIsPlayerBlocking)
+	{
+		bIsValidBlock = UHDBFunctionLibrary::IsValidBlock(this, HitPawn);
+	}
 
 	FGameplayEventData Data;
 	Data.Instigator = this;
@@ -79,15 +79,15 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 
 	if (bIsValidBlock)
 	{
-		/*UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 			HitPawn,
 			HDBGameplayTags::Player_Event_SuccessfulBlock,
 			Data
-		);*/
+		);
 	}
 	else
 	{
-		//Apply projectile damage 
+		HandleApplyProjectileDamage(HitPawn, Data);
 	}
 
 	Destroy();
@@ -95,4 +95,29 @@ void AHDBProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AAct
 
 void AHDBProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+}
+
+void AHDBProjectileBase::HandleApplyProjectileDamage(APawn* InHitPawn, const FGameplayEventData& InPayload)
+{
+	if (!HasAuthority())
+	{
+		return; 
+	}
+
+	if (!IsValid(InHitPawn))
+	{
+		return;
+	}
+	checkf(ProjectileDamageEffectSpecHandle.IsValid(), TEXT("Forgot to assign a valid spec handle to the projectile: %s"), *GetActorNameOrLabel());
+
+	const bool bWasApplied = UHDBFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(GetInstigator(), InHitPawn, ProjectileDamageEffectSpecHandle);
+
+	if (bWasApplied)
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			InHitPawn,
+			HDBGameplayTags::Shared_Event_HitReact,
+			InPayload
+		);
+	}
 }

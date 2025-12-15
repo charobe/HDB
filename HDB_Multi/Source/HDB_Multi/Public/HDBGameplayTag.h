@@ -37,6 +37,7 @@ namespace HDBGameplayTags
 
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Strafing);	
 	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);	
+	HDB_MULTI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Unblockable);
 
 
 	//Shared Tag

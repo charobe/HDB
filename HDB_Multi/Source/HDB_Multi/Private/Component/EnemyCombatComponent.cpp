@@ -22,7 +22,7 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	bool bIsValidBlock = false;
 
 	const bool bIsPlayerBlocking = UHDBFunctionLibrary::NativeDoesActorHaveTag(HitActor, HDBGameplayTags::Player_Status_Blocking);	
-	const bool bIsMyAttackUnblockable = false;
+	const bool bIsMyAttackUnblockable = UHDBFunctionLibrary::NativeDoesActorHaveTag(GetOwningPawn(), HDBGameplayTags::Enemy_Status_Unblockable);;
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
 		bIsValidBlock = UHDBFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
